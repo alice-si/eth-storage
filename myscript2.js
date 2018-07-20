@@ -18,7 +18,7 @@ var gav = new Buffer('c4294E3691F0eFD0d737aE838d24BebBe636BDd4', 'hex');
 
 trie.get(gav, function (err, val) {
     var decoded = rlp.decode(val);
-    console.log(decoded);
+    console.log('decoded ',decoded);
 });
 
 var n = 2;

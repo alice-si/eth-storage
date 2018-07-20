@@ -51,8 +51,8 @@ StateDB.prototype.blockNumberByHash = function (hash_buf,cb) {
     var self = this;
     var query = Buffer.concat([headerNumberPrefix,hash_buf]);
     self.db.get(query,function (err, val) {
-        console.log('_blockNumber ',val);
-        cb(err,new Buffer(val));
+        console.log('blockNumberByHash ',val);
+        cb(err,val);
     });
 };
 
@@ -60,8 +60,8 @@ StateDB.prototype.blockHash = function (blockNumber,cb) {
     var self = this;
     query = Buffer.concat([headerPrefix,blockNumber,headerHashSuffix]);
     self.db.get(query,function (err,val) {
-        console.log('_blockHash: ', val);
-        cb(err,new Buffer(val));
+        console.log('blockHash: ', val);
+        cb(err,val);
     })
 };
 
@@ -87,6 +87,26 @@ StateDB.prototype.blockHeaderByHash = function (blockHash,cb) {
     var self = this;
     self.blockNumberByHash(blockHash,function (err, val) {
         self._blockHeader(val,blockHash,cb);
+    });
+};
+
+StateDB.prototype.blockStateRoot = function (blockNumber, cb) {
+    var self = this;
+    self.blockHeader(blockNumber,function (err,val) {
+        cb(err,val[3]);
+    })
+};
+
+StateDB.prototype.storageIndex = function (contractAddres,blockNumber,cb) {
+    var self = this;
+    self.blockStateRoot(blockNumber,function (err,val) {
+        console.log('stateRoot to string ',val);
+        var tree = new Trie(self.db, val);
+        var buffer = Buffer.concat(new Buffer(''))
+        tree.get(contractAddres,function (err,val) {
+            var decoded = rlp.decode(val);
+            console.log('decoded form tree ',decoded);
+        })
     });
 };
 
