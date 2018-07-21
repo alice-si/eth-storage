@@ -16,7 +16,11 @@
     "levelup": "^3.1.1",
     "madge": "^3.2.0",
     "merkle-patricia-tree": "git+https://github.com/ethereumjs/merkle-patricia-tree.git",
+    "mocha": "^5.2.0",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2"
   }
 }

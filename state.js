@@ -150,44 +150,6 @@ var prefixGetRow = function (prefix) {
     };
 };
 
-StateDB.prototype.storage = function (contractAddres, blockNumber, cb) {
-    var self = this;
-    self.blockStateRoot(blockNumber, function (err, root) {
-        root = '0x' + root.toString('hex');
-        // root = root.toString('hex');
-        console.log('storage:stateRoot to string ', root);
-        var trie = new Trie(self.db, root);
-        console.log()
-        // console.log('storage: contract adress', contractAddres);
-        // trie.createReadStream()
-        //     .on('data', function (data) {
-        //         console.log('data', data)
-        // if (data.key === contractAddres) {
-        //     console.log('data', data)
-        //
-        // }
-        // })
-        // .on('end', () => console.log('End'))
-        // trie.get(contractAddres,function (err,val) {
-        //     console.log('storage:tree get',val);
-        //     var decoded = rlp.decode(val);
-        //     console.log('storage:decoded from tree ',decoded);
-        //     cb(err,decoded);
-        // });
-        // Trie.prototype.get = function (key, cb) {
-
-        // key = ethUtil.toBuffer(contractAddres);
-
-        // trie.findPath(key, function (err, node, remainder, stack) {
-        //     if (node != null) console.log('node value ', node.value);
-        //     console.log('node remainder ', remainder);
-        //     console.log('node err ', err);
-        //     var value = (node != null) ? node.value : null;
-        //     cb(err, value)
-        // });
-    });
-};
-
 StateDB.prototype.getNode = function (hash, cb) {
     var self = this;
     self.db.get(hash, function (err, val) {
@@ -214,8 +176,6 @@ StateDB.prototype.compactToHex = function (base) {
 StateDB.prototype.find = function (node_hash, key, pos, cb) {
     var self = this;
     self.getNode(node_hash, function (err, decoded) {
-        // console.log('find:undecoded',decoded);
-        // decoded=rlp.decode(decoded);
         if (decoded.length == 17) {
             console.log('find:branchnodefound');
             var _pos = Math.floor(pos / 2);
@@ -233,6 +193,7 @@ StateDB.prototype.find = function (node_hash, key, pos, cb) {
             console.log('pos',pos,'key.len',key.length,'nodePath.len',nodePath.length);
             var keyString = key.toString('hex');
             if (nodePath == keyString.slice(pos,pos + nodePath.length)) {
+                console.log('find:next', nodePath);
                 if (pos + nodePath.length == keyString.length) {
                     console.log('find:leaf');
                     cb(err,rlp.decode(decoded[1]));
@@ -252,6 +213,17 @@ StateDB.prototype.find = function (node_hash, key, pos, cb) {
         // console.log('dec [0][0] % 16', decoded[0][0] % 16);
     })
 };
+
+StateDB.prototype.storage = function (contractAddres, blockNumber, cb) {
+    var self = this;
+    self.blockStateRoot(blockNumber, function (err, root) {
+        var addressPath = self.hashBuffer(
+            self.sha3(contractAddres));
+        console.log('buff (adress)',addressPath);
+        self.find(root,addressPath,0,cb)
+    });
+};
+
 
 // StateDB.prototype.
 
