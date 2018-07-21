@@ -115,6 +115,7 @@ StateDB.prototype.blockHeaderByHash = function (blockHash, cb) {
 StateDB.prototype.blockStateRoot = function (blockNumber, cb) {
     var self = this;
     self.blockHeader(blockNumber, function (err, val) {
+        // console.log('blockStateRoot',val)
         cb(err, val[3]);
     })
 };
@@ -153,6 +154,7 @@ var prefixGetRow = function (prefix) {
 StateDB.prototype.getNode = function (hash, cb) {
     var self = this;
     self.db.get(hash, function (err, val) {
+        console.log('getNode:undecoded',val)
         var decoded = rlp.decode(val);
         // var decoded = val;
         cb(err, decoded);
@@ -185,11 +187,8 @@ StateDB.prototype.find = function (node_hash, key, pos, cb) {
         }
         else {
             console.log('find:othernodefound');
-            console.log('other node: key:',decoded[0]);
-            console.log('other node [1]:',rlp.decode(decoded[1]));
             var nodePath = self.compactToHex(decoded[0])
             console.log('nodePath',nodePath);
-            console.log('key.toString',key.toString('hex'));
             console.log('pos',pos,'key.len',key.length,'nodePath.len',nodePath.length);
             var keyString = key.toString('hex');
             if (nodePath == keyString.slice(pos,pos + nodePath.length)) {
@@ -208,22 +207,38 @@ StateDB.prototype.find = function (node_hash, key, pos, cb) {
                 }
             }
         }
-        // console.log('find ', decoded);
-        // console.log('dec [0]', decoded[0]);
-        // console.log('dec [0][0] % 16', decoded[0][0] % 16);
     })
 };
 
 StateDB.prototype.storage = function (contractAddres, blockNumber, cb) {
     var self = this;
     self.blockStateRoot(blockNumber, function (err, root) {
+        console.log('storage:blockstateroot',root);
         var addressPath = self.hashBuffer(
             self.sha3(contractAddres));
-        console.log('buff (adress)',addressPath);
+        console.log('storage:hashed adress',addressPath);
         self.find(root,addressPath,0,cb)
     });
 };
 
+StateDB.prototype.findTree = function (node_hash, key, cb){
+    var self = this;
+    trie = new Trie(self.db,node_hash);
+    trie.get(key,function (err,val){
+        cb(err,rlp.decode(val));
+    });
+};
+
+StateDB.prototype.storageTree = function (contractAddres, blockNumber, cb) {
+    var self = this;
+    self.blockStateRoot(blockNumber, function (err, root) {
+        console.log('storage:blockstateroot',root);
+        var addressPath = self.hashBuffer(
+            self.sha3(contractAddres));
+        console.log('storage:hashed adress',addressPath);
+        self.findTree(root,addressPath,cb)
+    });
+};
 
 // StateDB.prototype.
 
