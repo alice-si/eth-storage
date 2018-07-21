@@ -15,7 +15,7 @@
     "leveldown": "^4.0.1",
     "levelup": "^3.1.1",
     "madge": "^3.2.0",
-    "merkle-patricia-tree": "^2.3.1",
+    "merkle-patricia-tree": "git+https://github.com/ethereumjs/merkle-patricia-tree.git",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11"
   }
