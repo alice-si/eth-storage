@@ -39,9 +39,9 @@ var configPrefix = new Buffer("ethereum-config-") // config prefix for the db
 // Chain index prefixes (use `i` + single byte to avoid mixing data types).
 var BloomBitsIndexPrefix = new Buffer("iB") // BloomBitsIndexPrefix is the data table of a chain indexer to track its progress
 
-function StateDB(db_path,tree=false) {
+function StateDB(db_path) {
     this.db = levelup(leveldown(db_path));
-    this.tree = tree; // using merkle-patricia-tree library
+    this.n = 3;
 }
 
 StateDB.prototype.bufferHex = function (val) {
@@ -154,25 +154,6 @@ StateDB.prototype.getNode = function (hash, cb) {
     })
 };
 
-StateDB.prototype.findTree = function (node_hash, key, cb) {
-    var self = this;
-    trie = new Trie(self.db, node_hash);
-    trie.get(key, function (err, val) {
-        cb(err, rlp.decode(val));
-    });
-};
-
-StateDB.prototype.getStorageTree = function (contractAddres, blockNumber, cb) {
-    var self = this;
-    self.blockStateRoot(blockNumber, function (err, root) {
-        console.log('storage:blockstateroot', root);
-        var addressPath = self.bufferHex(
-            self.sha3(contractAddres));
-        console.log('storage:hashed adress', addressPath);
-        self.findTree(root, addressPath, cb);
-    });
-};
-
 StateDB.prototype.compactToHex = function (base) {
     var baseNibble = Math.floor(base[0] / 16); // first nible of base
     base = base.toString('hex');
@@ -239,6 +220,25 @@ StateDB.prototype.getStorage = function (contractAddres, blockNumber, cb) {
     });
 };
 
+StateDB.prototype.findTree = function (node_hash, key, cb) {
+    var self = this;
+    trie = new Trie(self.db, node_hash);
+    trie.get(key, function (err, val) {
+        cb(err, rlp.decode(val));
+    });
+};
+
+StateDB.prototype.getStorageTree = function (contractAddres, blockNumber, cb) {
+    var self = this;
+    self.blockStateRoot(blockNumber, function (err, root) {
+        console.log('storage:blockstateroot', root);
+        var addressPath = self.bufferHex(
+            self.sha3(contractAddres));
+        console.log('storage:hashed adress', addressPath);
+        self.findTree(root, addressPath, cb);
+    });
+};
+
 StateDB.prototype.showPaths = function (node_hash, path) {
     var self = this;
     var paths = [];
@@ -278,50 +278,47 @@ StateDB.prototype.showPaths = function (node_hash, path) {
 
 StateDB.prototype.getVariable = function (contractAdress, blockNumber, index, cb) {
     var self = this;
-    contractAdress = self.bufferHex(contractAdress);
-    blockNumber = self.buffer64(blockNumber);
-    index = self.buffer128(index);
-    self.getStorage(contractAdress, blockNumber, function (err, storage) {
+    self.getStorageTree(contractAdress, blockNumber, function (err, storage) {
         console.log('storage:', storage);
         var hashedindex = self.bufferHex(
             self.sha3(index));
-        console.log('hashed 0: ', hashedindex);
-        // trie = new Trie(self.db, storage[2]);
-        self.find(storage[2],hashedindex,function (err, val) {
-            cb(err, val);
+        console.log('hashed 0: ', hashedindex)
+        trie = new Trie(self.db, storage[2]);
+        trie.get(hashedindex, function (err, val) {
+            cb(err, rlp.decode(val));
         })
     });
 };
 
 StateDB.prototype._getMultiple = function (contractAdress, startBlockNumber, endBlockNumber, index, array, cb) {
     var self = this;
-    console.log('_getMultiple', 'start', startBlockNumber, 'end', endBlockNumber);
+    console.log('_getMultiple', 'start', startBlockNumber, 'end', endBlockNumber)
     if (startBlockNumber < endBlockNumber) {
         self.getVariable(contractAdress, startBlockNumber, index, function (err, val) {
-            console.log('getmultiple,getindex', val);
+            console.log('getmultiple,getindex', val)
             array.push(val);
-            console.log('_getMultiple:next', startBlockNumber);
-            var next = parseInt('0x' + startBlockNumber.toString('hex')) + 1;
-            console.log('_getMultiple:next', next);
-            var buf = new Buffer(8);
+            console.log('_getMultiple:next', startBlockNumber)
+            var next = parseInt('0x' + startBlockNumber.toString('hex')) + 1
+            console.log('_getMultiple:next', next)
+            var buf = new Buffer(8)
             buf.writeUInt32BE(next, 4);
             next = buf;
-            console.log('_getMultiple:next', next);
-            self._getMultiple(contractAdress, next, endBlockNumber, index, array, cb);
+            console.log('_getMultiple:next', next)
+            self._getMultiple(contractAdress, next, endBlockNumber, index, array, cb)
         })
     }
     else {
-        cb(null, array);
+        cb(null, array)
     }
 };
 
 StateDB.prototype.getMultiple = function (adress, startBlockNumber, endBlockNumber, index, cb) {
     var self = this;
-    adress = self.bufferHex(adress);
+    adress = self.bufferHex(adress)
     startBlockNumber = self.buffer64(startBlockNumber);
     endBlockNumber = self.buffer64(endBlockNumber);
-    index = self.buffer128(index);
-    self._getMultiple(adress, startBlockNumber, endBlockNumber, index, [], cb);
+    index = slef.buffer128(index);
+    self._getMultiple(adress, startBlockNumber, endBlockNumber, index, new Array(), cb)
 };
 
 StateDB.prototype.getCode = function (adress, number, cb) {

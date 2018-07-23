@@ -9,7 +9,7 @@ console.log('stateDB n ', stateDB.n)
 // var block_hash = "e0d41a9cf2a6b717c702edebf107cf66a3e044d0fb61d5d78eef179d3754283c";
 var block_hash = "fcf17eb9a74894f0e3fd09ca1e72e98d915644c6118ac4f4c3b385c56facbdee";
 
-var hash_buf = stateDB.hashBuffer(block_hash);
+var hash_buf = stateDB.bufferHex(block_hash);
 
 stateDB.blockNumberByHash(hash_buf, function (err, val) {
 
@@ -80,13 +80,13 @@ stateDB.db.get(new Buffer('LastBlock'), function (err, ltblhash) {
             // var buffer = stateDB.hashBuffer('458dFB3A8457451c7e40403e9C065f05F419f02c');
             // var buffer = stateDB.hashBuffer('31DBfc0B2fA2f649c23D45f52408ce1189F52b35');
             // var buffer = stateDB.hashBuffer(stateDB.sha3('59B66c66b9159b62DaFCB5fEde243384DFca076D'));
-            var buffer = stateDB.hashBuffer(
+            var buffer = stateDB.bufferHex(
                 stateDB.sha3(
-                    stateDB.hashBuffer(
+                    stateDB.bufferHex(
                         '59B66c66b9159b62DaFCB5fEde243384DFca076D')));
             console.log('buff (adress)',buffer);
             // console.log('buffer ',buffer);
-            // stateDB.storage(buffer,number,function (err,val) {
+            // stateDB.getStorage(buffer,number,function (err,val) {
             // });
             // var recWrite = function(parent){
             //     return function (err, val) {
