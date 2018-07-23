@@ -6,7 +6,6 @@ const ethUtil = require('ethereumjs-util')
 const asyncFirstSeries = require('./util').asyncFirstSeries
 
 
-
 // databaseVerisionKey tracks the current database version.
 var databaseVerisionKey = new Buffer("DatabaseVersion")
 
@@ -51,6 +50,8 @@ StateDB.prototype.hashBuffer = function (hash) {
 
 StateDB.prototype.sha3 = ethUtil.sha3;
 
+StateDB.prototype.decode = rlp.decode;
+
 StateDB.prototype.blockNumberByHash = function (hash_buf, cb) {
     var self = this;
     var query = Buffer.concat([headerNumberPrefix, hash_buf]);
@@ -63,6 +64,7 @@ StateDB.prototype.blockNumberByHash = function (hash_buf, cb) {
 StateDB.prototype.blockHash = function (blockNumber, cb) {
     var self = this;
     query = Buffer.concat([headerPrefix, blockNumber, headerHashSuffix]);
+    console.log('blockHash:query',query)
     self.db.get(query, function (err, val) {
         console.log('blockHash: ', val);
         cb(err, val);
@@ -71,6 +73,7 @@ StateDB.prototype.blockHash = function (blockNumber, cb) {
 
 StateDB.prototype._blockHeader = function (blockNumber, blockHash, cb) {
     var self = this;
+    console.log('_blockHeader:','blNb',blockNumber,'blHash',blockHash);
     var headerQuery = Buffer.concat([headerPrefix, blockNumber, blockHash]);
     self.db.get(headerQuery, function (err, val) {
         // console.log('_blockRawHeader ', val);
@@ -124,37 +127,10 @@ StateDB.prototype.blockQuery = function (blocknumber, hash) {
     return Buffer.concat([blockBodyPrefix, blocknumber, hash])
 };
 
-
-var prefixGetRow = function (prefix) {
-    return function (key, cb) {
-        key = ethUtil.toBuffer(key)
-
-        var prefix_key = Buffer.concat([prefix, key])
-
-        console.log('prefixGetRow', 'will dbget', 'prefixkey', prefix_key)
-        prefix_key = key
-
-        function dbGet(db, cb2) {
-            db.get(prefix_key, {
-                keyEncoding: 'binary',
-                valueEncoding: 'binary'
-            }, function (err, foundNode) {
-                if (err || !foundNode) {
-                    cb2(null, null)
-                } else {
-                    cb2(null, foundNode)
-                }
-            })
-        }
-
-        asyncFirstSeries(this._getDBs, dbGet, cb)
-    };
-};
-
 StateDB.prototype.getNode = function (hash, cb) {
     var self = this;
     self.db.get(hash, function (err, val) {
-        console.log('getNode:undecoded',val)
+        // console.log('getNode:undecoded', val)
         var decoded = rlp.decode(val);
         // var decoded = val;
         cb(err, decoded);
@@ -164,18 +140,18 @@ StateDB.prototype.getNode = function (hash, cb) {
 StateDB.prototype.compactToHex = function (base) {
     var baseNibble = Math.floor(base[0] / 16); // first nible of base
     base = base.toString('hex');
-    console.log('base:', base);
+    // console.log('base:', base);
     // delete terminator flag
     if (baseNibble < 2) {
         base = base.slice(0, base.length - 1);
     }
     // apply odd flag
     var chop = 2 - baseNibble % 2;
-    console.log('chop is:', chop);
+    // console.log('chop is:', chop);
     return base.slice(chop, base.length);
 };
 
-StateDB.prototype.find = function (node_hash, key, pos, cb) {
+StateDB.prototype._find = function (node_hash, key, pos, cb) {
     var self = this;
     self.getNode(node_hash, function (err, decoded) {
         if (decoded.length == 17) {
@@ -183,63 +159,154 @@ StateDB.prototype.find = function (node_hash, key, pos, cb) {
             var _pos = Math.floor(pos / 2);
             var next = (pos % 2 == 0) ? Math.floor(key[_pos] / 16) : key[_pos] % 16;
             console.log('find:next', next);
-            self.find(decoded[next], key, pos + 1, cb)
+            self._find(decoded[next], key, pos + 1, cb)
         }
         else {
             console.log('find:othernodefound');
+            var baseNibble = Math.floor(decoded[0][0] / 16); // first nible of base
             var nodePath = self.compactToHex(decoded[0])
-            console.log('nodePath',nodePath);
-            console.log('pos',pos,'key.len',key.length,'nodePath.len',nodePath.length);
+            console.log('nodePath', nodePath);
+            console.log('pos', pos, 'key.len', key.length, 'nodePath.len', nodePath.length);
             var keyString = key.toString('hex');
-            if (nodePath == keyString.slice(pos,pos + nodePath.length)) {
+            if (nodePath == keyString.slice(pos, pos + nodePath.length)) {
                 console.log('find:next', nodePath);
-                if (pos + nodePath.length == keyString.length) {
-                    console.log('find:leaf');
-                    cb(err,rlp.decode(decoded[1]));
-                }
-                else if (pos + nodePath.length < keyString.length) {
+                if (baseNibble < 2 && pos + nodePath.length < keyString.length) {
                     console.log('find:extension');
-                    self.find(decoded[1], key, pos + nodePath.length, cb)
+                    self._find(decoded[1], key, pos + nodePath.length, cb)
                 }
-                else{
-                    console.log('find:error')
-                    cb(err,null);
+                else if (baseNibble < 4 && pos + nodePath.length == keyString.length) {
+                    console.log('find:leaf');
+                    cb(err, rlp.decode(decoded[1]));
                 }
+            }
+            else {
+                console.log('find:error')
+                cb(err, null);
             }
         }
     })
 };
 
+StateDB.prototype.find = function(node_hash, key, cb){
+    var self = this;
+    self._find(node_hash,key,0,cb)
+}
+
 StateDB.prototype.storage = function (contractAddres, blockNumber, cb) {
     var self = this;
     self.blockStateRoot(blockNumber, function (err, root) {
-        console.log('storage:blockstateroot',root);
+        console.log('storage:blockstateroot', root);
         var addressPath = self.hashBuffer(
             self.sha3(contractAddres));
-        console.log('storage:hashed adress',addressPath);
-        self.find(root,addressPath,0,cb)
+        console.log('storage:hashed adress', addressPath);
+        self.find(root, addressPath, cb)
     });
 };
 
-StateDB.prototype.findTree = function (node_hash, key, cb){
+StateDB.prototype.findTree = function (node_hash, key, cb) {
     var self = this;
-    trie = new Trie(self.db,node_hash);
-    trie.get(key,function (err,val){
-        cb(err,rlp.decode(val));
+    trie = new Trie(self.db, node_hash);
+    trie.get(key, function (err, val) {
+        cb(err, rlp.decode(val));
     });
 };
 
 StateDB.prototype.storageTree = function (contractAddres, blockNumber, cb) {
     var self = this;
     self.blockStateRoot(blockNumber, function (err, root) {
-        console.log('storage:blockstateroot',root);
+        console.log('storage:blockstateroot', root);
         var addressPath = self.hashBuffer(
             self.sha3(contractAddres));
-        console.log('storage:hashed adress',addressPath);
-        self.findTree(root,addressPath,cb)
+        console.log('storage:hashed adress', addressPath);
+        self.findTree(root, addressPath, cb)
     });
 };
 
+StateDB.prototype.showPaths = function (node_hash, path) {
+    var self = this;
+    var paths = ["",""];
+    self.getNode(node_hash, function (err, decoded) {
+        if (decoded.length == 17) {
+            for (var i = 0; i < 16; i++)
+                if (decoded[i].length > 0)
+                    self.showPaths(decoded[i], path + new Buffer(String(i)).toString('hex'))
+            if (decoded[16].length > 0) {
+                console.log('--node path', path)
+                console.log('--node value', rlp.decode(decoded[16]));
+                paths.push(path)
+            }
+        }
+        else {
+            // console.log('deccccccccccccccc',decoded[0])
+            var baseNibble = Math.floor(decoded[0][0] / 16); // first nible of base
+            var nodePath = self.compactToHex(decoded[0])
+            // console.log('--nodePath', nodePath);
+            if (baseNibble < 2) {
+                // console.log('find:extension');
+                self.showPaths(decoded[1], path + nodePath.toString('hex'), cb)
+            }
+            else if (baseNibble < 4) {
+                // console.log('find:leaf');
+                console.log('--leaf node path', path + nodePath.toString('hex'))
+                // console.log('--leaf node value', rlp.decode(decoded[1]));
+                paths.push(path)
+            }
+            else {
+                console.log('find:error')
+            }
+        }
+    });
+
+};
+
 // StateDB.prototype.
+
+StateDB.prototype.getIndex = function(contractAdress,blockNumber,index,cb){
+    var self = this;
+    self.storageTree(contractAdress, blockNumber, function (err, storage) {
+        console.log('storage:', storage);
+        var hashedindex = self.hashBuffer(
+            self.sha3(index));
+        console.log('hashed 0: ',hashedindex)
+        trie = new Trie(self.db,storage[2]);
+        trie.get(hashedindex, function (err,val) {
+            cb(err,rlp.decode(val));
+        })
+    });
+};
+
+StateDB.prototype._getMultiple = function(contractAdress,startBlockNumber,endBlockNumber,index,array,cb){
+    var self = this;
+    console.log('_getMultiple', 'start',startBlockNumber,'end',endBlockNumber)
+    if (startBlockNumber < endBlockNumber) {
+        self.getIndex(contractAdress,startBlockNumber,index,function (err,val) {
+            console.log('getmultiple,getindex',val)
+            array.push(val);
+            console.log('_getMultiple:next',startBlockNumber)
+            var next = parseInt('0x' + startBlockNumber.toString('hex')) + 1
+            console.log('_getMultiple:next',next)
+            var buf = new Buffer(8)
+            buf.writeUInt32BE(next,4);
+            next = buf;
+            console.log('_getMultiple:next',next)
+            self._getMultiple(contractAdress,next,endBlockNumber,index,array,cb)
+        })
+    }
+    else {
+        cb(null,array)
+    }
+};
+
+StateDB.prototype.getMultiple = function(contractAdress,startBlockNumber,endBlockNumber,index,cb){
+    var self = this;
+    self._getMultiple(contractAdress,startBlockNumber,endBlockNumber,index,new Array(),cb)
+};
+
+StateDB.prototype.getCode = function (sampleAdress,number,cb) {
+    var self = this;
+    self.storageTree(sampleAdress,number,function (err,storage) {
+        self.db.get(storage[3],cb);
+    });
+};
 
 module.exports = StateDB;

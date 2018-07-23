@@ -1,8 +1,12 @@
 var StateDB = require('./../state.js');
-var stateDB = new StateDB('./../geth/chaindata');
-var sampleAdress = stateDB.hashBuffer('59B66c66b9159b62DaFCB5fEde243384DFca076D');
-var number = stateDB.hashBuffer('0000000000288a88');
+var stateDB = new StateDB('C:/Users/ja1/Alice/dirforfullrinkeby/geth/chaindata');
+var sampleAdress = stateDB.hashBuffer('6badc9463c5cc91cbfb5176ef99a454c3c77b00e');
+var number = stateDB.hashBuffer('0000' +
+    '0000' +
+    '000' +
+    'F4240');
 console.log('sample adress:', sampleAdress);
+// console.log('stadeb',stateDB)
 // var buffer = stateDB.hashBuffer(stateDB.sha3(sampleAdress));
 // console.log('hashed adress', buffer);
 stateDB.storage(sampleAdress, number, function (err, storage) {
