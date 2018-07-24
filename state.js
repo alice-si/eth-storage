@@ -226,6 +226,8 @@ StateDB.prototype.find = function (rootHash, key, cb) {
  */
 StateDB.prototype.getStorage = function (adress, blockNumber, cb) {
     var self = this;
+    adress = self.bufferHex(adress);
+    blockNumber = self.buffer64(blockNumber);
     self.blockStateRoot(blockNumber, function (err, root) {
         var addressPath = self.bufferHex(
             self.sha3(adress));
