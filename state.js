@@ -83,7 +83,15 @@ StateDB.prototype.buffer64 = function (val) {
  * @returns 256 bits buffer
  */
 StateDB.prototype.buffer256 = function (val) {
+    var self = this;
     if (val instanceof Buffer) {
+        if (val.length <= 32) {
+            var str = val.toString('hex')
+            while (str.length < 64) {
+                str = '0' + str;
+            }
+            return self.bufferHex(str)
+        }
         return val
     }
     var buf = new Buffer(32);
@@ -96,6 +104,41 @@ StateDB.prototype.buffer256 = function (val) {
  * @method sha3
  */
 StateDB.prototype.sha3 = ethUtil.sha3;
+
+/**
+ * returns hash for value at index at structure
+ * @method atStruct
+ * @param struct
+ * @param {Number} index
+ * @returns 256 bits buffer
+ */
+StateDB.prototype.atStruct = function (struct,index) {
+    var self = this;
+    struct = self.buffer256(struct);
+    index = parseInt(index);
+    var structKey = self.sha3(struct);
+    var end = structKey.readInt32BE(28);
+    end += index; //TODO
+    structKey.writeInt32BE(end,28);
+    return structKey;
+};
+
+/**
+ * returns hash for value at index at structure
+ * @method atMap
+ * @param map
+ * @param key
+ * @returns 256 bits buffer
+ */
+StateDB.prototype.atMap = function (map,key) {
+    var self = this;
+    map = self.buffer256(map);
+    key = self.buffer256(key);
+    console.log('map',map.toString('hex'),'key',key.toString('hex'));
+    console.log(self.bufferHex(key.toString('hex') + map.toString('hex')));
+    console.log('key:',self.sha3(self.bufferHex(key.toString('hex') + map.toString('hex'))));
+    return self.sha3(self.bufferHex(key.toString('hex') + map.toString('hex')));
+};
 
 /**
  * Decodes rlp encoding
@@ -229,8 +272,7 @@ StateDB.prototype.getStorage = function (adress, blockNumber, cb) {
     adress = self.bufferHex(adress);
     blockNumber = self.buffer64(blockNumber);
     self.blockStateRoot(blockNumber, function (err, root) {
-        var addressPath = self.bufferHex(
-            self.sha3(adress));
+        var addressPath = self.sha3(adress);
         self.find(root, addressPath, cb);
     });
 };
@@ -249,7 +291,7 @@ StateDB.prototype.getVariable = function (adress, blockNumber, index, cb) {
     blockNumber = self.buffer64(blockNumber);
     index = self.buffer256(index);
     self.getStorage(adress, blockNumber, function (err, storage) {
-        var hashedindex = self.bufferHex(self.sha3(index));
+        var hashedindex = self.sha3(index);
         self.find(storage[2], hashedindex, function (err, val) {
             cb(err, val);
         })
