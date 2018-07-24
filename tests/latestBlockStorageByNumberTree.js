@@ -8,7 +8,7 @@ stateDB.db.get(new Buffer('LastBlock'), function (err, ltblhash) {
         console.log('sample adress:', sampleAdress);
         // var buffer = stateDB.hashBuffer(stateDB.sha3(sampleAdress));
         // console.log('hashed adress', buffer);
-        stateDB.getStorageTree(sampleAdress,number, function (err, storage) {
+        stateDB.getStorage(sampleAdress,number, function (err, storage) {
             console.log('storage:', storage);
         });
     });

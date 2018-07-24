@@ -145,7 +145,7 @@ StateDB.prototype.blockStateRoot = function (blockNumber, cb) {
     })
 };
 
-StateDB.prototype.findTree = function (node_hash, key, cb) {
+StateDB.prototype.find = function (node_hash, key, cb) {
     var self = this;
     trie = new Trie(self.db, node_hash);
     trie.get(key, function (err, val) {
@@ -153,14 +153,14 @@ StateDB.prototype.findTree = function (node_hash, key, cb) {
     });
 };
 
-StateDB.prototype.getStorageTree = function (contractAddres, blockNumber, cb) {
+StateDB.prototype.getStorage = function (contractAddres, blockNumber, cb) {
     var self = this;
     self.blockStateRoot(blockNumber, function (err, root) {
         console.log('storage:blockstateroot', root);
         var addressPath = self.bufferHex(
             self.sha3(contractAddres));
         console.log('storage:hashed adress', addressPath);
-        self.findTree(root, addressPath, cb);
+        self.find(root, addressPath, cb);
     });
 };
 
@@ -236,7 +236,7 @@ StateDB.prototype.getStorage = function (contractAddres, blockNumber, cb) {
         var addressPath = self.bufferHex(
             self.sha3(contractAddres));
         console.log('storage:hashed adress', addressPath);
-        self.findTree(root, addressPath, cb);
+        self.find(root, addressPath, cb);
     });
 };
 
@@ -333,7 +333,7 @@ StateDB.prototype.getMultiple = function (adress, startBlockNumber, endBlockNumb
 
 StateDB.prototype.getCode = function (adress, number, cb) {
     var self = this;
-    self.getStorageTree(adress, number, function (err, storage) {
+    self.getStorage(adress, number, function (err, storage) {
         self.db.get(storage[3], cb);
     });
 };

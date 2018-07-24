@@ -6,7 +6,7 @@ var number = stateDB.bufferHex('0000000000288a88');
 console.log('sample adress:', sampleAdress);
 // var buffer = stateDB.hashBuffer(stateDB.sha3(sampleAdress));
 // console.log('hashed adress', buffer);
-stateDB.getStorageTree(sampleAdress, number, function (err, storage) {
+stateDB.getStorage(sampleAdress, number, function (err, storage) {
     console.log('storage:', storage);
     console.log('its storage 2 ',storage[2])
     stateDB.showPaths(storage[2],"");

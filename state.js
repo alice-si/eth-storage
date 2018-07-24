@@ -3,7 +3,6 @@ var rlp = require('rlp');
 var levelup = require('levelup');
 var leveldown = require('leveldown');
 const ethUtil = require('ethereumjs-util');
-const asyncFirstSeries = require('./util').asyncFirstSeries;
 
 // databaseVerisionKey tracks the current database version.
 var databaseVerisionKey = new Buffer("DatabaseVersion");
@@ -204,12 +203,12 @@ StateDB.prototype.blockStateRoot = function (blockNumber, cb) {
 
 /**
  * finds value in tree given hash
- * @method findTree
+ * @method find
  * @param {String|Buffer} rootHash
  * @param {String|Buffer} key
  * @param {Function} cb the callback
  */
-StateDB.prototype.findTree = function (rootHash, key, cb) {
+StateDB.prototype.find = function (rootHash, key, cb) {
     var self = this;
     rootHash = self.bufferHex(rootHash);
     trie = new Trie(self.db, rootHash);
@@ -220,17 +219,17 @@ StateDB.prototype.findTree = function (rootHash, key, cb) {
 
 /**
  * gets storage tree of account
- * @method getStorageTree
+ * @method getStorage
  * @param {String|Buffer} adress
  * @param {Number|Buffer} blockNumber
  * @param {Function} cb the callback
  */
-StateDB.prototype.getStorageTree = function (adress, blockNumber, cb) {
+StateDB.prototype.getStorage = function (adress, blockNumber, cb) {
     var self = this;
     self.blockStateRoot(blockNumber, function (err, root) {
         var addressPath = self.bufferHex(
             self.sha3(adress));
-        self.findTree(root, addressPath, cb);
+        self.find(root, addressPath, cb);
     });
 };
 
@@ -247,9 +246,9 @@ StateDB.prototype.getVariable = function (adress, blockNumber, index, cb) {
     adress = self.bufferHex(adress);
     blockNumber = self.buffer64(blockNumber);
     index = self.buffer256(index);
-    self.getStorageTree(adress, blockNumber, function (err, storage) {
+    self.getStorage(adress, blockNumber, function (err, storage) {
         var hashedindex = self.bufferHex(self.sha3(index));
-        self.findTree(storage[2], hashedindex, function (err, val) {
+        self.find(storage[2], hashedindex, function (err, val) {
             cb(err, val);
         })
     });
@@ -299,7 +298,7 @@ StateDB.prototype.getCode = function (adress, blockNumber, cb) {
     var self = this;
     adress = self.bufferHex(adress);
     blockNumber = self.buffer64(blockNumber);
-    self.getStorageTree(adress, blockNumber, function (err, storage) {
+    self.getStorage(adress, blockNumber, function (err, storage) {
         self.db.get(storage[3], cb);
     });
 };

@@ -10,7 +10,7 @@ stateDB.db.get(new Buffer('LastBlock'), function (err, ltblhash) {
             console.log('sample adress:', sampleAdress);
             var buffer = stateDB.bufferHex(stateDB.sha3(sampleAdress));
             console.log('hashed adress', buffer);
-            stateDB.findTree(root, buffer, function (err, val) {
+            stateDB.find(root, buffer, function (err, val) {
                 console.log('find:', val);
             })
         });

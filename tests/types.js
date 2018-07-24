@@ -1,7 +1,8 @@
 var assert = require('assert');
+var Settings = require('./settings.js');
 var StateDB = require('./../state.js');
 
-var stateDB = new StateDB('./../geth/chaindata');
+var stateDB = new StateDB(Settings.dbPath);
 
 console.log('34 in 64bits: ',stateDB.buffer64(34));
 console.log('0x34 in 64bits: ',stateDB.buffer64(0x34));
