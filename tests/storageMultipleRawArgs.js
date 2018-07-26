@@ -8,7 +8,7 @@ var number = stateDB.buffer64(1117760);
 var number2 = stateDB.buffer64(1117810);
 var index = stateDB.buffer256(0)
 
-stateDB.getMultiple(sampleAdress, number, number2, index, 5, function (err, storage) {
+stateDB.getRange(sampleAdress, number, number2, index, function (err, storage) {
     console.log('storage at index(',index,'):\n', storage);
 });
 

@@ -30,29 +30,26 @@ contract Escrow {
 
 var stateDB = new StateDB(Settings.dbPath);
 
-stateDB.getMultiple("6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
+stateDB.getRange("6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
     1117760, // start block
     1117810, //end block
     stateDB.atStruct(0,1), // index
-    5, // step
     function (err, storage) {
         console.log('storage at tranasactions[1]:\n', storage);
     });
 
-stateDB.getMultiple("6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
+stateDB.getRange("6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
     1117760, // start block
     1117810, //end block
     stateDB.atStruct(0,0), // index
-    5, // step
     function (err, storage) {
         console.log('storage at tranasactions[0]:\n', storage);
     });
 
-stateDB.getMultiple("6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
+stateDB.getRange("6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
     1117760, // start block
     1117810, //end block
-    1, // index
-    5, // step
+    4, // index
     function (err, storage) {
-        console.log('numTransactions:\n', storage);
+        console.log('storage at owner:\n', storage);
     });

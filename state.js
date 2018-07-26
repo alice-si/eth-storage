@@ -472,7 +472,7 @@ StateDB.prototype._sfindExpected = function (rootHash, key, pos,
                                              cb) {
     var self = this;
 
-    if (rootHash == expectedStack[0]) {
+    if (rootHash.equals(expectedStack[0])) {
         cb(null, null, visitedPos.concat(expectedPos),visitedStack.concat(expectedStack)); // value didn`t change, retun new stack
     }
     else {
