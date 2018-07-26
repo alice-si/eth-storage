@@ -112,14 +112,14 @@ StateDB.prototype.sha3 = ethUtil.sha3;
  * @param {Number} index
  * @returns 256 bits buffer
  */
-StateDB.prototype.atStruct = function (struct,index) {
+StateDB.prototype.atStruct = function (struct, index) {
     var self = this;
     struct = self.buffer256(struct);
     index = parseInt(index);
     var structKey = self.sha3(struct);
     var end = structKey.readInt32BE(28);
     end += index; //TODO
-    structKey.writeInt32BE(end,28);
+    structKey.writeInt32BE(end, 28);
     return structKey;
 };
 
@@ -130,13 +130,13 @@ StateDB.prototype.atStruct = function (struct,index) {
  * @param key
  * @returns 256 bits buffer
  */
-StateDB.prototype.atMap = function (map,key) {
+StateDB.prototype.atMap = function (map, key) {
     var self = this;
     map = self.buffer256(map);
     key = self.buffer256(key);
-    console.log('map',map.toString('hex'),'key',key.toString('hex'));
+    console.log('map', map.toString('hex'), 'key', key.toString('hex'));
     console.log(self.bufferHex(key.toString('hex') + map.toString('hex')));
-    console.log('key:',self.sha3(self.bufferHex(key.toString('hex') + map.toString('hex'))));
+    console.log('key:', self.sha3(self.bufferHex(key.toString('hex') + map.toString('hex'))));
     return self.sha3(self.bufferHex(key.toString('hex') + map.toString('hex')));
 };
 
@@ -239,6 +239,7 @@ StateDB.prototype.blockHeaderByHash = function (blockHash, cb) {
  */
 StateDB.prototype.blockStateRoot = function (blockNumber, cb) {
     var self = this;
+    blockNumber = self.buffer64(blockNumber);
     self.blockHeader(blockNumber, function (err, val) {
         cb(err, val[3]);
     })
@@ -313,6 +314,22 @@ StateDB.prototype._getMultiple = function (adress, startBlockNumber, endBlockNum
 };
 
 /**
+ * gets code of contract
+ * @method getCode
+ * @param {String|Buffer} adress
+ * @param {Number|Buffer} blockNumber
+ * @param {Function} cb the callback
+ */
+StateDB.prototype.getCode = function (adress, blockNumber, cb) {
+    var self = this;
+    adress = self.bufferHex(adress);
+    blockNumber = self.buffer64(blockNumber);
+    self.getStorage(adress, blockNumber, function (err, storage) {
+        self.db.get(storage[3], cb);
+    });
+};
+
+/**
  * gets variable states in speciefied blocks
  * @method getMultiple
  * @param {String|Buffer} adress
@@ -331,19 +348,287 @@ StateDB.prototype.getMultiple = function (adress, startBlockNumber, endBlockNumb
     self._getMultiple(adress, startBlockNumber, endBlockNumber, index, step, [], cb);
 };
 
+
+// /**
+//  * gets variable state, with stack
+//  * @method getVariablePath
+//  * @param {String|Buffer} adress
+//  * @param {Number|Buffer} blockNumber
+//  * @param {Number|Buffer} index
+//  * @param {Function} - cb - the callback function. Its is given the following
+//  * arguments
+//  *  - err - any errors encontered
+//  *  - node - the last node found
+//  *  - keyRemainder - the remaining key nibbles not accounted for
+//  *  - stack - an array of nodes that forms the path to node we are searching for
+//  */
+// StateDB.prototype.getVariablePath = function (adress, blockNumber, index, cb) {
+//     var self = this;
+//     adress = self.bufferHex(adress);
+//     blockNumber = self.buffer64(blockNumber);
+//     index = self.buffer256(index);
+//     self.getStorage(adress, blockNumber, function (err, storage) {
+//         var hashedindex = self.sha3(index);
+//         var trie = new Trie(self.db,storage[2])
+//         trie.findPath(hashedindex, cb)
+//     });
+// };
+
 /**
- * gets code of contract
- * @method getCode
- * @param {String|Buffer} adress
- * @param {Number|Buffer} blockNumber
- * @param {Function} cb the callback
+ * gets node given hash
+ * @method getVariablePath
+ * @param hash
+ * @param cb
+ * arguments
+ *  - err - any errors encontered
+ *  - node - the last node found
+ *  - keyRemainder - the remaining key nibbles not accounted for
+ *  - stack - an array of nodes that forms the path to node we are searching for
  */
-StateDB.prototype.getCode = function (adress, blockNumber, cb) {
+StateDB.prototype.getNode = function (hash, cb) {
     var self = this;
-    adress = self.bufferHex(adress);
-    blockNumber = self.buffer64(blockNumber);
-    self.getStorage(adress, blockNumber, function (err, storage) {
-        self.db.get(storage[3], cb);
-    });
+    hash = self.bufferHex(hash);
+    self.db.get(hash, function (err, val) {
+        // console.log('getNode:undecoded', val)
+        var decoded = rlp.decode(val);
+        // var decoded = val;
+        cb(err, decoded);
+    })
 };
 
+
+StateDB.prototype.compactToHex = function (base) {
+    var baseNibble = Math.floor(base[0] / 16); // first nible of base
+    base = base.toString('hex');
+    // console.log('base:', base);
+    // delete terminator flag
+    if (baseNibble < 2) {
+        base = base.slice(0, base.length - 1);
+    }
+    // apply odd flag
+    var chop = 2 - baseNibble % 2;
+    // console.log('chop is:', chop);
+    return base.slice(chop, base.length);
+};
+
+StateDB.prototype._sfind = function (root, key, pos, posStack, nodeStack, cb) {
+    var self = this;
+    posStack.push(pos);
+    nodeStack.push(root);
+    self.getNode(root, function (err, decoded) {
+        if (decoded.length == 17) {
+            console.log('find:branchnodefound');
+            var _pos = Math.floor(pos / 2);
+            var next = (pos % 2 == 0) ? Math.floor(key[_pos] / 16) : key[_pos] % 16;
+            console.log('find:next', next,'decoded:',decoded[next]);
+            self._sfind(decoded[next], key, pos + 1, posStack, nodeStack, cb)
+        }
+        else {
+            console.log('find:othernodefound,\n  decoded:',decoded);
+            var baseNibble = Math.floor(decoded[0][0] / 16); // (bad way or) first nible of base
+            var nodePath = self.compactToHex(decoded[0]);
+            console.log('nodePath', nodePath);
+            console.log('pos', pos, 'key.len', key.length, 'nodePath.len', nodePath.length);
+            var keyString = key.toString('hex');
+            if (nodePath == keyString.slice(pos, pos + nodePath.length)) {
+                console.log('find:next', nodePath);
+                if (baseNibble < 2 && pos + nodePath.length < keyString.length) {
+                    console.log('find:extension,decoded',decoded[1]);
+                    self._sfind(decoded[1], key, pos + nodePath.length, posStack, nodeStack, cb)
+                }
+                else if (baseNibble < 4 && pos + nodePath.length == keyString.length) {
+                    console.log('find:leaf');
+                    cb(err, rlp.decode(decoded[1]), posStack, nodeStack);
+                }
+            }
+            else {
+                console.log('find:error');
+                cb(err, null);
+            }
+        }
+    })
+};
+
+/**
+ * finds value in tree
+ * @method find
+ * @param {String|Buffer} rootHash
+ * @param {String|Buffer} key
+ * @param {Function} cb the callback
+ * arguments
+ *  - err - any errors encontered
+ *  - node - the last node found
+ *  - stackPos - stack of position in key of nodes on path
+ *  - stack - stack of hashes of nodes on path
+ */
+StateDB.prototype.sfind = function (rootHash, key, cb) {
+    var self = this;
+    self._sfind(rootHash, key, 0, [], [], cb);
+};
+
+StateDB.prototype._sfindExpected = function (rootHash, key, pos,
+                                             visitedPos, visitedStack,
+                                             expectedPos, expectedStack,
+                                             cb) {
+    var self = this;
+
+    if (rootHash == expectedStack[0]) {
+        cb(null, null, visitedPos.concat(expectedPos),visitedStack.concat(expectedStack)); // value didn`t change, retun new stack
+    }
+    else {
+        if (pos > expectedPos[0]) { // new end
+            self._sfind(rootHash, key, pos + 1, visitedPos, visitedStack);
+        }
+        else {
+
+            visitedPos.push(pos);
+            visitedStack.push(rootHash);
+
+            if (pos === expectedPos[0]) { // no new node on way
+                expectedPos = expectedPos.slice(1);
+                expectedStack = expectedStack.slice(1);
+            }
+
+            self.getNode(rootHash, function (err, decoded) {
+                if (decoded.length === 17) {
+                    console.log('find:branchnodefound');
+                    var _pos = Math.floor(pos / 2);
+                    var next = (pos % 2 == 0) ? Math.floor(key[_pos] / 16) : key[_pos] % 16;
+                    console.log('find:next', next);
+                    self._sfindExpected(decoded[next], key, pos + 1, visitedPos, visitedStack, expectedPos, expectedStack, cb)
+                }
+                else {
+                    console.log('find:othernodefound');
+                    var baseNibble = Math.floor(decoded[0][0] / 16); // (bad way or) first nible of base
+                    var nodePath = self.compactToHex(decoded[0]);
+                    console.log('nodePath', nodePath);
+                    console.log('pos', pos, 'key.len', key.length, 'nodePath.len', nodePath.length);
+                    var keyString = key.toString('hex');
+                    if (nodePath == keyString.slice(pos, pos + nodePath.length)) {
+                        console.log('find:next', nodePath);
+                        if (baseNibble < 2 && pos + nodePath.length < keyString.length) {
+                            console.log('find:extension');
+                            self._sfindExpected(decoded[1], key, pos + nodePath.length, visitedPos, visitedStack, expectedPos, expectedStack, cb)
+                        }
+                        else if (baseNibble < 4 && pos + nodePath.length == keyString.length) {
+                            console.log('find:leaf');
+                            cb(err, rlp.decode(decoded[1]), visitedPos, visitedStack);
+                        }
+                    }
+                    else {
+                        console.log('find:error');
+                        // TODO: error
+                        cb(err, null, visitedPos, visitedStack);
+                    }
+                }
+            })
+        }
+
+    }
+};
+
+/**
+ * finds value in tree, knowing expected path
+ * @method sfindExpected
+ * @param {String|Buffer} rootHash
+ * @param {String|Buffer} key
+ * @param expectedPos
+ * @param expectedStack
+ * @param {Function} cb the callback
+ * arguments
+ *  - err - any errors encontered
+ *  - node - the last node found
+ *  - stackPos - stack of position in key of nodes on path
+ *  - stack - stack of hashes of nodes on path
+ */
+StateDB.prototype.sfindExpected = function (rootHash, key, expectedPos, expectedStack, cb) {
+    var self = this;
+    rootHash = self.bufferHex(rootHash);
+    key = self.bufferHex(key);
+    self._sfindExpected(rootHash, key, 0, [], [], expectedPos, expectedStack, cb);
+};
+
+StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber, index, array,
+                                        worldStackPos, worldStackNode,
+                                        storageStackPos, storageStackNode,
+                                        cb) {
+    var self = this;
+    if (startBlockNumber < endBlockNumber) {
+
+        self.blockStateRoot(startBlockNumber,function (err, stateRoot) {
+
+            // find account
+            self.sfindExpected(stateRoot, self.sha3(adress), worldStackPos, worldStackNode,
+                function (err, node, worldStackPos, worldStackNode) {
+
+                    var next = self.buffer64(parseInt('0x' + startBlockNumber.toString('hex')) + 1);
+                    if (node === null) { // account didn`t changed
+
+                        self._getRange(adress, next, endBlockNumber, index, array,
+                            worldStackPos, worldStackNode,
+                            storageStackPos, storageStackNode,
+                            cb);
+
+                    }
+                    else {
+                        // find variable
+                        self.sfindExpected(node[2], self.sha3(index), storageStackPos, storageStackNode,
+                            function (err, val, storageStackPos, storageStackNode) {
+                                if (val === null) { // variable didn`t changed
+
+                                    self._getRange(adress, next, endBlockNumber, index, array,
+                                        worldStackPos, worldStackNode,
+                                        storageStackPos, storageStackNode,
+                                        cb);
+
+                                }
+                                else { // new value found
+
+                                    array.push({'block': startBlockNumber, 'val': val});
+                                    self._getRange(adress, next, endBlockNumber, index, array,
+                                        worldStackPos, worldStackNode,
+                                        storageStackPos, storageStackNode,
+                                        cb);
+
+                                }
+                            });
+                    }
+
+                })
+
+        });
+    }
+    else {
+        cb(null, array);
+    }
+};
+
+/**
+ * gets variable states in speciefied blocks
+ * @method getMultiple
+ * @param {String|Buffer} adress
+ * @param {Number|Buffer} startBlockNumber
+ * @param {Number|Buffer} endBlockNumber
+ * @param {Number|Buffer} index
+ * @param {Function} cb the callback
+ */
+StateDB.prototype.getRange = function (adress, startBlockNumber, endBlockNumber, index, cb) {
+    var self = this;
+    adress = self.bufferHex(adress);
+    startBlockNumber = self.buffer64(startBlockNumber);
+    endBlockNumber = self.buffer64(endBlockNumber);
+    index = self.buffer256(index);
+    self.blockStateRoot(startBlockNumber, function (err,stateRoot) {
+        self.sfind(stateRoot, self.sha3(adress), function (err, node, worldStackPos, worldStackNode) {
+            self.sfind(node[2], self.sha3(index), function (err, val, storageStackPos, storageStackNode) {
+                var next = self.buffer64(parseInt('0x' + startBlockNumber.toString('hex')) + 1);
+                self._getRange(
+                    adress, next, endBlockNumber, index,
+                    [{'block': startBlockNumber, 'val': val}],
+                    worldStackPos, worldStackNode,
+                    storageStackPos, storageStackNode,
+                    cb);
+            });
+        })
+    })
+};
