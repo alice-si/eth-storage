@@ -417,27 +417,27 @@ StateDB.prototype._sfind = function (root, key, pos, posStack, nodeStack, cb) {
     nodeStack.push(root);
     self.getNode(root, function (err, decoded) {
         if (decoded.length == 17) {
-            console.log('find:branchnodefound');
+            // console.log('find:branchnodefound');
             var _pos = Math.floor(pos / 2);
             var next = (pos % 2 == 0) ? Math.floor(key[_pos] / 16) : key[_pos] % 16;
-            console.log('find:next', next,'decoded:',decoded[next]);
+            // console.log('find:next', next,'decoded:',decoded[next]);
             self._sfind(decoded[next], key, pos + 1, posStack, nodeStack, cb)
         }
         else {
-            console.log('find:othernodefound,\n  decoded:',decoded);
+            // console.log('find:othernodefound,\n  decoded:',decoded);
             var baseNibble = Math.floor(decoded[0][0] / 16); // (bad way or) first nible of base
             var nodePath = self.compactToHex(decoded[0]);
-            console.log('nodePath', nodePath);
-            console.log('pos', pos, 'key.len', key.length, 'nodePath.len', nodePath.length);
+            // console.log('nodePath', nodePath);
+            // console.log('pos', pos, 'key.len', key.length, 'nodePath.len', nodePath.length);
             var keyString = key.toString('hex');
             if (nodePath == keyString.slice(pos, pos + nodePath.length)) {
-                console.log('find:next', nodePath);
+                // console.log('find:next', nodePath);
                 if (baseNibble < 2 && pos + nodePath.length < keyString.length) {
-                    console.log('find:extension,decoded',decoded[1]);
+                    // console.log('find:extension,decoded',decoded[1]);
                     self._sfind(decoded[1], key, pos + nodePath.length, posStack, nodeStack, cb)
                 }
                 else if (baseNibble < 4 && pos + nodePath.length == keyString.length) {
-                    console.log('find:leaf');
+                    // console.log('find:leaf');
                     cb(err, rlp.decode(decoded[1]), posStack, nodeStack);
                 }
             }
@@ -491,27 +491,27 @@ StateDB.prototype._sfindExpected = function (rootHash, key, pos,
 
             self.getNode(rootHash, function (err, decoded) {
                 if (decoded.length === 17) {
-                    console.log('find:branchnodefound');
+                    // console.log('find:branchnodefound');
                     var _pos = Math.floor(pos / 2);
                     var next = (pos % 2 == 0) ? Math.floor(key[_pos] / 16) : key[_pos] % 16;
-                    console.log('find:next', next);
+                    // console.log('find:next', next);
                     self._sfindExpected(decoded[next], key, pos + 1, visitedPos, visitedStack, expectedPos, expectedStack, cb)
                 }
                 else {
-                    console.log('find:othernodefound');
+                    // console.log('find:othernodefound');
                     var baseNibble = Math.floor(decoded[0][0] / 16); // (bad way or) first nible of base
                     var nodePath = self.compactToHex(decoded[0]);
-                    console.log('nodePath', nodePath);
-                    console.log('pos', pos, 'key.len', key.length, 'nodePath.len', nodePath.length);
+                    // console.log('nodePath', nodePath);
+                    // console.log('pos', pos, 'key.len', key.length, 'nodePath.len', nodePath.length);
                     var keyString = key.toString('hex');
                     if (nodePath == keyString.slice(pos, pos + nodePath.length)) {
-                        console.log('find:next', nodePath);
+                        // console.log('find:next', nodePath);
                         if (baseNibble < 2 && pos + nodePath.length < keyString.length) {
-                            console.log('find:extension');
+                            // console.log('find:extension');
                             self._sfindExpected(decoded[1], key, pos + nodePath.length, visitedPos, visitedStack, expectedPos, expectedStack, cb)
                         }
                         else if (baseNibble < 4 && pos + nodePath.length == keyString.length) {
-                            console.log('find:leaf');
+                            // console.log('find:leaf');
                             cb(err, rlp.decode(decoded[1]), visitedPos, visitedStack);
                         }
                     }

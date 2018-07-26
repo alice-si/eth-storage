@@ -28,6 +28,20 @@ contract Escrow {
     ...
 */
 
+/*
+expected output:
+
+storage at tranasactions[1]:
+ [ { block: <Buffer 00 00 00 00 00 11 0e 40>,
+    val: <Buffer 01 63 45 78 5d 8a 00 00> } ]
+storage at owner:
+ [ { block: <Buffer 00 00 00 00 00 11 0e 40>,
+    val: <Buffer 3b 30 c8 b5 a7 4d 2f dc 8c 46 66 ea 22 b4 0d a2 ac 92 2e df> } ]
+storage at tranasactions[0]:
+ [ { block: <Buffer 00 00 00 00 00 11 0e 40>,
+    val: <Buffer 02 c6 8a f0 bb 14 00 00> } ]
+    */
+
 var stateDB = new StateDB(Settings.dbPath);
 
 stateDB.getRange("6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
@@ -53,3 +67,4 @@ stateDB.getRange("6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
     function (err, storage) {
         console.log('storage at owner:\n', storage);
     });
+
