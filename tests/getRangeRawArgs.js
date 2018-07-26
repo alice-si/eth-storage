@@ -12,3 +12,9 @@ stateDB.getRange(sampleAdress, number, number2, index, function (err, storage) {
     console.log('storage at index(',index,'):\n', storage);
 });
 
+/*
+sample adress: <Buffer 6b ad c9 46 3c 5c c9 1c bf b5 17 6e f9 9a 45 4c 3c 77 b0 0e>
+storage at index( <Buffer 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00> ):
+ [ { block: <Buffer 00 00 00 00 00 11 0e 40>, val: <Buffer 02> },
+  { block: <Buffer 00 00 00 00 00 11 0e 69>, val: <Buffer 03> } ]
+ */

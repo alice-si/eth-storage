@@ -16,3 +16,10 @@ console.log('index',index);
 stateDB.getVariable(sampleAdress,number,index,function (err, variable) {
     console.log('getVariable:variable',variable);
 });
+
+/*
+sample adress: <Buffer 6b ad c9 46 3c 5c c9 1c bf b5 17 6e f9 9a 45 4c 3c 77 b0 0e>
+blocknumber <Buffer 00 00 00 00 00 0f 42 40>
+index <Buffer 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01>
+getVariable:variable <Buffer 02>
+ */
