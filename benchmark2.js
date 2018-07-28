@@ -9,16 +9,16 @@ var newCallback = function (i) {
     };
 };
 
-var getRange = function (addr,index,startBlock,endBlock) {
+var getRange = function (addr,index,startBlock,endBlock,cb=null) {
     for (var i = startBlock; i < endBlock; i++) {
         web3.eth.getStorageAt(addr,
             index, // index
             i,
-            newCallback(i))
+            cb === null ? newCallback(i) : cb)
     }
 };
 
 module.exports.getRange = getRange;
 
 // sample
-// getRange("0x6badc9463c5cc91cbfb5176ef99a454c3c77b00e", 1, 1111111, 1117810)
+getRange("0x6badc9463c5cc91cbfb5176ef99a454c3c77b00e", 1, 1111111, 1117810);
