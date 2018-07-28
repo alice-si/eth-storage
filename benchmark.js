@@ -24,6 +24,7 @@ var getRange = function (adr, index, startBlock, endBlock, cb) {
 
 module.exports.getRange = getRange;
 
+// sample:
 // getRange("0x6badc9463c5cc91cbfb5176ef99a454c3c77b00e", 1, 1111111, 1117810, function (err, storage) {
 //     console.log('storage at index:\n', storage);
 // });
