@@ -18,7 +18,8 @@
     "merkle-patricia-tree": "git+https://github.com/ethereumjs/merkle-patricia-tree.git",
     "mocha": "^5.2.0",
     "morgan": "~1.9.0",
-    "pug": "2.0.0-beta11"
+    "pug": "2.0.0-beta11",
+    "web3": "^1.0.0-beta.35"
   },
   "devDependencies": {
     "chai": "^4.1.2"
