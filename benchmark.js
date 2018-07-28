@@ -9,7 +9,8 @@ var _getRange = function (adr, index, startBlock, endBlock, array, cb) {
             index, // index
             startBlock,
             function (err, val) {
-                array.push(val);
+                if (array.length > 0 && array.slice(-1)[0]['val'] === val);
+                else array.push({'block':startBlock,'val':val});
                 _getRange(adr, index, startBlock + 1, endBlock, array, cb)
             })
     }
@@ -25,6 +26,17 @@ var getRange = function (adr, index, startBlock, endBlock, cb) {
 module.exports.getRange = getRange;
 
 // sample:
-// getRange("0x6badc9463c5cc91cbfb5176ef99a454c3c77b00e", 1, 1111111, 1117810, function (err, storage) {
+// getRange("0x6badc9463c5cc91cbfb5176ef99a454c3c77b00e", 1, 1111111, 1111990,/*1117810*/ function (err, storage) {
 //     console.log('storage at index:\n', storage);
 // });
+
+// output
+// storage at index:
+//     [ { block: 1111111,
+//         val: '0x0000000000000000000000000000000000000000000000000000000000000002' },
+//         { block: 1111315, val: undefined },
+//         { block: 1111674,
+//             val: '0x0000000000000000000000000000000000000000000000000000000000000002' },
+//         { block: 1111675, val: undefined },
+//         { block: 1111686,
+//             val: '0x0000000000000000000000000000000000000000000000000000000000000002' } ]
