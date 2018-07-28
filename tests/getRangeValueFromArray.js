@@ -44,27 +44,15 @@ storage at tranasactions[0]:
 
 var stateDB = new StateDB(Settings.dbPath);
 
-stateDB.getRange("6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
-    1117760, // start block
-    1117810, //end block
-    stateDB.atStruct(0,1), // index
-    function (err, storage) {
-        console.log('storage at tranasactions[1]:\n', storage);
-    });
+stateDB.getRange("6badc9463c5cc91cbfb5176ef99a454c3c77b00e", stateDB.atStruct(0, 1), 1117760, 1117810, function (err, storage) {
+    console.log('storage at tranasactions[1]:\n', storage);
+});
 
-stateDB.getRange("6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
-    1117760, // start block
-    1117810, //end block
-    stateDB.atStruct(0,0), // index
-    function (err, storage) {
-        console.log('storage at tranasactions[0]:\n', storage);
-    });
+stateDB.getRange("6badc9463c5cc91cbfb5176ef99a454c3c77b00e", stateDB.atStruct(0, 0), 1117760, 1117810, function (err, storage) {
+    console.log('storage at tranasactions[0]:\n', storage);
+});
 
-stateDB.getRange("6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
-    1117760, // start block
-    1117810, //end block
-    4, // index
-    function (err, storage) {
-        console.log('storage at owner:\n', storage);
-    });
+stateDB.getRange("6badc9463c5cc91cbfb5176ef99a454c3c77b00e", 4, 1117760, 1117810, function (err, storage) {
+    console.log('storage at owner:\n', storage);
+});
 

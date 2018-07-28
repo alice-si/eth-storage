@@ -526,12 +526,12 @@ StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber
  * gets variable states in block range, only first block and blocks where value changed
  * @method getRange
  * @param {String|Buffer} adress
+ * @param {Number|Buffer} index
  * @param {Number|Buffer} startBlockNumber
  * @param {Number|Buffer} endBlockNumber
- * @param {Number|Buffer} index
  * @param {Function} cb the callback
  */
-StateDB.prototype.getRange = function (adress, startBlockNumber, endBlockNumber, index, cb) {
+StateDB.prototype.getRange = function (adress, index, startBlockNumber, endBlockNumber, cb) {
     var self = this;
     adress = self.bufferHex(adress);
     startBlockNumber = self.buffer64(startBlockNumber);
