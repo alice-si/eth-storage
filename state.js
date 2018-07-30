@@ -3,6 +3,7 @@ var rlp = require('rlp');
 var levelup = require('levelup');
 var leveldown = require('leveldown');
 const ethUtil = require('ethereumjs-util');
+const assert = require("assert");
 
 // databaseVerisionKey tracks the current database version.
 var databaseVerisionKey = new Buffer("DatabaseVersion");
@@ -351,26 +352,29 @@ StateDB.prototype._sfind = function (root, key, pos, posStack, nodeStack, cb) {
     posStack.push(pos);
     nodeStack.push(root);
     self.getNode(root, function (err, decoded) {
-        if (decoded.length == 17) {
+        if (decoded.length === 17) {
             var _pos = Math.floor(pos / 2);
-            var next = (pos % 2 == 0) ? Math.floor(key[_pos] / 16) : key[_pos] % 16;
+            var next = (pos % 2 === 0) ? Math.floor(key[_pos] / 16) : key[_pos] % 16;
             self._sfind(decoded[next], key, pos + 1, posStack, nodeStack, cb)
+        }
+        else if (decoded[0] === undefined) {
+            console.log('missing key in tree')
         }
         else {
             var baseNibble = Math.floor(decoded[0][0] / 16); // (bad way or) first nible of base
             var nodePath = self.compactToHex(decoded[0]);
             var keyString = key.toString('hex');
-            if (nodePath == keyString.slice(pos, pos + nodePath.length)) {
+
+            if (nodePath === keyString.slice(pos, pos + nodePath.length)) {
                 if (baseNibble < 2 && pos + nodePath.length < keyString.length) {
                     self._sfind(decoded[1], key, pos + nodePath.length, posStack, nodeStack, cb)
                 }
-                else if (baseNibble < 4 && pos + nodePath.length == keyString.length) {
+                else if (baseNibble < 4 && pos + nodePath.length === keyString.length) {
                     cb(err, rlp.decode(decoded[1]), posStack, nodeStack);
                 }
             }
             else {
-                console.log('find:error');
-                cb(err, null);
+                console.log('missing key in tree')
             }
         }
     })
@@ -398,50 +402,56 @@ StateDB.prototype._sfindExpected = function (rootHash, key, pos,
                                              expectedPos, expectedStack,
                                              cb) {
     var self = this;
-
-    if (rootHash.equals(expectedStack[0])) {
+    if (expectedPos.length === 0 || expectedStack.length === 0) { // new end
+        self._sfind(rootHash, key, pos, visitedPos, visitedStack, cb);
+    }
+    else if (rootHash.equals(expectedStack[0])) {
         cb(null, null, visitedPos.concat(expectedPos), visitedStack.concat(expectedStack)); // value didn`t change, retun new stack
     }
+    else if (pos > expectedPos[0]) { // new end
+        // TODO _sfindExpected
+        self._sfind(rootHash, key, pos, visitedPos, visitedStack, cb);
+    }
     else {
-        if (pos > expectedPos[0]) { // new end
-            self._sfind(rootHash, key, pos + 1, visitedPos, visitedStack);
+
+        visitedPos.push(pos);
+        visitedStack.push(rootHash);
+
+        if (pos === expectedPos[0]) { // no new node on way
+            expectedPos = expectedPos.slice(1);
+            expectedStack = expectedStack.slice(1);
         }
-        else {
 
-            visitedPos.push(pos);
-            visitedStack.push(rootHash);
 
-            if (pos === expectedPos[0]) { // no new node on way
-                expectedPos = expectedPos.slice(1);
-                expectedStack = expectedStack.slice(1);
+        self.getNode(rootHash, function (err, decoded) {
+            if (decoded.length === 17) {
+                var _pos = Math.floor(pos / 2);
+                var next = (pos % 2 === 0) ? Math.floor(key[_pos] / 16) : key[_pos] % 16;
+                self._sfindExpected(decoded[next], key, pos + 1, visitedPos, visitedStack, expectedPos, expectedStack, cb)
             }
-
-            self.getNode(rootHash, function (err, decoded) {
-                if (decoded.length === 17) {
-                    var _pos = Math.floor(pos / 2);
-                    var next = (pos % 2 == 0) ? Math.floor(key[_pos] / 16) : key[_pos] % 16;
-                    self._sfindExpected(decoded[next], key, pos + 1, visitedPos, visitedStack, expectedPos, expectedStack, cb)
+            else if (decoded[0] === undefined) {
+                console.log('missing key in tree')
+            }
+            else {
+                var baseNibble = Math.floor(decoded[0][0] / 16); // (bad way or) first nible of base
+                var nodePath = self.compactToHex(decoded[0]);
+                var keyString = key.toString('hex');
+                if (nodePath === keyString.slice(pos, pos + nodePath.length)) {
+                    if (baseNibble < 2 && pos + nodePath.length < keyString.length) {
+                        self._sfindExpected(decoded[1], key, pos + nodePath.length, visitedPos, visitedStack, expectedPos, expectedStack, cb)
+                    }
+                    else if (baseNibble < 4 && pos + nodePath.length === keyString.length) {
+                        cb(err, rlp.decode(decoded[1]), visitedPos, visitedStack);
+                    }
                 }
                 else {
-                    var baseNibble = Math.floor(decoded[0][0] / 16); // (bad way or) first nible of base
-                    var nodePath = self.compactToHex(decoded[0]);
-                    var keyString = key.toString('hex');
-                    if (nodePath == keyString.slice(pos, pos + nodePath.length)) {
-                        if (baseNibble < 2 && pos + nodePath.length < keyString.length) {
-                            self._sfindExpected(decoded[1], key, pos + nodePath.length, visitedPos, visitedStack, expectedPos, expectedStack, cb)
-                        }
-                        else if (baseNibble < 4 && pos + nodePath.length == keyString.length) {
-                            cb(err, rlp.decode(decoded[1]), visitedPos, visitedStack);
-                        }
-                    }
-                    else {
-                        console.log('find:error');
-                        // TODO: error
-                        cb(err, null, visitedPos, visitedStack);
-                    }
+                    console.log('missing key in tree')
+                    // TODO: error
+                    cb(err, null, visitedPos, visitedStack);
                 }
-            })
-        }
+            }
+        })
+
 
     }
 };
@@ -472,6 +482,7 @@ StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber
                                         storageStackPos, storageStackNode,
                                         cb) {
     var self = this;
+
     if (startBlockNumber < endBlockNumber) {
 
         self.blockStateRoot(startBlockNumber, function (err, stateRoot) {
@@ -481,6 +492,7 @@ StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber
                 function (err, node, worldStackPos, worldStackNode) {
 
                     var next = self.buffer64(parseInt('0x' + startBlockNumber.toString('hex')) + 1);
+
                     if (node === null) { // account didn`t changed
 
                         self._getRange(adress, next, endBlockNumber, index, array,
@@ -491,6 +503,7 @@ StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber
                     }
                     else {
                         // find variable
+
                         self.sfindExpected(node[2], self.sha3(index), storageStackPos, storageStackNode,
                             function (err, val, storageStackPos, storageStackNode) {
                                 if (val === null) { // variable didn`t changed
