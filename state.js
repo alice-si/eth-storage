@@ -321,8 +321,6 @@ StateDB.prototype.getCode = function (adress, blockNumber, cb) {
  * arguments
  *  - err - any errors encontered
  *  - node - the last node found
- *  - keyRemainder - the remaining key nibbles not accounted for
- *  - stack - an array of nodes that forms the path to node we are searching for
  */
 StateDB.prototype.getNode = function (hash, cb) {
     var self = this;
@@ -396,6 +394,31 @@ StateDB.prototype.sfind = function (rootHash, key, cb) {
     self._sfind(rootHash, key, 0, [], [], cb);
 };
 
+function binarySearch(items, value){
+
+    var startIndex  = 0,
+        stopIndex   = items.length - 1,
+        middle      = Math.floor((stopIndex + startIndex)/2);
+
+    while(items[middle] != value && startIndex < stopIndex){
+
+        //adjust search area
+        if (value < items[middle]){
+            stopIndex = middle - 1;
+        } else if (value > items[middle]){
+            startIndex = middle + 1;
+        }
+
+        //recalculate middle
+        if (startIndex < stopIndex){
+            middle = Math.floor((stopIndex + startIndex)/2);
+        }
+    }
+
+    //make sure it's the right value
+    return (value > items[middle]) ? middle + 1 : middle;
+}
+
 StateDB.prototype._sfindExpected = function (rootHash, key, pos,
                                              visitedPos, visitedStack,
                                              expectedPos, expectedStack,
@@ -409,7 +432,10 @@ StateDB.prototype._sfindExpected = function (rootHash, key, pos,
     }
     else if (pos > expectedPos[0]) { // new end
         // TODO _sfindExpected
-        self._sfind(rootHash, key, pos, visitedPos, visitedStack, cb);
+        var index = binarySearch(expectedPos, pos);
+        expectedPos = expectedPos.slice(index);
+        expectedStack = expectedStack.slice(index);
+        self._sfindExpected(rootHash, key, pos, visitedPos, visitedStack, expectedPos, expectedStack, cb);
     }
     else {
 
