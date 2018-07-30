@@ -433,8 +433,8 @@ StateDB.prototype._sfindExpected = function (rootHash, key, pos,
     else if (pos > expectedPos[0]) { // new end
         // TODO _sfindExpected
         var index = binarySearch(expectedPos, pos);
-        expectedPos = expectedPos.slice(index);
-        expectedStack = expectedStack.slice(index);
+        expectedPos = expectedPos.splice(index,expectedPos.length - 1);
+        expectedStack = expectedStack.splice(index,expectedStack.length - 1);
         self._sfindExpected(rootHash, key, pos, visitedPos, visitedStack, expectedPos, expectedStack, cb);
     }
     else {
@@ -443,8 +443,8 @@ StateDB.prototype._sfindExpected = function (rootHash, key, pos,
         visitedStack.push(rootHash);
 
         if (pos === expectedPos[0]) { // no new node on way
-            expectedPos = expectedPos.slice(1);
-            expectedStack = expectedStack.slice(1);
+            expectedPos = expectedPos.splice(1,expectedPos.length - 1);
+            expectedStack = expectedStack.splice(1,expectedStack.length - 1);
         }
 
 
