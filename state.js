@@ -329,7 +329,6 @@ StateDB.prototype.getNode = function (hash, cb) {
     hash = self.bufferHex(hash);
     self.db.get(hash, function (err, val) {
         var decoded = rlp.decode(val);
-        // var decoded = val;
         cb(err, decoded);
     })
 };
@@ -358,7 +357,7 @@ StateDB.prototype._sfind = function (root, key, pos, posStack, nodeStack, cb) {
             self._sfind(decoded[next], key, pos + 1, posStack, nodeStack, cb)
         }
         else if (decoded[0] === undefined) {
-            console.log('missing key in tree')
+            cb(new Error('missing key in tree'), null, posStack, nodeStack);
         }
         else {
             var baseNibble = Math.floor(decoded[0][0] / 16); // (bad way or) first nible of base
@@ -374,7 +373,7 @@ StateDB.prototype._sfind = function (root, key, pos, posStack, nodeStack, cb) {
                 }
             }
             else {
-                console.log('missing key in tree')
+                cb(new Error('missing key in tree'), null, visitedPos, visitedStack);
             }
         }
     })
@@ -430,7 +429,7 @@ StateDB.prototype._sfindExpected = function (rootHash, key, pos,
                 self._sfindExpected(decoded[next], key, pos + 1, visitedPos, visitedStack, expectedPos, expectedStack, cb)
             }
             else if (decoded[0] === undefined) {
-                console.log('missing key in tree')
+                cb(new Error('missing key in tree'), null, visitedPos, visitedStack);
             }
             else {
                 var baseNibble = Math.floor(decoded[0][0] / 16); // (bad way or) first nible of base
@@ -445,9 +444,7 @@ StateDB.prototype._sfindExpected = function (rootHash, key, pos,
                     }
                 }
                 else {
-                    console.log('missing key in tree')
-                    // TODO: error
-                    cb(err, null, visitedPos, visitedStack);
+                    cb(new Error('missing key in tree'), null, visitedPos, visitedStack);
                 }
             }
         })
@@ -506,7 +503,7 @@ StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber
 
                         self.sfindExpected(node[2], self.sha3(index), storageStackPos, storageStackNode,
                             function (err, val, storageStackPos, storageStackNode) {
-                                if (val === null) { // variable didn`t changed
+                                if ((err == null && val === null) || (err != null && array.slice(-1)[0]['val'] == null)) { // variable didn`t changed
 
                                     self._getRange(adress, next, endBlockNumber, index, array,
                                         worldStackPos, worldStackNode,
