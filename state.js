@@ -46,7 +46,9 @@ module.exports = StateDB;
  * @param {String} databasePath
  */
 function StateDB(databasePath) {
-    this.db = levelup(leveldown(databasePath));
+    if (databasePath !== undefined){
+        this.db = levelup(leveldown(databasePath));
+    }
 }
 
 /**

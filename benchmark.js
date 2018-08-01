@@ -20,15 +20,16 @@ var _getRange = function (adr, index, startBlock, endBlock, array, cb) {
 };
 
 var getRange = function (adr, index, startBlock, endBlock, cb) {
+    if (index instanceof Buffer) index = '0x' + index.toString('hex');
     _getRange(adr, index, startBlock, endBlock, [], cb);
 };
 
 module.exports.getRange = getRange;
 
-sample:
-getRange("0x6badc9463c5cc91cbfb5176ef99a454c3c77b00e", 4, 1111111, 1111220,/*1117810*/ function (err, storage) {
-    console.log('storage at index:\n', storage);
-});
+// sample:
+// getRange("0x6badc9463c5cc91cbfb5176ef99a454c3c77b00e", 4, 1111111, 1111220,/*1117810*/ function (err, storage) {
+//     console.log('storage at index:\n', storage);
+// });
 
 // output
 // storage at index:
