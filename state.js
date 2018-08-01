@@ -247,12 +247,13 @@ StateDB.prototype.blockStateRoot = function (blockNumber, cb) {
  * finds value in tree given hash
  * @method find
  * @param {String|Buffer} rootHash
- * @param {String|Buffer} key
+ * @param {String|Buffer} key (hashed)
  * @param {Function} cb the callback
  */
 StateDB.prototype.find = function (rootHash, key, cb) {
     var self = this;
     rootHash = self.bufferHex(rootHash);
+    // key = self.bufferHex(key); !
     trie = new Trie(self.db, rootHash);
     trie.get(key, function (err, val) {
         cb(err, rlp.decode(val));
@@ -379,7 +380,7 @@ StateDB.prototype._sfind = function (root, key, pos, posStack, nodeStack, cb) {
 
 /**
  * finds value in tree
- * @method find
+ * @method sfind
  * @param {String|Buffer} rootHash
  * @param {String|Buffer} key
  * @param {Function} cb the callback

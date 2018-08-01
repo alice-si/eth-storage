@@ -68,3 +68,4 @@ stateDB.getRange("6badc9463c5cc91cbfb5176ef99a454c3c77b00e", 1, 1117760, 1117810
 stateDB.getRange("6badc9463c5cc91cbfb5176ef99a454c3c77b00e", 2, 1117760, 1117810, function (err, storage) {
     console.log('storage at undefined:\n', storage);
 });
+// stateDB.getRange("6badc9463c5cc91cbfb5176ef99a454c3c77b00e", 2, 1117760, 1117810, console.log);
