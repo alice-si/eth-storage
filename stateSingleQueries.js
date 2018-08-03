@@ -286,7 +286,7 @@ StateDB.prototype.getStorage = function (adress, blockNumber, cb) {
  * @param {Number|Buffer} index
  * @param {Function} cb the callback
  */
-StateDB.prototype.getVariable = function (adress, blockNumber, index, cb) {
+StateDB.prototype.getVariable = function (adress, index, blockNumber, cb) {
     var self = this;
     adress = self.bufferHex(adress);
     blockNumber = self.buffer64(blockNumber);
@@ -313,5 +313,87 @@ StateDB.prototype.getCode = function (adress, blockNumber, cb) {
     self.getStorage(adress, blockNumber, function (err, storage) {
         self.db.get(storage[3], cb);
     });
+};
+
+StateDB.prototype._getRange = function (adr, index, startBlock, endBlock, array, cb) {
+    var self = this;
+    if (startBlock < endBlock) {
+        self.getVariable(adr,
+            index, // index
+            startBlock,
+            function (err, val) {
+                if (array.length > 0 && array.slice(-1)[0]['val'].toString('hex') === val.toString('hex')) ;
+                else array.push({'block': startBlock, 'val': val});
+                self._getRange(adr, index, startBlock + 1, endBlock, array, cb)
+            })
+    }
+    else {
+        cb(null, array);
+    }
+};
+
+StateDB.prototype.getRange = function (adr, index, startBlock, endBlock, cb) {
+    var self = this;
+    index = self.buffer256(index);
+    self._getRange(adr, index, startBlock, endBlock, [], cb);
+};
+
+/**
+ * gets variable states in block range, only first block and blocks where value changed,
+ * uses n parallel workes
+ * @method getRangeMulti
+ * @param {String|Buffer} adress
+ * @param {Number|Buffer} index
+ * @param {Number|Buffer} startBlockNumber
+ * @param {Number|Buffer} endBlockNumber
+ * @param n number of pararrel functions
+ * @param {Function} cb the callback
+ */
+StateDB.prototype.getRangeMulti = function (adress, index, startBlockNumber, endBlockNumber, cb, n = 2) {
+    var self = this;
+    adress = self.bufferHex(adress);
+    startBlockNumber = self.buffer64(startBlockNumber);
+    endBlockNumber = self.buffer64(endBlockNumber);
+    index = self.buffer256(index);
+
+    var start = parseInt('0x' + startBlockNumber.toString('hex'));
+    var end = parseInt('0x' + endBlockNumber.toString('hex'));
+    var length = end - start;
+    var workLength = length + (length % n === 0 ? 0 : n - length % n);
+    var period = Math.floor(workLength / n);
+
+    // console.log('getRangeMulti,worklength,period:', workLength, period);
+
+    var result = new Array(n);
+    var ended = 0;
+
+    var removeDuplicates = function () {
+        var array = result[0];
+        for (var i = 1; i < n; i++) {
+            if (result[i].length > 0) {
+                array.concat(array[array.length - 1]['val'] === result[i][0]['val'] ? result[i].splice(1, result[i].length - 1) : result[i])
+            }
+        }
+        return array;
+    };
+
+    var newCb = function (i) {
+        return function (err, val) {
+            // console.log('ended is: ',ended,'val',val,'i',i);
+            result[i] = val;
+            ended++;
+            if (ended === n) {
+                // console.log(result);
+                cb(null, removeDuplicates());
+            }
+        }
+    };
+
+    for (var i = 0, _start = start, _end = start + period; _end < end; i++, _start += period, _end += period) {
+        self.getRange(adress, index, _start, _end, newCb(i));
+    }
+    self.getRange(adress, index, start + workLength - period, end, newCb(n - 1));
+
+
 };
 
