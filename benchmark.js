@@ -36,22 +36,22 @@ var getRange = function (adr, index, startBlock, endBlock, cb) {
  * @param {Function} cb the callback
  */
 var getRangeMulti = function (adress, index, startBlockNumber, endBlockNumber, cb, n = 2) {
-    if (index instanceof Buffer) index = '0x' + index.toString('hex');
-
     var start = startBlockNumber;
     var end = endBlockNumber;
     var length = end - start;
-    var workLength = length + (length % n === 0 ? 0 : n - length % n);
+    var workLength = length + (length % n === 0 ? 0 : (n - length % n));
     var period = Math.floor(workLength / n);
+
+    var realN = Math.ceil(length / period);
 
     // console.log('getRangeMulti,worklength,period:', workLength, period);
 
-    var result = new Array(n);
+    var result = new Array(realN);
     var ended = 0;
 
     var removeDuplicates = function () {
         var array = result[0];
-        for (var i = 1; i < n; i++) {
+        for (var i = 1; i < realN; i++) {
             if (result[i].length > 0) {
                 array.concat(array[array.length - 1]['val'] === result[i][0]['val'] ? result[i].splice(1, result[i].length - 1) : result[i])
             }
@@ -64,8 +64,8 @@ var getRangeMulti = function (adress, index, startBlockNumber, endBlockNumber, c
             // console.log('ended is: ',ended,'val',val,'i',i);
             result[i] = val;
             ended++;
-            if (ended === n) {
-                // console.log(result);
+            if (ended === realN) {
+                // console.log('rawresult',result);
                 cb(null, removeDuplicates());
             }
         }
@@ -74,7 +74,7 @@ var getRangeMulti = function (adress, index, startBlockNumber, endBlockNumber, c
     for (var i = 0, _start = start, _end = start + period; _end < end; i++, _start += period, _end += period) {
         getRange(adress, index, _start, _end, newCb(i));
     }
-    getRange(adress, index, start + workLength - period, end, newCb(n - 1));
+    getRange(adress, index, start + workLength - period, end, newCb(realN - 1));
 
 
 };
