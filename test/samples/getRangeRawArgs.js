@@ -1,5 +1,5 @@
-var StateDB = require('./../state.js');
-var Settings = require('./settings.js');
+var StateDB = require('../../stateHashSet.js');
+var Settings = require('../settings.js');
 
 var stateDB = new StateDB(Settings.dbPath);
 var sampleAdress = stateDB.bufferHex('6badc9463c5cc91cbfb5176ef99a454c3c77b00e');

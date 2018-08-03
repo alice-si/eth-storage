@@ -1,4 +1,4 @@
-var StateDB = require('./../../benchmark.js');
+var StateDB = require('../../stateWeb3.js');
 var Settings = require('./../settings.js');
 
 

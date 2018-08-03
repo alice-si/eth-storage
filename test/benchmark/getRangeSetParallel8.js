@@ -1,4 +1,4 @@
-var StateDB = require('./../../state.js');
+var StateDB = require('../../stateHashSet.js');
 var Settings = require('./../settings.js');
 
 var stateDB = new StateDB(Settings.dbPath);

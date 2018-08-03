@@ -1,6 +1,6 @@
 var assert = require('assert');
-var StateDB = require('./../state.js');
-var Settings = require('./settings.js');
+var StateDB = require('../../stateHashSet.js');
+var Settings = require('../settings.js');
 
 
 var stateDB = new StateDB(Settings.dbPath);

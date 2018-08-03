@@ -1,4 +1,4 @@
-var StateDB = require('./../state.js');
+var StateDB = require('../stateHashSet.js');
 // var dbPath = './../geth/chaindata';
 var dbPath = 'C:/Users/ja1/Alice/dirforfullrinkeby/geth/chaindata';
 

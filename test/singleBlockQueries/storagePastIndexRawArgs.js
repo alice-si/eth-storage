@@ -1,5 +1,5 @@
-var StateDB = require('./../state.js');
-var Settings = require('./settings.js');
+var StateDB = require('../../stateHashSet.js');
+var Settings = require('../settings.js');
 
 var stateDB = new StateDB(Settings.dbPath);
 
@@ -8,6 +8,6 @@ console.log('sample adress:', sampleAdress);
 var number = stateDB.bufferHex('0000' + '0000' + '000' + 'F4240');
 var index = stateDB.buffer256(4);
 
-stateDB.getVariable(sampleAdress, number, index, function (err, storage) {
+stateDB.getVariable(sampleAdress, index, number, function (err, storage) {
     console.log('storage at index:', storage);
 });

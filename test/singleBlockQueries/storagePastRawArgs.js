@@ -1,5 +1,5 @@
-var StateDB = require('./../state.js');
-var Settings = require('./settings.js');
+var StateDB = require('../../stateSingleQueries.js');
+var Settings = require('../settings.js');
 
 var stateDB = new StateDB(Settings.dbPath);
 

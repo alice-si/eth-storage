@@ -1,0 +1,25 @@
+Benchmark shows time of excecution for different getRange function implementations.
+Parallel version with parameter n, cuts range for ~n parts and uses getRange n times.
+You can set benchmark test cases in "test/settings.js" in array getRangeTests.
+For each test case benchmark outputs time of execution, test case message and found value.
+All test cases runs in parallel.
+
+test case sample:
+
+    {
+        adr: "6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
+        idx: stateDB.atStruct(0, 1),
+        startBlock: 1110000,
+        endBlock: 1113334,
+        cb: testLog,
+        expectedOutput: '', // unnecessary field
+        msg: 'at struct(0,1) search in 3334 blocks'
+    },
+
+implementation versions:
+
+  HashSet - uses hashset to remember visited hashes
+  LastPath - remembers in array lastvisitedpath
+  Set - uses set to remember visited hashes
+  SingleQueries - requests value from each block independently
+  Web3 - requests value from each block independently, using Web3 interface delivered on localhost:8545
