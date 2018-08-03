@@ -9,6 +9,7 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
+    "hashset": "0.0.6",
     "http-errors": "~1.6.2",
     "js-vd": "^0.2.8",
     "level": "^4.0.0",

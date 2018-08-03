@@ -46,6 +46,10 @@ storage at 1:
   { block: <Buffer 00 00 00 00 00 11 0e 69>, val: <Buffer 03> } ]
     */
 
+// var map = new Map();
+// map.set(1,2);
+// console.log(map.get(1));
+
 var stateDB = new StateDB(Settings.dbPath);
 
 stateDB.getRange("6badc9463c5cc91cbfb5176ef99a454c3c77b00e", stateDB.atStruct(0, 1), 1117760, 1117810, function (err, storage) {
