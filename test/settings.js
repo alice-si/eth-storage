@@ -61,17 +61,17 @@ var getRangeTests = [
     //     '[{"block":{"type":"Buffer","data":[0,0,0,0,0,17,13,60]},"val":{"type":"Buffer","data":[59,48,200,181,167,77,47,220,140,70,102,234,34,180,13,162,172,146,46,223]}}]\n',
     //     msg: 'basic test 500 blocks'
     // },
-    // {
-    //     adr: "6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
-    //     idx: 1,
-    //     startBlock: 1110000,
-    //     endBlock: 1120000,
-    //     cb: testLog,
-    //     expectedOutput: 'null\n' +
-    //     '[{"block":{"type":"Buffer","data":[0,0,0,0,0,16,239,240]},"val":{"type":"Buffer","data":[2]}},{"block":{"type":"Buffer","data":[0,0,0,0,0,17,14,105]},"val":{"type":"Buffer","data":[3]}}]\n',
-    //     msg: 'search in 10000 blocks'
-    //
-    // },
+    {
+        adr: "6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
+        idx: 1,
+        startBlock: 1110000,
+        endBlock: 1120000,
+        cb: testLog,
+        expectedOutput: 'null\n' +
+        '[{"block":{"type":"Buffer","data":[0,0,0,0,0,16,239,240]},"val":{"type":"Buffer","data":[2]}},{"block":{"type":"Buffer","data":[0,0,0,0,0,17,14,105]},"val":{"type":"Buffer","data":[3]}}]\n',
+        msg: 'search in 10000 blocks'
+
+    },
     // {
     //     adr: "6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
     //     idx: 4,
@@ -122,16 +122,16 @@ var getRangeTests = [
     //     '[{"block":{"type":"Buffer","data":[0,0,0,0,0,16,239,240]},"val":{"type":"Buffer","data":[1,99,69,120,93,138,0,0]}}]\n',
     //     msg: 'at struct(0,1) search in 10000 blocks'
     // },
-    {
-        adr: "6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
-        idx: stateDB.atStruct(0, 1),
-        startBlock: 1110000,
-        endBlock: 1113334,
-        cb: testLog,
-        expectedOutput: 'null\n' +
-        '[{"block":{"type":"Buffer","data":[0,0,0,0,0,16,239,240]},"val":{"type":"Buffer","data":[1,99,69,120,93,138,0,0]}}]\n',
-        msg: 'at struct(0,1) search in 3334 blocks'
-    },
+    // {
+    //     adr: "6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
+    //     idx: stateDB.atStruct(0, 1),
+    //     startBlock: 1110000,
+    //     endBlock: 1113334,
+    //     cb: testLog,
+    //     expectedOutput: 'null\n' +
+    //     '[{"block":{"type":"Buffer","data":[0,0,0,0,0,16,239,240]},"val":{"type":"Buffer","data":[1,99,69,120,93,138,0,0]}}]\n',
+    //     msg: 'at struct(0,1) search in 3334 blocks'
+    // },
 ];
 
 var getRangeTestsSampleContract = [

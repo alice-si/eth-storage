@@ -313,20 +313,17 @@ StateDB.prototype.sfind = function (rootHash, key, cb) {
 
 StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber, index, array, map, cb) {
     var self = this;
-    // console.log('_getRnage:',startBlockNumber,endBlockNumber,startBlockNumber<endBlockNumber);
     if (startBlockNumber < endBlockNumber) {
         self.blockStateRoot(startBlockNumber, function (err, stateRoot) { // find account
             // self._sfind(stateRoot, self.sha3(adress), 0, map, {}, function (err, node, helpMap) {
             self._sfind(stateRoot, self.sha3(adress), 0, map, new Set(), function (err, node, map, helpMap) {
                 var next = startBlockNumber + 1;
                 if (node === null) { // account didn`t changed
-                    // console.log('account didnt changed');
                     self._getRange(adress, next, endBlockNumber, index, array, map, cb);
                     // self._getRange(adress, next, endBlockNumber, index, array, new Map([...helpMap,...map]), cb);
                 }
                 else {
                     self._sfind(node[2], self.sha3(index), 0, map, helpMap, function (err, val, helpMap) {
-                        // console.log('val',val,'err',err,'arlen',array.length);
                         if (array.length === 0 || val !== null || (err !== null && array.slice(-1)[0]['val'] === null)) {
                             array.push({'block': startBlockNumber, 'val': val});
                             self._getRange(adress, next, endBlockNumber, index, array, helpMap, cb);
@@ -364,7 +361,6 @@ StateDB.prototype.getRange = function (adress, index, startBlockNumber, endBlock
     startBlockNumber = self.bufferToInt(startBlockNumber);
     endBlockNumber = self.bufferToInt(endBlockNumber);
     index = self.buffer256(index);
-    // console.log('getRange',startBlockNumber,endBlockNumber);
     self._getRange(adress, startBlockNumber, endBlockNumber, index, [], new Set(), cb);
 };
 
@@ -393,7 +389,6 @@ StateDB.prototype.getRangeMulti = function (adress, index, startBlockNumber, end
     var period = Math.floor(workLength / n);
     var realN = Math.ceil(length / period);
 
-    // console.log('getRangeMulti,worklength,period:', workLength, period);
 
     var result = new Array(realN);
     var ended = 0;
@@ -402,7 +397,10 @@ StateDB.prototype.getRangeMulti = function (adress, index, startBlockNumber, end
         var array = result[0];
         for (var i = 1; i < realN; i++) {
             if (result[i].length > 0) {
-                array.concat(array[array.length - 1]['val'] === result[i][0]['val'] ? result[i].splice(1, result[i].length - 1) : result[i])
+                if(array[array.length - 1]['val'].toString() === result[i][0]['val'].toString()){
+                    result[i] = result[i].splice(1, result[i].length - 1)
+                }
+                array = array.concat(result[i]);
             }
         }
         return array;
@@ -410,11 +408,9 @@ StateDB.prototype.getRangeMulti = function (adress, index, startBlockNumber, end
 
     var newCb = function (i) {
         return function (err, val) {
-            // console.log('ended is: ',ended,'val',val,'i',i);
             result[i] = val;
             ended++;
             if (ended === realN) {
-                // console.log('rawresult',result);
                 cb(null, removeDuplicates());
             }
         }

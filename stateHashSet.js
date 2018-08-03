@@ -403,7 +403,10 @@ StateDB.prototype.getRangeMulti = function (adress, index, startBlockNumber, end
         var array = result[0];
         for (var i = 1; i < realN; i++) {
             if (result[i].length > 0) {
-                array.concat(array[array.length - 1]['val'] === result[i][0]['val'] ? result[i].splice(1, result[i].length - 1) : result[i])
+                if(array[array.length - 1]['val'].toString() === result[i][0]['val'].toString()){
+                    result[i] = result[i].splice(1, result[i].length - 1)
+                }
+                array = array.concat(result[i]);
             }
         }
         return array;
