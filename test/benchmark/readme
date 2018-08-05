@@ -18,9 +18,10 @@ test case sample:
 
 implementation versions:
 
+  EthStorage - most up to date code version (current implementation like "Transactions")
   HashSet - uses hashset to remember visited hashes
-  LastPath - remembers in array lastvisitedpath
+  LastPath - remembers last visited path in array
   Set - uses set to remember visited hashes
   SingleQueries - requests value from each block independently
-  Transactions - reads transaction list to get blopck with change
+  Transactions - reads transaction list to find blocks with change, also uses hashset
   Web3 - requests value from each block independently, using Web3 interface delivered on localhost:8545
