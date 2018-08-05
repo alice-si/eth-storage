@@ -1,13 +1,50 @@
-var StateDB = require('../../stateHashSet.js');
+var StateDB = require('../../stateTransactions.js');
 var Settings = require('../settings.js');
+var Trie = require('merkle-patricia-tree');
 
 var stateDB = new StateDB(Settings.dbPath);
 
-stateDB.blockStateRoot( 1117760, function (err,stateRoot) {
-    stateDB.getNode(stateRoot, function (err,val) {
-        console.log('stateRootNode:\n', val);
-    });
-});
+
+console.log(stateDB.findNextBlock("6badc9463c5cc91cbfb5176ef99a454c3c77b00e",1110000,1120000));
+
+// stateDB.getStorage("6badc9463c5cc91cbfb5176ef99a454c3c77b00e",1110000,function (err, val) {
+//     console.log(val[2]);
+//     console.log('0x'+val[2].toString('hex'));
+//     var tree = new Trie(stateDB.db,'0x'+val[2].toString('hex'));
+//     tree.createReadStream()
+//         .on('data',function (val) {
+//             console.log(val);
+//         })
+//         .on('end',function () {
+//             console.log('end');
+//         });
+//     }
+// );
+//
+// stateDB.blockBody(2400000, function (err, val) {
+//         console.log(val);
+//         console.log(
+//             '---------------'
+//         );
+
+        // stateDB.getNode(val[4], function (err, val) {
+        //     console.log('getted:',val);
+        // });
+    // }
+
+
+    // console.log('0x'+val[4].toString('hex'));
+    // var tree = new Trie(stateDB.db,'0x'+val[4].toString('hex'));
+    // tree.createReadStream()
+    //     .on('data',function (val) {
+    //         console.log(val);
+    //     })
+    //     .on('end',function () {
+    //         console.log('end');
+    //     });
+    // }
+// );
+
 
 /*
 stateRootNode:
