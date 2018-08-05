@@ -387,6 +387,33 @@ StateDB.prototype.sfind = function (rootHash, key, cb) {
     self._sfind(rootHash, key, 0, new HashSet(), new HashSet(), cb);
 };
 
+StateDB.prototype.findNextBlock = function (adress, startBlockNumber, endBlockNumber, cb) {
+    var self = this;
+    adress = self.bufferHex(adress);
+    startBlockNumber = self.bufferToInt(startBlockNumber);
+    endBlockNumber = self.bufferToInt(endBlockNumber);
+
+    if (startBlockNumber < endBlockNumber) {
+        self.blockBody(startBlockNumber, function (err, body) {
+            var i;
+            for (i = 0; i < body.transactionList.length; i++) {
+                if (body.transactionList[i][3].toString('hex') === adress.toString('hex')) { // TODO ?? .toString('hex')
+                    cb(null, startBlockNumber);
+                    break;
+                }
+            }
+            if (i === body.transactionList.length) {
+                self.findNextBlock(adress, startBlockNumber + 1, endBlockNumber, cb)
+            }
+
+        })
+    }
+    else {
+        //TODO error not found
+        cb(null, endBlockNumber);
+    }
+};
+
 StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber, index, array, map, cb) {
     var self = this;
     if (startBlockNumber < endBlockNumber) {
@@ -498,29 +525,3 @@ StateDB.prototype.getRangeMulti = function (adress, index, startBlockNumber, end
 
 };
 
-StateDB.prototype.findNextBlock = function (adress, startBlockNumber, endBlockNumber, cb) {
-    var self = this;
-    adress = self.bufferHex(adress);
-    startBlockNumber = self.bufferToInt(startBlockNumber);
-    endBlockNumber = self.bufferToInt(endBlockNumber);
-
-    if (startBlockNumber < endBlockNumber) {
-        self.blockBody(startBlockNumber, function (err, body) {
-            var i;
-            for (i = 0; i < body.transactionList.length; i++) {
-                if (body.transactionList[i][3].toString('hex') === adress.toString('hex')) { // TODO ?? .toString('hex')
-                    cb(null, startBlockNumber);
-                    break;
-                }
-            }
-            if (i === body.transactionList.length) {
-                self.findNextBlock(adress, startBlockNumber + 1, endBlockNumber, cb)
-            }
-
-        })
-    }
-    else {
-        //TODO error not found
-        cb(null, endBlockNumber);
-    }
-};
