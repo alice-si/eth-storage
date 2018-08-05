@@ -22,4 +22,5 @@ implementation versions:
   LastPath - remembers in array lastvisitedpath
   Set - uses set to remember visited hashes
   SingleQueries - requests value from each block independently
+  Transactions - reads transaction list to get blopck with change
   Web3 - requests value from each block independently, using Web3 interface delivered on localhost:8545

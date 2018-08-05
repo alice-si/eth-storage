@@ -378,8 +378,8 @@ StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber
     var self = this;
     // console.log('_getRnage:',startBlockNumber,endBlockNumber,startBlockNumber<endBlockNumber);
     if (startBlockNumber < endBlockNumber) {
-        self.findNextBlock(adress, startBlockNumber, endBlockNumber, function (err, next) {
-            console.log('next is',next);
+        self.findNextBlock(adress, startBlockNumber + 1, endBlockNumber, function (err, next) {
+            // console.log('next is',next);
             self.blockStateRoot(startBlockNumber, function (err, stateRoot) { // find account
                 self._sfind(stateRoot, self.sha3(adress), 0, map, new HashSet(), function (err, node, map, helpMap) {
                     if (node === null) { // account didn`t changed
@@ -501,15 +501,15 @@ StateDB.prototype.findNextBlock = function (adress, startBlockNumber, endBlockNu
     endBlockNumber = self.bufferToInt(endBlockNumber);
 
     if (startBlockNumber < endBlockNumber) {
-        console.log(startBlockNumber, endBlockNumber);
+        // console.log(startBlockNumber, endBlockNumber);
 
         self.blockBody(startBlockNumber, function (err, val) {
             // console.log('blockbody',val);
             var i;
             for (i = 0; i < val[0].length; i++) {
-                console.log(val[0][i][3].toString('hex'), adress.toString('hex')); // TODO ?? .toString('hex')
+                // console.log(val[0][i][3].toString('hex'), adress.toString('hex')); // TODO ?? .toString('hex')
                 if (val[0][i][3].toString('hex') === adress.toString('hex')) { // TODO ?? .toString('hex')
-                    console.log('will callback at i', i, 'startBlockNumber', startBlockNumber);
+                    // console.log('will callback at i', i, 'startBlockNumber', startBlockNumber);
                     cb(null, startBlockNumber);
                     break;
                 }
