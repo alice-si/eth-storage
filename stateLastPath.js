@@ -403,7 +403,7 @@ function binarySearch(items, value){
         stopIndex   = items.length - 1,
         middle      = Math.floor((stopIndex + startIndex)/2);
 
-    while(items[middle] != value && startIndex < stopIndex){
+    while(items[middle] !== value && startIndex < stopIndex){
 
         //adjust search area
         if (value < items[middle]){

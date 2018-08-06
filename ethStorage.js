@@ -1,4 +1,5 @@
 var HashSet = require('hashset');
+var HashCollector = require('./hashCollector.js')
 var rlp = require('rlp');
 var levelup = require('levelup');
 var leveldown = require('leveldown');
@@ -329,37 +330,36 @@ StateDB.prototype.getNode = function (hash, cb) {
     })
 };
 
-StateDB.prototype._sfind = function (rootHash, key, pos, prevMap, helpMap, cb) {
+StateDB.prototype._sfind = function (rootHash, key, depth, hashCollector, cb) {
     var self = this;
-    if (prevMap.contains(rootHash.toString('hex'))) {
-        cb(null, null, prevMap, helpMap); // value didn`t change, retun new stack
+    if (hashCollector.checkHash(rootHash)) {
+        cb(null, null, hashCollector); // value didn`t change, retun new stack
     }
     else {
 
-        prevMap.add(rootHash.toString('hex')); // add to map
-        helpMap.add(rootHash.toString('hex')); // add to map
+        hashCollector.addHash(rootHash); // add to map
 
         self.getNode(rootHash, function (err, node) {
             if (node === null) {
-                cb(err, node, prevMap, helpMap);
+                cb(err, node, hashCollector);
             }
             else if (node.type === 'branch') {
-                var _pos = Math.floor(pos / 2);
-                var next = (pos % 2 === 0) ? Math.floor(key[_pos] / 16) : key[_pos] % 16;
-                self._sfind(node.children[next], key, pos + 1, prevMap, helpMap, cb)
+                var _pos = Math.floor(depth / 2);
+                var next = (depth % 2 === 0) ? Math.floor(key[_pos] / 16) : key[_pos] % 16;
+                self._sfind(node.children[next], key, depth + 1, hashCollector, cb)
             }
             else {
                 var keyString = key.toString('hex');
-                if (node.path === keyString.slice(pos, pos + node.path.length)) {
-                    if (node.type === 'extension' && pos + node.path.length < keyString.length) {
-                        self._sfind(node.child, key, pos + node.path.length, prevMap, helpMap, cb)
+                if (node.path === keyString.slice(depth, depth + node.path.length)) {
+                    if (node.type === 'extension' && depth + node.path.length < keyString.length) {
+                        self._sfind(node.child, key, depth + node.path.length, hashCollector, cb)
                     }
-                    else if (node.type === 'leaf' && pos + node.path.length === keyString.length) {
-                        cb(err, node.value, prevMap, helpMap); // value found
+                    else if (node.type === 'leaf' && depth + node.path.length === keyString.length) {
+                        cb(err, node.value, hashCollector); // value found
                     }
                 }
                 else {
-                    cb(new Error('missing key in tree'), null, prevMap, helpMap);
+                    cb(new Error('missing key in tree'), null, hashCollector);
                 }
             }
         })
@@ -380,18 +380,30 @@ StateDB.prototype._sfind = function (rootHash, key, pos, prevMap, helpMap, cb) {
  *  - stackPos - stack of position in key of nodes on path
  *  - stack - stack of hashes of nodes on path
  */
-StateDB.prototype.sfind = function (rootHash, key, cb) {
-    var self = this;
-    rootHash = self.bufferHex(rootHash);
-    key = self.bufferHex(key);
-    self._sfind(rootHash, key, 0, new HashSet(), new HashSet(), cb);
-};
+// StateDB.prototype.sfind = function (rootHash, key, cb) {
+//     var self = this;
+//     rootHash = self.bufferHex(rootHash);
+//     key = self.bufferHex(key);
+//     self._sfind(rootHash, key, 0, new HashSet(), new HashSet(), cb);
+// };
 
-StateDB.prototype.findNextBlock = function (adress, startBlockNumber, endBlockNumber, cb) {
+/**
+ * @param adress
+ * @param startBlockNumber
+ * @param endBlockNumber
+ * @param cb
+ * @param txReading
+ */
+StateDB.prototype.findNextBlock = function (adress, startBlockNumber, endBlockNumber, txReading, cb) {
     var self = this;
     adress = self.bufferHex(adress);
     startBlockNumber = self.bufferToInt(startBlockNumber);
     endBlockNumber = self.bufferToInt(endBlockNumber);
+
+    if (txReading === false) {
+        cb(null, startBlockNumber + 1);
+        return;
+    }
 
     if (startBlockNumber < endBlockNumber) {
         self.blockBody(startBlockNumber, function (err, body) {
@@ -404,7 +416,7 @@ StateDB.prototype.findNextBlock = function (adress, startBlockNumber, endBlockNu
                 }
             }
             if (i === body.transactionList.length) {
-                self.findNextBlock(adress, startBlockNumber + 1, endBlockNumber, cb)
+                self.findNextBlock(adress, startBlockNumber + 1, endBlockNumber, txReading, cb)
             }
 
         })
@@ -415,33 +427,33 @@ StateDB.prototype.findNextBlock = function (adress, startBlockNumber, endBlockNu
     }
 };
 
-StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber, index, array, map, cb) {
+StateDB.prototype._errorCheck = function (err, msg, adress, next, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb) {
+    var self = this;
+    if (array.length === 0 || (err !== null && array[array.length - 1].val !== msg)) {
+        array.push({block: startBlockNumber, val: msg});
+    }
+    self._getRange(adress, next, endBlockNumber, index, array, hashCollector, txReading, cb);
+};
+
+StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb) {
     var self = this;
     if (startBlockNumber < endBlockNumber) {
-        self.findNextBlock(adress, startBlockNumber + 1, endBlockNumber, function (err, next) {
+        self.findNextBlock(adress, startBlockNumber + 1, endBlockNumber, txReading, function (err, next) {
             self.blockStateRoot(startBlockNumber, function (err, stateRoot) { // find account
-                self._sfind(stateRoot, self.sha3(adress), 0, map, new HashSet(), function (err, node, map, helpMap) {
+                self._sfind(stateRoot, self.sha3(adress), 0, hashCollector.newBlock(), function (err, node, hashCollector) {
                     if (node === null) { // account didn`t changed
-                        if (array.length === 0 || (err !== null && array[array.length - 1].val !== 'contract not found')) {
-                            array.push({block: startBlockNumber, val: 'contract not found'});
-                        }
-                        self._getRange(adress, next, endBlockNumber, index, array, map, cb);
+                        self._errorCheck(err, 'contract not found', adress, next, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
                     }
                     else {
-                        self._sfind(node[2], self.sha3(index), 0, map, helpMap, function (err, val, helpMap) {
-                            if (val !== null){
-                                array.push({block: startBlockNumber, val: val});
-                                self._getRange(adress, next, endBlockNumber, index, array, helpMap, cb);
+                        self._sfind(node[2], self.sha3(index), 0, hashCollector.goStorage(), function (err, val, hashCollector) {
+                            if (val === null) {
+                                self._errorCheck(err, 'uninitialised', adress, next, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
                             }
-                            else{
-                                if (array.length === 0 || (err !== null && array[array.length - 1].val !== 'uninitialised')) {
-                                    array.push({block: startBlockNumber, val: 'uninitialised'});
-                                    self._getRange(adress, next, endBlockNumber, index, array, helpMap, cb);
+                            else {
+                                if (array.length === 0 || val.toString('hex') !== self.bufferHex(array[array.length - 1].val).toString('hex')) {
+                                    array.push({block: startBlockNumber, val: val});
                                 }
-                                else {
-                                    self._getRange(adress, next, endBlockNumber, index, array, map, cb);
-                                }
-
+                                self._getRange(adress, next, endBlockNumber, index, array, hashCollector.foundNew(), txReading, cb);
                             }
                         });
                     }
@@ -465,8 +477,9 @@ StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber
  * @param {Number|Buffer} startBlockNumber
  * @param {Number|Buffer} endBlockNumber
  * @param {Function} cb the callback
+ * @param method
  */
-StateDB.prototype.getRange = function (adress, index, startBlockNumber, endBlockNumber, cb) {
+StateDB.prototype.getRange = function (adress, index, startBlockNumber, endBlockNumber, cb, method = undefined, txReading=true) {
     var self = this;
     adress = self.bufferHex(adress);
     startBlockNumber = self.buffer64(startBlockNumber);
@@ -474,7 +487,7 @@ StateDB.prototype.getRange = function (adress, index, startBlockNumber, endBlock
     startBlockNumber = self.bufferToInt(startBlockNumber);
     endBlockNumber = self.bufferToInt(endBlockNumber);
     index = self.buffer256(index);
-    self._getRange(adress, startBlockNumber, endBlockNumber, index, [], new HashSet(), cb);
+    self._getRange(adress, startBlockNumber, endBlockNumber, index, [], new HashCollector(method), txReading, cb);
 };
 
 /**
@@ -487,8 +500,10 @@ StateDB.prototype.getRange = function (adress, index, startBlockNumber, endBlock
  * @param {Number|Buffer} endBlockNumber
  * @param n number of pararrel functions
  * @param {Function} cb the callback
+ * @param method
+ * @param txReading
  */
-StateDB.prototype.getRangeMulti = function (adress, index, startBlockNumber, endBlockNumber, cb, n = 2) {
+StateDB.prototype.getRangeMulti = function (adress, index, startBlockNumber, endBlockNumber, cb, n = 2, method = undefined, txReading = true) {
     var self = this;
     adress = self.bufferHex(adress);
     startBlockNumber = self.buffer64(startBlockNumber);
@@ -529,9 +544,9 @@ StateDB.prototype.getRangeMulti = function (adress, index, startBlockNumber, end
     };
 
     for (var i = 0, _start = start, _end = start + period; _end < end; i++, _start += period, _end += period) {
-        self.getRange(adress, index, _start, _end, newCb(i));
+        self.getRange(adress, index, _start, _end, newCb(i), method, txReading);
     }
-    self.getRange(adress, index, start + workLength - period, end, newCb(realN - 1));
+    self.getRange(adress, index, start + workLength - period, end, newCb(realN - 1), method, txReading);
 
 };
 

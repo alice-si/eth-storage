@@ -31,7 +31,7 @@ function newAssertCb(testCase) {
     }
 }
 
-function timeCb(testCase) {
+function newTimeCb(testCase) {
     var startTime = Date.now();
     return function (err, val) {
         console.log('time in milis:',Date.now() - startTime,'\nmsg:',testCase.msg,'\nvalue:\n',val);
@@ -44,7 +44,7 @@ var getRangeTests = [
     {
         adr: "cd56b102622125B62E7acEEdA08D393cA0cc28Fc",
         idx: 0,
-        startBlock: 2702000,
+        startBlock: 2600000,
         endBlock: 2702264,
         cb: testLog,
         expectedOutput: '',
@@ -146,6 +146,6 @@ var getRangeTestsSampleContract = [
 ];
 
 module.exports.newAssertCb = newAssertCb;
-module.exports.newTimeCb = timeCb;
+module.exports.newTimeCb = newTimeCb;
 module.exports.getRangeTests = getRangeTests;
 module.exports.getRangeTestsSampleContract = getRangeTestsSampleContract;
