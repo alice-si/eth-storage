@@ -296,7 +296,7 @@ StateDB.prototype.getNode = function (hash, cb) {
     self.db.get(hash, function (err, val) {
         var decoded = rlp.decode(val);
         if (decoded === undefined || decoded[0] === undefined) {
-            cb(new Error('missing key in tree'), null, prevMap, helpMap);
+            cb(new Error('missing key in tree'), null);
         }
         else if (decoded.length === 17) {
             var node = {
@@ -397,7 +397,8 @@ StateDB.prototype.findNextBlock = function (adress, startBlockNumber, endBlockNu
         self.blockBody(startBlockNumber, function (err, body) {
             var i;
             for (i = 0; i < body.transactionList.length; i++) {
-                if (body.transactionList[i][3].toString('hex') === adress.toString('hex')) { // TODO ?? .toString('hex')
+                var to = body.transactionList[i][3].toString('hex');
+                if (to === adress.toString('hex') || to === '') { // TODO ?? .toString('hex'), TODO contract creation
                     cb(null, startBlockNumber);
                     break;
                 }
@@ -421,17 +422,26 @@ StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber
             self.blockStateRoot(startBlockNumber, function (err, stateRoot) { // find account
                 self._sfind(stateRoot, self.sha3(adress), 0, map, new HashSet(), function (err, node, map, helpMap) {
                     if (node === null) { // account didn`t changed
+                        if (array.length === 0 || (err !== null && array[array.length - 1].val !== 'contract not found')) {
+                            array.push({block: startBlockNumber, val: 'contract not found'});
+                        }
                         self._getRange(adress, next, endBlockNumber, index, array, map, cb);
                     }
                     else {
                         self._sfind(node[2], self.sha3(index), 0, map, helpMap, function (err, val, helpMap) {
-                            if (array.length === 0 || val !== null || (err !== null && array.slice(-1)[0]['val'] === null)) {
-                                array.push({'block': startBlockNumber, 'val': val});
+                            if (val !== null){
+                                array.push({block: startBlockNumber, val: val});
                                 self._getRange(adress, next, endBlockNumber, index, array, helpMap, cb);
                             }
-                            else {
-                                // self._getRange(adress, next, endBlockNumber, index, array, new Map([...helpMap,...map]), cb);
-                                self._getRange(adress, next, endBlockNumber, index, array, map, cb);
+                            else{
+                                if (array.length === 0 || (err !== null && array[array.length - 1].val !== 'uninitialised')) {
+                                    array.push({block: startBlockNumber, val: 'uninitialised'});
+                                    self._getRange(adress, next, endBlockNumber, index, array, helpMap, cb);
+                                }
+                                else {
+                                    self._getRange(adress, next, endBlockNumber, index, array, map, cb);
+                                }
+
                             }
                         });
                     }
