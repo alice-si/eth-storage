@@ -121,7 +121,7 @@ StateDB.prototype.atStruct = function (struct, index) {
     index = parseInt(index);
     var structKey = self.sha3(struct);
     var end = structKey.readInt32BE(28);
-    end += index; //TODO
+    end += index;
     structKey.writeInt32BE(end, 28);
     return structKey;
 };

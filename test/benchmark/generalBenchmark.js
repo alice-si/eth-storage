@@ -67,11 +67,11 @@ async function benchmark() {
 
         displayResult('getRangeMulti8Set', testCase, j);
 
-        await runExample('getRangeMulti4HashSet', j, function (cb) {
+        await runExample('getRangeMulti100HashSet', j, function (cb) {
             stateDB.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb, 4);
         });
 
-        displayResult('getRangeMulti8HashSet', testCase, j);
+        displayResult('getRangeMulti100HashSet', testCase, j);
     }
 }
 

@@ -1,6 +1,5 @@
 var StateDB = require('../stateHashSet.js');
-// var dbPath = './../geth/chaindata';
-var dbPath = 'C:/Users/ja1/Alice/dirforfullrinkeby/geth/chaindata';
+var dbPath = 'C:/Users/ja1/Alice/dirforfullrinkeby/geth/chaindata';  // database path
 
 module.exports.dbPath = dbPath;
 module.exports.myAssertEqual = myAssertEqual;
@@ -19,7 +18,6 @@ function myAssertEqual(o1, o2, msg) {
     }
     else {
         console.log(msg, '- not equal:\n1)\n', o1, '2)\n', o2);
-        // console.log(msg,'not equal:\n1) ',JSON.stringify(o1).split(50),'2) ',JSON.stringify(o2).split(50))
     }
 }
 
