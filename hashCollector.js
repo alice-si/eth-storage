@@ -14,7 +14,7 @@ module.exports = HashCollector;
  */
 function HashCollector(method = undefined) {
     var self = this;
-    self.method = method === undefined ? 'hashSet' : method;
+    self.method = method === undefined ? 'hashSet' : method; // default collecting mode
     switch (self.method) {
         case 'set':
             self.prevMap = new Set(); // add to map

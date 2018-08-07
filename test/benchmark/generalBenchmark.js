@@ -8,7 +8,6 @@ var stateDB = new StateDB(Settings.dbPath);
 
 var numberOfExecutions = 5;
 
-
 var displayResult = function (method, testCase, testIdx) {
     console.log(method, 'test case ' + (+testIdx + 1) + ' (iterations ' + numberOfExecutions + ' searched in ' + (testCase.endBlock - testCase.startBlock) + ' blocks):')
     var results = t.timers[method + testIdx];
@@ -73,10 +72,10 @@ async function benchmark() {
         });
 
         displayResult('getRangeMulti8HashSet', testCase, j);
-
     }
 }
 
+// run benchmark
 benchmark();
 
 

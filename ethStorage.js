@@ -513,7 +513,8 @@ StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber
  * @param {Number|Buffer} startBlockNumber
  * @param {Number|Buffer} endBlockNumber
  * @param {Function} cb the callback
- * @param method
+ * @param method = undefined, specifies method of hash collecting (set,hashSet,lastPath,none)
+ * @param txReading = true, if false block doesn`t require transaction sent to contract adress
  */
 StateDB.prototype.getRange = function (adress, index, startBlockNumber, endBlockNumber, cb, method = undefined, txReading = true) {
     var self = this;
@@ -534,10 +535,10 @@ StateDB.prototype.getRange = function (adress, index, startBlockNumber, endBlock
  * @param {Number|Buffer} index
  * @param {Number|Buffer} startBlockNumber
  * @param {Number|Buffer} endBlockNumber
- * @param n number of pararrel functions
  * @param {Function} cb the callback
- * @param method
- * @param txReading
+ * @param n = 2, number of pararrel functions
+ * @param method = undefined, specifies method of hash collecting (set,hashSet,lastPath,none)
+ * @param txReading = true, if false block doesn`t require transaction sent to contract adress
  */
 StateDB.prototype.getRangeMulti = function (adress, index, startBlockNumber, endBlockNumber, cb, n = 2, method = undefined, txReading = true) {
     var self = this;
