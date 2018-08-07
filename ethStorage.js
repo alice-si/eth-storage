@@ -179,6 +179,10 @@ StateDB.prototype._blockHeader = function (blockNumber, blockHash, cb) {
     var self = this;
     var headerQuery = Buffer.concat([headerPrefix, blockNumber, blockHash]);
     self.db.get(headerQuery, function (err, val) {
+        if (err != null) {
+            cb(err, val);
+            return;
+        } // error
         val = rlp.decode(val);
         var header = {
             parentHash: val[0],
@@ -211,6 +215,10 @@ StateDB.prototype.blockHeader = function (blockNumber, cb) {
     var self = this;
     blockNumber = self.buffer64(blockNumber);
     self.blockHash(blockNumber, function (err, val) {
+        if (err != null) {
+            cb(err, val);
+            return;
+        } // error
         self._blockHeader(blockNumber, val, cb);
     });
 };
@@ -219,6 +227,10 @@ StateDB.prototype._blockBody = function (blockNumber, blockHash, cb) {
     var self = this;
     var headerQuery = Buffer.concat([blockBodyPrefix, blockNumber, blockHash]);
     self.db.get(headerQuery, function (err, val) {
+        if (err != null) {
+            cb(err, val);
+            return;
+        } // error
         var decoded = rlp.decode(val);
         var body = {
             transactionList: decoded[0],
@@ -238,6 +250,10 @@ StateDB.prototype.blockBody = function (blockNumber, cb) {
     var self = this;
     blockNumber = self.buffer64(blockNumber);
     self.blockHash(blockNumber, function (err, val) {
+        if (err != null) {
+            cb(err, val);
+            return;
+        } // error
         self._blockBody(blockNumber, val, cb);
     });
 };
@@ -252,6 +268,10 @@ StateDB.prototype.blockHeaderByHash = function (blockHash, cb) {
     var self = this;
     blockHash = self.bufferHex(blockHash);
     self.blockNumberByHash(blockHash, function (err, val) {
+        if (err != null) {
+            cb(err, val);
+            return;
+        } // error
         self._blockHeader(val, blockHash, cb);
     });
 };
@@ -266,6 +286,10 @@ StateDB.prototype.blockStateRoot = function (blockNumber, cb) {
     var self = this;
     blockNumber = self.buffer64(blockNumber);
     self.blockHeader(blockNumber, function (err, header) {
+        if (err != null) {
+            cb(err, header);
+            return;
+        } // error
         cb(err, header.stateRoot);
     })
 };
@@ -407,6 +431,10 @@ StateDB.prototype.findNextBlock = function (adress, startBlockNumber, endBlockNu
 
     if (startBlockNumber < endBlockNumber) {
         self.blockBody(startBlockNumber, function (err, body) {
+            if (err != null) {
+                cb(null, startBlockNumber);
+                return;
+            } // error
             var i;
             for (i = 0; i < body.transactionList.length; i++) {
                 var to = body.transactionList[i][3].toString('hex');
@@ -440,25 +468,31 @@ StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber
     if (startBlockNumber < endBlockNumber) {
         self.findNextBlock(adress, startBlockNumber + 1, endBlockNumber, txReading, function (err, next) {
             self.blockStateRoot(startBlockNumber, function (err, stateRoot) { // find account
-                self._sfind(stateRoot, self.sha3(adress), 0, hashCollector.newBlock(), function (err, node, hashCollector) {
-                    if (node === null) { // account didn`t changed
-                        self._errorCheck(err, 'contract not found', adress, next, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
-                    }
-                    else {
-                        self._sfind(node[2], self.sha3(index), 0, hashCollector.goStorage(), function (err, val, hashCollector) {
-                            if (val === null) {
-                                self._errorCheck(err, 'uninitialised', adress, next, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
-                            }
-                            else {
-                                if (array.length === 0 || val.toString('hex') !== self.bufferHex(array[array.length - 1].val).toString('hex')) {
-                                    array.push({block: startBlockNumber, val: val});
-                                }
-                                self._getRange(adress, next, endBlockNumber, index, array, hashCollector.foundNew(), txReading, cb);
-                            }
-                        });
-                    }
+                if (err !== null) {
+                    self._errorCheck(err, 'block not found', adress, next, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
+                }
+                else {
 
-                })
+                    self._sfind(stateRoot, self.sha3(adress), 0, hashCollector.newBlock(), function (err, node, hashCollector) {
+                        if (node === null) { // account didn`t changed
+                            self._errorCheck(err, 'contract not found', adress, next, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
+                        }
+                        else {
+                            self._sfind(node[2], self.sha3(index), 0, hashCollector.goStorage(), function (err, val, hashCollector) {
+                                if (val === null) {
+                                    self._errorCheck(err, 'uninitialised', adress, next, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
+                                }
+                                else {
+                                    if (array.length === 0 || val.toString('hex') !== self.bufferHex(array[array.length - 1].val).toString('hex')) {
+                                        array.push({block: startBlockNumber, val: val});
+                                    }
+                                    self._getRange(adress, next, endBlockNumber, index, array, hashCollector.foundNew(), txReading, cb);
+                                }
+                            });
+                        }
+
+                    })
+                }
 
             });
 
@@ -479,7 +513,7 @@ StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber
  * @param {Function} cb the callback
  * @param method
  */
-StateDB.prototype.getRange = function (adress, index, startBlockNumber, endBlockNumber, cb, method = undefined, txReading=true) {
+StateDB.prototype.getRange = function (adress, index, startBlockNumber, endBlockNumber, cb, method = undefined, txReading = true) {
     var self = this;
     adress = self.bufferHex(adress);
     startBlockNumber = self.buffer64(startBlockNumber);
