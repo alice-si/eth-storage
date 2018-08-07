@@ -42,7 +42,7 @@ stateDB = new StateDB();
 
 var getRangeTests = [
     {
-        adr: "cd56b102622125B62E7acEEdA08D393cA0cc28Fc",
+        adr: "0xcd56b102622125B62E7acEEdA08D393cA0cc28Fc",
         idx: 0,
         startBlock: 2700000,
         endBlock: 2700500,
@@ -51,7 +51,7 @@ var getRangeTests = [
         msg: '500 blocks, contract 0xcd56b102... at index 0'
     },
     {
-        adr: "cd56b102622125B62E7acEEdA08D393cA0cc28Fc",
+        adr: "0xcd56b102622125B62E7acEEdA08D393cA0cc28Fc",
         idx: 0,
         startBlock: 2700000,
         endBlock: 2705000,
@@ -60,7 +60,7 @@ var getRangeTests = [
         msg: '5`000 blocks, contract 0xcd56b102... at index 0'
     },
     {
-        adr: "cd56b102622125B62E7acEEdA08D393cA0cc28Fc",
+        adr: "0xcd56b102622125B62E7acEEdA08D393cA0cc28Fc",
         idx: 0,
         startBlock: 2700000,
         endBlock: 2750000,

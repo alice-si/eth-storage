@@ -1,10 +1,8 @@
-var HashSet = require('hashset');
 var HashCollector = require('./hashCollector.js')
 var rlp = require('rlp');
 var levelup = require('levelup');
 var leveldown = require('leveldown');
 const ethUtil = require('ethereumjs-util');
-const assert = require("assert");
 
 var databaseVerisionKey = new Buffer("DatabaseVersion"); // databaseVerisionKey tracks the current database version.
 var headHeaderKey = new Buffer("LastHeader"); // headHeaderKey tracks the latest know header's hash.
@@ -47,6 +45,9 @@ function StateDB(databasePath) {
 StateDB.prototype.bufferHex = function (val) {
     if (val instanceof Buffer) {
         return val
+    }
+    if (typeof val === 'string' && val.length > 2 && val.slice(0,2) === '0x'){
+        val = val.slice(2,val.length-1);
     }
     return new Buffer(val, 'hex');
 };
@@ -354,6 +355,19 @@ StateDB.prototype.getNode = function (hash, cb) {
     })
 };
 
+/**
+ * finds value in tree, knowing expected path
+ * @method _sfind
+ * @param {String|Buffer} rootHash
+ * @param {String|Buffer} key
+ * @param depth
+ * @param hashCollector
+ * @param {Function} cb the callback
+ * arguments
+ *  - err - any errors encontered
+ *  - node - the last node found
+ *  - hashCollector
+ */
 StateDB.prototype._sfind = function (rootHash, key, depth, hashCollector, cb) {
     var self = this;
     if (hashCollector.checkHash(rootHash)) {
@@ -392,24 +406,7 @@ StateDB.prototype._sfind = function (rootHash, key, depth, hashCollector, cb) {
     }
 };
 
-/**
- * finds value in tree, knowing expected path
- * @method sfind
- * @param {String|Buffer} rootHash
- * @param {String|Buffer} key
- * @param {Function} cb the callback
- * arguments
- *  - err - any errors encontered
- *  - node - the last node found
- *  - stackPos - stack of position in key of nodes on path
- *  - stack - stack of hashes of nodes on path
- */
-// StateDB.prototype.sfind = function (rootHash, key, cb) {
-//     var self = this;
-//     rootHash = self.bufferHex(rootHash);
-//     key = self.bufferHex(key);
-//     self._sfind(rootHash, key, 0, new HashSet(), new HashSet(), cb);
-// };
+
 
 /**
  * @param adress
@@ -438,7 +435,12 @@ StateDB.prototype.findNextBlock = function (adress, startBlockNumber, endBlockNu
             var i;
             for (i = 0; i < body.transactionList.length; i++) {
                 var to = body.transactionList[i][3].toString('hex');
-                if (to === adress.toString('hex') || to === '') { // TODO ?? .toString('hex'), TODO contract creation
+                if (self.contractCreated === undefined && to === '') { // TODO ?? .toString('hex'), TODO contract creation
+                    cb(null, startBlockNumber);
+                    break;
+                }
+                else if (to === adress.toString('hex')) { // TODO ?? .toString('hex'), TODO contract creation
+                    self.contractCreated = true;
                     cb(null, startBlockNumber);
                     break;
                 }

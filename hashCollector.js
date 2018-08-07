@@ -1,8 +1,10 @@
 var HashSet = require('hashset');
-// HashCollector.prototype.
 module.exports = HashCollector;
 
 /**
+ * Hash collector helps in checking if value in new block has changed,
+ * remembers hashes, and enables quick checking if hash where already met.
+ * It is wrapper for different hash collecting implementations.
  * @class StateDB
  * @param method hash collecting implementation:
  * -set
@@ -35,6 +37,10 @@ function HashCollector(method = undefined) {
     }
 }
 
+/**
+ * informs hash collector about new block checking
+ * @method newBlock
+ */
 HashCollector.prototype.newBlock = function () {
     var self = this;
     switch (self.method) {
@@ -57,7 +63,6 @@ HashCollector.prototype.newBlock = function () {
     return self;
 };
 
-// finds first index in items with value greater than value
 function binarySearch(items, value) {
 
     var startIndex = 0,
@@ -83,6 +88,12 @@ function binarySearch(items, value) {
     return middle + 1;
 }
 
+/**
+ * adds new hash
+ * @method newBlock
+ * @param rootHash
+ * @param depth depth in tree
+ */
 HashCollector.prototype.addHash = function (rootHash, depth) {
     var self = this;
     switch (self.method) {
@@ -109,7 +120,12 @@ HashCollector.prototype.addHash = function (rootHash, depth) {
     return self;
 };
 
-HashCollector.prototype.checkHash = function (rootHash, depth) {
+/**
+ * checks if hash remembered
+ * @method checkHash
+ * @param rootHash
+ */
+HashCollector.prototype.checkHash = function (rootHash) {
     var self = this;
     switch (self.method) {
         case 'set':
@@ -129,7 +145,11 @@ HashCollector.prototype.checkHash = function (rootHash, depth) {
     }
 };
 
-HashCollector.prototype.goStorage = function (rootHash, depth) {
+/**
+ * informs hash collector about start of checking storage tree
+ * @method goStorage
+ */
+HashCollector.prototype.goStorage = function () {
     var self = this;
     switch (self.method) {
         case 'set':
@@ -151,6 +171,10 @@ HashCollector.prototype.goStorage = function (rootHash, depth) {
     return self;
 };
 
+/**
+ * informs hash collector about finding new variable value
+ * @method foundNew
+ */
 HashCollector.prototype.foundNew = function () {
     var self = this;
     switch (self.method) {
