@@ -21,6 +21,7 @@ implementation versions:
   EthStorage - most up to date code version (current implementation like "Transactions")
   HashSet - uses hashset to remember visited hashes
   LastPath - remembers last visited path in array
+  None - checks change in block with no hash checking
   Set - uses set to remember visited hashes
   SingleQueries - requests value from each block independently
   Transactions - reads transaction list to find blocks with change, also uses hashset
