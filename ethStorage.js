@@ -47,7 +47,7 @@ StateDB.prototype.bufferHex = function (val) {
         return val
     }
     if (typeof val === 'string' && val.length > 2 && val.slice(0,2) === '0x'){
-        val = val.slice(2,val.length-1);
+        val = val.slice(2,val.length);
     }
     return new Buffer(val, 'hex');
 };
