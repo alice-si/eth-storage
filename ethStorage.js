@@ -407,139 +407,141 @@ StateDB.prototype._sfind = function (rootHash, key, depth, hashCollector, cb) {
 };
 
 /**
- * finds first block where contract is live
+ * finds first block where contract is live (or block not found)
  * @param adress
  * @param startBlockNumber
  * @param endBlockNumber
  * @param cb
  */
-// prototype.binarySearchCreation = function (adress, startBlockNumber, endBlockNumber, cb) {
-//
-//     var startIndex = startBlockNumber,
-//         stopIndex = endBlockNumber,
-//         middle = Math.floor((stopIndex + startIndex) / 2);
-//
-//     if (stopIndex - startIndex === 1){
-//         cb(null,startIndex);
-//     }
-//     else if (stopIndex - startIndex > 1) {
-//
-//         getRange(adress, 0, middle, endBlockNumber,
-//             function (err, val) {
-//                 if (val[0].val === 'contract not found') {
-//                     startIndex = middle;
-//                 }
-//                 else {
-//                     stopIndex = middle + 1;
-//                 }
-//                 binarySearchCreation(adress, startIndex, stopIndex, cb);
-//             },
-//             'none', false);
-//
-//     }
-//     else{
-//         // errrorrrrrrrrrrrrrrrr
-//     }
-//
-//
-//     if (items[middle] !== value && startIndex < stopIndex) {
-//
-//         //adjust search area
-//         if (value < items[middle]) {
-//             stopIndex = middle - 1;
-//         } else if (value > items[middle]) {
-//             startIndex = middle + 1;
-//         }
-//
-//         binarySearchCreation(adress, startIndex, stopIndex, cb);
-//     }
-//
-//     //make sure it's the right value
-//     return middle + 1;
-// };
+StateDB.prototype.binarySearchCreation = function (adress, startBlockNumber, endBlockNumber, cb) {
+
+
+    var self = this;
+
+    var startIndex = startBlockNumber,
+        stopIndex = endBlockNumber,
+        middle = Math.floor((stopIndex + startIndex) / 2);
+
+    if (stopIndex - startIndex <= 0) {
+        // console.log('binary search found',stopIndex);
+        cb(null, stopIndex);
+    }
+    else {
+
+        self.getRange(adress, 0, middle, middle + 1,
+            function (err, val) {
+                if (val[0].val === 'contract not found') {
+                    startIndex = middle + 1;
+                }
+                else {
+                    stopIndex = middle;
+                }
+                self.binarySearchCreation(adress, startIndex, stopIndex, cb);
+            },
+            'none', false);
+
+    }
+
+};
 
 
 /**
+ * finds next potential block with change of contract
  * @param adress
  * @param startBlockNumber
  * @param endBlockNumber
  * @param cb
  * @param txReading
  */
-StateDB.prototype.findNextBlock = function (adress, startBlockNumber, endBlockNumber, txReading, cb) {
-    var self = this;
-    adress = self.bufferHex(adress);
-    startBlockNumber = self.bufferToInt(startBlockNumber);
-    endBlockNumber = self.bufferToInt(endBlockNumber);
+StateDB.prototype.findNextBlock =
+    function (adress, startBlockNumber, endBlockNumber, txReading, cb) {
+        var self = this;
+        adress = self.bufferHex(adress);
+        startBlockNumber = self.bufferToInt(startBlockNumber);
+        endBlockNumber = self.bufferToInt(endBlockNumber);
 
-    if (txReading === false) {
-        cb(null, startBlockNumber + 1);
-        return;
+        if (txReading === false) {
+            cb(null, startBlockNumber + 1);
+            return;
+        }
+
+        if (startBlockNumber < endBlockNumber) {
+            self.blockBody(startBlockNumber, function (err, body) {
+                if (err != null) {
+                    cb(null, startBlockNumber);
+                    return;
+                } // error
+                var i;
+                for (i = 0; i < body.transactionList.length; i++) {
+                    var to = body.transactionList[i][3].toString('hex');
+                    // if (self.contractCreated === undefined && to === '') { // TODO ?? .toString('hex'), TODO contract creation
+                    //     cb(null, startBlockNumber);
+                    //     break;
+                    // }
+                    // else
+                    if (to === adress.toString('hex')) { // TODO ?? .toString('hex'), TODO contract creation
+                        self.contractCreated = true;
+                        cb(null, startBlockNumber);
+                        break;
+                    }
+                }
+                if (i === body.transactionList.length) {
+                    self.findNextBlock(adress, startBlockNumber + 1, endBlockNumber, txReading, cb)
+                }
+
+            })
+        }
+        else {
+            cb(null, endBlockNumber);
+        }
+    };
+
+StateDB.prototype._errorCheck = function (err, msg, adress, val, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb) {
+    var self = this;
+
+    if (msg === 'found' &&
+        (array.length === 0 || val.toString('hex') !== self.bufferHex(array[array.length - 1].val).toString('hex'))) {
+        array.push({block: startBlockNumber, val: val});
+    }
+    else if (array.length === 0 || (err !== null && array[array.length - 1].val !== msg)) {
+        array.push({block: startBlockNumber, val: msg});
     }
 
-    if (startBlockNumber < endBlockNumber) {
-        self.blockBody(startBlockNumber, function (err, body) {
-            if (err != null) {
-                cb(null, startBlockNumber);
-                return;
-            } // error
-            var i;
-            for (i = 0; i < body.transactionList.length; i++) {
-                var to = body.transactionList[i][3].toString('hex');
-                if (self.contractCreated === undefined && to === '') { // TODO ?? .toString('hex'), TODO contract creation
-                    cb(null, startBlockNumber);
-                    break;
-                }
-                else if (to === adress.toString('hex')) { // TODO ?? .toString('hex'), TODO contract creation
-                    self.contractCreated = true;
-                    cb(null, startBlockNumber);
-                    break;
-                }
-            }
-            if (i === body.transactionList.length) {
-                self.findNextBlock(adress, startBlockNumber + 1, endBlockNumber, txReading, cb)
-            }
-
+    if (err !== null && msg === 'contract not found'){
+        self.binarySearchCreation(adress,startBlockNumber+1,endBlockNumber,function (err, next) {
+            self._getRange(adress, next, endBlockNumber, index, array, hashCollector, txReading, cb);
         })
     }
     else {
-        //TODO error not found
-        cb(null, endBlockNumber);
+        self.findNextBlock(adress, startBlockNumber+1, endBlockNumber, txReading, function (err, next) {
+            self._getRange(adress, next, endBlockNumber, index, array, hashCollector, txReading, cb);
+        })
     }
-};
 
-StateDB.prototype._errorCheck = function (err, msg, adress, next, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb) {
-    var self = this;
-    if (array.length === 0 || (err !== null && array[array.length - 1].val !== msg)) {
-        array.push({block: startBlockNumber, val: msg});
-    }
-    self._getRange(adress, next, endBlockNumber, index, array, hashCollector, txReading, cb);
 };
 
 StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb) {
     var self = this;
     if (startBlockNumber < endBlockNumber) {
-        self.findNextBlock(adress, startBlockNumber + 1, endBlockNumber, txReading, function (err, next) {
             self.blockStateRoot(startBlockNumber, function (err, stateRoot) { // find account
                 if (err !== null) {
-                    self._errorCheck(err, 'block not found', adress, next, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
+                    self._errorCheck(err, 'block not found', adress, null, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
                 }
                 else {
 
                     self._sfind(stateRoot, self.sha3(adress), 0, hashCollector.newBlock(), function (err, node, hashCollector) {
                         if (node === null) { // account didn`t changed
-                            self._errorCheck(err, 'contract not found', adress, next, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
+                            self._errorCheck(
+                                err, 'contract not found', adress, null,
+                                startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
                         }
                         else {
                             self._sfind(node[2], self.sha3(index), 0, hashCollector.goStorage(), function (err, val, hashCollector) {
                                 if (val === null) {
-                                    self._errorCheck(err, 'uninitialised', adress, next, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
+                                    self._errorCheck(err, 'uninitialised', adress, null, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
                                 }
                                 else {
-                                    if (array.length === 0 || val.toString('hex') !== self.bufferHex(array[array.length - 1].val).toString('hex')) {
-                                        array.push({block: startBlockNumber, val: val});
-                                    }
-                                    self._getRange(adress, next, endBlockNumber, index, array, hashCollector.foundNew(), txReading, cb);
+                                    self._errorCheck(err, 'found', adress, val, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
                                 }
                             });
                         }
@@ -549,10 +551,9 @@ StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber
 
             });
 
-        });
     }
     else {
-        cb(null, array);
+        cb(null, array); // return result
     }
 };
 
