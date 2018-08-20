@@ -46,8 +46,8 @@ StateDB.prototype.bufferHex = function (val) {
     if (val instanceof Buffer) {
         return val
     }
-    if (typeof val === 'string' && val.length > 2 && val.slice(0,2) === '0x'){
-        val = val.slice(2,val.length);
+    if (typeof val === 'string' && val.length > 2 && val.slice(0, 2) === '0x') {
+        val = val.slice(2, val.length);
     }
     return new Buffer(val, 'hex');
 };
@@ -406,6 +406,57 @@ StateDB.prototype._sfind = function (rootHash, key, depth, hashCollector, cb) {
     }
 };
 
+/**
+ * finds first block where contract is live
+ * @param adress
+ * @param startBlockNumber
+ * @param endBlockNumber
+ * @param cb
+ */
+// prototype.binarySearchCreation = function (adress, startBlockNumber, endBlockNumber, cb) {
+//
+//     var startIndex = startBlockNumber,
+//         stopIndex = endBlockNumber,
+//         middle = Math.floor((stopIndex + startIndex) / 2);
+//
+//     if (stopIndex - startIndex === 1){
+//         cb(null,startIndex);
+//     }
+//     else if (stopIndex - startIndex > 1) {
+//
+//         getRange(adress, 0, middle, endBlockNumber,
+//             function (err, val) {
+//                 if (val[0].val === 'contract not found') {
+//                     startIndex = middle;
+//                 }
+//                 else {
+//                     stopIndex = middle + 1;
+//                 }
+//                 binarySearchCreation(adress, startIndex, stopIndex, cb);
+//             },
+//             'none', false);
+//
+//     }
+//     else{
+//         // errrorrrrrrrrrrrrrrrr
+//     }
+//
+//
+//     if (items[middle] !== value && startIndex < stopIndex) {
+//
+//         //adjust search area
+//         if (value < items[middle]) {
+//             stopIndex = middle - 1;
+//         } else if (value > items[middle]) {
+//             startIndex = middle + 1;
+//         }
+//
+//         binarySearchCreation(adress, startIndex, stopIndex, cb);
+//     }
+//
+//     //make sure it's the right value
+//     return middle + 1;
+// };
 
 
 /**

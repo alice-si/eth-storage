@@ -1,4 +1,3 @@
-var StateDB = require('../stateHashSet.js');
 var dbPath = 'C:/Users/ja1/Alice/dirforfullrinkeby/geth/chaindata';  // database path
 
 module.exports.dbPath = dbPath;
@@ -36,7 +35,7 @@ function newTimeCb(testCase) {
     }
 }
 
-stateDB = new StateDB();
+// stateDB = new StateDB();
 
 var getRangeTests = [
     // {
