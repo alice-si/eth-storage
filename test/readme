@@ -47,6 +47,7 @@ implementation versions:
 
 sample generalBenchmark.js output:
 
+```json
    Started test case 1, message: "20000 blocks, samplecontract 1 (1000 changes to 10000 blocks) at index 0"
 
    getRangeMulti8HashSet : test case 1 "20000 blocks, samplecontract 1 (1000 changes to 10000 blocks) at index 0", (iterations 5 searched in 20000 blocks):
@@ -63,4 +64,4 @@ sample generalBenchmark.js output:
    mean 3.2812263118000002 s
    median 3.230700663 s
    ...
-
+```
