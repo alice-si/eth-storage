@@ -32,6 +32,13 @@ currently methods tested in benchmark are set to:
     lastPath with parallelity 8
     hashSet with parallelity 100
 
+### plots
+
+    Use dataToGenerate.js to set test cases
+    Use plotDataGenerator.js to save results of test cases in 'results.json'
+    Use plot.html and choos file 'results.json' to show charts (need internet connection for cdn links)
+
+
 ### samples
 Run each test case for various implementations and outputs time of execution and found value.
 

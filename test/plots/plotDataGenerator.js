@@ -1,5 +1,6 @@
 var StateDB = require('../../ethStorage.js');
 var Settings = require('../settings.js');
+var dtg = require('./dataToGenerate');
 
 const t = require('exectimer');
 const Tick = t.Tick;
@@ -17,17 +18,26 @@ var displayResult = function (method, testCase, testIdx) {
     var results = t.timers[method + testIdx];
 
     console.log('result raw');
-    if (resultsArr[n] === undefined) resultsArr[n] = {};
+    if (resultsArr[n] === undefined){
+        resultsArr[n] = {};
+    }
+
 
     if (resultsArr[n].duration === undefined) resultsArr[n].duration = [];
-
-    resultsArr[n].duration.push({name:method+testCase,val:results.duration()});
+    resultsArr[n].duration.push({name:method,msg:testCase.msg,val:results.duration()});
+    if (resultsArr[n].min === undefined) resultsArr[n].min = [];
+    resultsArr[n].min.push({name:method+testCase.msg,val:results.min()});
+    if (resultsArr[n].max === undefined) resultsArr[n].max = [];
+    resultsArr[n].max.push({name:method+testCase.msg,val:results.max()});
+    if (resultsArr[n].mean === undefined) resultsArr[n].mean = [];
+    resultsArr[n].mean.push({name:method+testCase.msg,val:results.mean()});
+    if (resultsArr[n].median === undefined) resultsArr[n].median = [];
+    resultsArr[n].median.push({name:method+testCase.msg,val:results.median()});
 
     console.log('duration', results.parse(
         results.duration()
     ));
     // total duration of all ticks
-    // results[n].min = results.min();
     console.log('min', results.parse(
         results.min()
     ));      // minimal tick duration
@@ -55,41 +65,36 @@ async function runExample(name, j, cb) {
     }
 }
 
-async function benchmark() {
-    for (var j = 0; j < 1 && j < Settings.getRangeTests.length; j++) { // goes through test case
+var runTestCase = async function(name,tc,testCase,method,threads,txReading){
+    await runExample(name, tc, function (cb) {
+        stateDB.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb, threads,method,txReading);
+    });
+    await displayResult(name, testCase, tc);
+};
 
-        var testCase = Settings.getRangeTests[j];
+async function benchmark(tests,name) {
+    for (var j = 0; j < tests.length; j++) { // goes through test case
+
+        var testCase = tests[j];
         console.log('Started test case ' + (j + 1) + ', message: "'+testCase.msg+'"\n');
 
-        await runExample('getRangeMulti8HashSet', j, function (cb) {
-            stateDB.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb, 8);
-        });
 
-        displayResult('getRangeMulti8HashSet', testCase, j);
+        // tested methods and plot names
 
-        await runExample('getRangeMulti8LastPath', j, function (cb) {
-            stateDB.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb, 8, 'lastPath');
-        });
+        for (var i = 1; i < 100; i *= 2){
+            await runTestCase('HashSet with n '+i,'hashSet ^2 '+j,testCase,'hashSet',i,true);
+            await runTestCase('LastPath with n '+i,'lastPath ^2 '+j,testCase,'lastPath',i,true);
+        }
 
+        for (var i = 1; i < 100; i++){
+            await runTestCase('HashSet with n '+i,'hashSet vs lastPath ++'+j,testCase,'hashSet',i,true);
+            await runTestCase('LastPath with n '+i,'hashSet vs lastPath ++'+j,testCase,'lastPath',i,true);
+        }
 
-        displayResult('getRangeMulti8LastPath', testCase, j);
-
-        await runExample('getRangeMulti8Set', j, function (cb) {
-            stateDB.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb, 8, 'set');
-        });
-
-
-        displayResult('getRangeMulti8Set', testCase, j);
-
-        await runExample('getRangeMulti100HashSet', j, function (cb) {
-            stateDB.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb, 4);
-        });
-
-        displayResult('getRangeMulti100HashSet', testCase, j);
     }
     // save results
     var fs = require('fs');
-    fs.writeFile("results.json", JSON.stringify(resultsArr), function(err) {
+    fs.writeFile(name, JSON.stringify(resultsArr), function(err) {
         if (err) {
             console.log(err);
         }
@@ -97,7 +102,7 @@ async function benchmark() {
 }
 
 // run benchmark
-benchmark();
+benchmark(dtg.cases,'results.json');
 
 
 

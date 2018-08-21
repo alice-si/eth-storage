@@ -8,39 +8,48 @@
 
 </head>
 <body>
-halo hejze
+<h1>Plots showing benchmarks</h1>
 <div id="visualization"></div>
-<div id="tester" style="width:600px;height:250px;"></div>
+<!--<div id="tester" style="width:600px;height:250px;"></div>-->
+<p>Choose file with benchmark results ('results.json'):</p>
 <input type="file" id="file-input" />
+<div id="tester"></div>
 <!--<h3>Contents of the file:</h3>-->
 <!--<pre id="file-content"></pre>-->
 <script type="text/javascript">
 
-    var makePlot = async function (i,resultsArr) {
+    var makePlot = async function (data,name,element) {
+
+        var title = document.createElement("div");
+        title.style.margin = "3px";
+        title.innerHTML = " Plot for "+name+" (sec):";
+
+        element.appendChild(title);
 
         var div = document.createElement("div");
         div.style.width = "600px";
-        div.style.height = "250px";
-        div.style.background = "red";
+        div.style.height = "200px";
+        div.style.background = "blue";
         div.style.color = "white";
-        div.innerHTML = "plot TODO:";
+        div.style.margin = "3px";
 
-        document.getElementById("tester").appendChild(div);
+        element.appendChild(div);
+
+        console.log('makePlot:resultsArr:',data);
 
         var x = [];
         var y = [];
 
-        for (var a = 0; a < resultsArr[i]; a++){
-           await x.push(resultsArr[i][a].name);
-           await x.push(resultsArr[i][a].val);
+        for (var a = 0; a < data.length; a++){
+           await x.push(data[a].name);
+           await y.push(data[a].val/1000000000);
+
         }
 
         await console.log('x',x);
         await console.log('y',y);
 
-        await Plotly.plot(div, [{
-            // x: [1, 2, 3, 4, 5],
-            // y: [1, 2, 4, 8, 16]
+        Plotly.plot(div, [{
             x: x,
             y: y,
             type: 'bar'
@@ -52,17 +61,29 @@ halo hejze
 
     var displayResults = function(string){
 
-
         var json = JSON.parse(string);
+        console.log('json',json);
 
+        Object.keys(json).forEach(function (tc) { //for each test case
 
-        Object.keys(json).forEach(function (i) {
+            var div = document.createElement("div");
+            div.style.margin = "3px 3px 40px 3px";
+            div.style.border = "2px dotted yellow";
+            document.getElementById("tester").appendChild(div);
 
-            // console.log(i);
-            // console.log(i+1);
-            makePlot(i,json);
+            var title = document.createElement("h3");
+            title.innerHTML = " Test case "+tc+": "+json[tc].duration[0].msg+":";
+            div.appendChild(title);
 
+            var plotGroup = document.createElement("div");
+            plotGroup.style.margin = "3px";
+            plotGroup.style.border = "3px solid grey";
+            div.appendChild(plotGroup);
 
+            Object.keys(json[tc]).forEach(function (tt) { // for each time type
+                makePlot(json[tc][tt],tt,plotGroup);
+
+            })
         });
     };
 
