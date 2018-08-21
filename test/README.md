@@ -14,14 +14,14 @@ You can set test cases in "test/settings.js" in array getRangeTests.
         msg: 'at struct(0,1) search in 3334 blocks'
     },
 
-### currently test cases are set to test 3 sample contracts:
+currently test cases are set to test 3 sample contracts:
   "0x16c8985321696c21d58f3194eee166eedaf37356" have been changed 1000 times in 10000 blocks
   "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad" have been changed 100 times in 10000 blocks
   "0x68abe76de1aaaace161bae789a71e54183e1df8b" have been changed 10 times in 10000 blocks
 
-##folders:
-  ###benchmark
-    ####generalBenchmark.js:
+## folders:
+  ### benchmark
+    #### generalBenchmark.js:
       Script repeats each test case 'numberOfExecutions'
       and outputs full, mean, median, max and min time of execution.
       currently methods tested in benchmark are set to:
@@ -30,13 +30,13 @@ You can set test cases in "test/settings.js" in array getRangeTests.
         lastPath with parallelity 8
         hashSet with parallelity 100
 
-  ###samples
+  ### samples
     Run each test case for various implementations and outputs time of execution and found value.
 
-  ###contract_creator
+  ### contract_creator
     geth console input to generate test contracts on testnet
 
-##implementation versions:
+## implementation versions:
 
   Set - uses set to remember visited hashes
   HashSet - uses hashset to remember visited hashes
