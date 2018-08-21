@@ -19,7 +19,7 @@ currently test cases are set to test 3 sample contracts:
   "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad" have been changed 100 times in 10000 blocks
   "0x68abe76de1aaaace161bae789a71e54183e1df8b" have been changed 10 times in 10000 blocks
 
-## folders:
+## Folders:
 ### benchmark
 #### generalBenchmark.js:
 Script repeats each test case 'numberOfExecutions'
@@ -36,8 +36,7 @@ Run each test case for various implementations and outputs time of execution and
 ### contract_creator
 geth console input to generate test contracts on testnet
 
-## implementation versions:
-
+## Implementation versions:
   Set - uses set to remember visited hashes
   HashSet - uses hashset to remember visited hashes
   LastPath - remembers last visited path in array
@@ -45,7 +44,7 @@ geth console input to generate test contracts on testnet
 
   Web3 - requests value from each block independently, using Web3 interface delivered on localhost:8545
 
-###sample generalBenchmark.js output:
+### Sample generalBenchmark.js output:
 
 ```json
    Started test case 1, message: "20000 blocks, samplecontract 1 (1000 changes to 10000 blocks) at index 0"
