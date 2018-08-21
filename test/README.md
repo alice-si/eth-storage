@@ -20,21 +20,21 @@ currently test cases are set to test 3 sample contracts:
   "0x68abe76de1aaaace161bae789a71e54183e1df8b" have been changed 10 times in 10000 blocks
 
 ## folders:
-  ### benchmark
-  #### generalBenchmark.js:
-    Script repeats each test case 'numberOfExecutions'
-    and outputs full, mean, median, max and min time of execution.
-    currently methods tested in benchmark are set to:
-      hashSet with parallelity 8
-      set with parallelity 8
-      lastPath with parallelity 8
-      hashSet with parallelity 100
+### benchmark
+#### generalBenchmark.js:
+Script repeats each test case 'numberOfExecutions'
+and outputs full, mean, median, max and min time of execution.
+currently methods tested in benchmark are set to:
+  hashSet with parallelity 8
+  set with parallelity 8
+  lastPath with parallelity 8
+  hashSet with parallelity 100
 
-  ### samples
-    Run each test case for various implementations and outputs time of execution and found value.
+### samples
+Run each test case for various implementations and outputs time of execution and found value.
 
-  ### contract_creator
-    geth console input to generate test contracts on testnet
+### contract_creator
+geth console input to generate test contracts on testnet
 
 ## implementation versions:
 
