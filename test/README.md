@@ -21,14 +21,14 @@ currently test cases are set to test 3 sample contracts:
 
 ## folders:
   ### benchmark
-    #### generalBenchmark.js:
-      Script repeats each test case 'numberOfExecutions'
-      and outputs full, mean, median, max and min time of execution.
-      currently methods tested in benchmark are set to:
-        hashSet with parallelity 8
-        set with parallelity 8
-        lastPath with parallelity 8
-        hashSet with parallelity 100
+  #### generalBenchmark.js:
+    Script repeats each test case 'numberOfExecutions'
+    and outputs full, mean, median, max and min time of execution.
+    currently methods tested in benchmark are set to:
+      hashSet with parallelity 8
+      set with parallelity 8
+      lastPath with parallelity 8
+      hashSet with parallelity 100
 
   ### samples
     Run each test case for various implementations and outputs time of execution and found value.
