@@ -1,11 +1,13 @@
 var StateDB = require('../../ethStorage.js');
+var StateDBWeb3 = require('../../getRangeWeb3.js');
 var Settings = require('../settings.js');
 var dtg = require('./dataToGenerate');
 
 const t = require('exectimer');
 const Tick = t.Tick;
 
-var stateDB = new StateDB(Settings.dbPath);
+// var stateDB = new StateDB(Settings.dbPath);
+var stateDB = new StateDBWeb3(Settings.dbPath);
 
 var numberOfExecutions = 5;
 
@@ -78,18 +80,22 @@ async function benchmark(tests,name) {
         var testCase = tests[j];
         console.log('Started test case ' + (j + 1) + ', message: "'+testCase.msg+'"\n');
 
+        await runExample('web3APIgetBlocksIndependent', 'web3ApiGet2000BlocksIndependently', function (cb) {
+            stateDB.getRange(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb);
+        });
+        await displayResult('web3APIgetBlocksIndependent', testCase, tc);
+
 
         // tested methods and plot names
 
-        for (var i = 1; i < 100; i *= 2){
-            await runTestCase('HashSet with n '+i,'hashSet ^2 '+j,testCase,'hashSet',i,true);
-            await runTestCase('LastPath with n '+i,'lastPath ^2 '+j,testCase,'lastPath',i,true);
-        }
-
-        for (var i = 1; i < 100; i++){
-            await runTestCase('HashSet with n '+i,'hashSet vs lastPath ++'+j,testCase,'hashSet',i,true);
-            await runTestCase('LastPath with n '+i,'hashSet vs lastPath ++'+j,testCase,'lastPath',i,true);
-        }
+        // for (var i = 16; i > 0; i--){
+        //     await runTestCase('HashSet with n '+i,'hashSet '+j,testCase,'hashSet',i,true);
+        //     await runTestCase('LastPath with n '+i,'lastPath '+j,testCase,'lastPath',i,true);
+        //     await runTestCase('Set with n '+i,'set '+j,testCase,'set',i,true);
+        //     await runTestCase('HashSet with n '+i,'hls'+j,testCase,'hashSet',i,true);
+        //     await runTestCase('LastPath with n '+i,'hls'+j,testCase,'lastPath',i,true);
+        //     await runTestCase('Set with n '+i,'hls'+j,testCase,'set',i,true);
+        // }
 
     }
     // save results
@@ -102,7 +108,7 @@ async function benchmark(tests,name) {
 }
 
 // run benchmark
-benchmark(dtg.cases,'results.json');
+benchmark(dtg.cases,'web3API2000blockx5results.json');
 
 
 
