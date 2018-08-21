@@ -9,7 +9,7 @@ var stateDB = new StateDB(Settings.dbPath);
 var numberOfExecutions = 5;
 
 var displayResult = function (method, testCase, testIdx) {
-    console.log(method, 'test case ' + (+testIdx + 1) + ' (iterations ' + numberOfExecutions + ' searched in ' + (testCase.endBlock - testCase.startBlock) + ' blocks):')
+    console.log(method, ': test case ' + (+testIdx + 1) + ' "'+ testCase.msg+'",'+ ' (iterations ' + numberOfExecutions + ' searched in ' + (testCase.endBlock - testCase.startBlock) + ' blocks):')
     var results = t.timers[method + testIdx];
     console.log('duration', results.parse(
         results.duration()
@@ -45,7 +45,7 @@ async function benchmark() {
     for (var j = 0; j < Settings.getRangeTests.length; j++) { // goes through test case
 
         var testCase = Settings.getRangeTests[j];
-        console.log('Started test case ' + (j + 1) + ', message:', testCase.msg, '\n');
+        console.log('Started test case ' + (j + 1) + ', message: "'+testCase.msg+'"\n');
 
         await runExample('getRangeMulti8HashSet', j, function (cb) {
             stateDB.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb, 8);

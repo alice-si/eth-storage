@@ -1,5 +1,5 @@
 var StateDB = require('../../ethStorage.js');
-var Settings = require('./../settings.js');
+var Settings = require('../settings.js');
 
 var stateDB = new StateDB(Settings.dbPath);
 

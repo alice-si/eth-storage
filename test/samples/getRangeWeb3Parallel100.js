@@ -1,5 +1,5 @@
 var StateDB = require('../../getRangeWeb3.js');
-var Settings = require('./../settings.js');
+var Settings = require('../settings.js');
 
 for (var i = 0; i < Settings.getRangeTests.length; i++) { // goes through test cases
     var testCase = Settings.getRangeTests[i];
