@@ -10,7 +10,7 @@ const Tick = t.Tick;
 
 // var stateDB = new StateDB(Settings.dbPath);
 
-var numberOfExecutions = 5;
+var numberOfExecutions = 10;
 var stateDB;
 
 
@@ -94,10 +94,10 @@ async function benchmark(tests, name) {
         await console.log('ok');
 
 
-        await runExample('web3APIgetBlocksIndependent', testName + j, function (cb) {
+        await runExample('web3 ts '+j, testName, function (cb) {
             StateDBWeb3.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb);
         });
-        await displayResult('web3APIgetBlocksIndependent', testCase, testName + j);
+        await displayResult('web3 ts '+j, testCase, testName);
         // }
 
 
@@ -106,9 +106,9 @@ async function benchmark(tests, name) {
         await console.log('ok');
         stateDB = new StateDB(Settings.dbPath);
 
-        await runTestCase('n=' + 1 + ' hashset n=1', testName + j, testCase, 1, 'hashSet', true);
-        await runTestCase('n=' + 1 + ' set n=1', testName + j, testCase, 1, 'set', true);
-        await runTestCase('n=' + 1 + ' lastPath n=1', testName + j, testCase, 1, 'lastPath', true);
+        await runTestCase('n=' + 1 + ' hashset n=1 ts '+j, testName, testCase, 1, 'hashSet', true);
+        await runTestCase('n=' + 1 + ' set n=1 ts '+j, testName, testCase, 1, 'set', true);
+        await runTestCase('n=' + 1 + ' lastPath n=1 ts '+j, testName, testCase, 1, 'lastPath', true);
 
         stateDB.free();
         stateDB = null;
@@ -124,7 +124,7 @@ async function benchmark(tests, name) {
 }
 
 // run benchmark
-benchmark(dtg.cases, '4methodsComparisionResults.json');
+benchmark(dtg.cases, '4methodsComparisionResults2.json');
 
 
 
