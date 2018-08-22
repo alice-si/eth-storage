@@ -21,7 +21,9 @@
     "merkle-patricia-tree": "git+https://github.com/ethereumjs/merkle-patricia-tree.git",
     "mocha": "^5.2.0",
     "morgan": "~1.9.0",
+    "prompt-sync": "^4.1.6",
     "pug": "2.0.0-beta11",
+    "readline-sync": "^1.4.9",
     "vis": "^4.21.0",
     "web3": "^1.0.0-beta.35"
   },

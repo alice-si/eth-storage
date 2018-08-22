@@ -36,6 +36,11 @@ function StateDB(databasePath) {
     }
 }
 
+StateDB.prototype.free = function () {
+    var self = this;
+    self.db.close();
+};
+
 /**
  * converts to hex buffer
  * @method blockNumberByHash
@@ -507,13 +512,13 @@ StateDB.prototype._errorCheck = function (err, msg, adress, val, startBlockNumbe
         array.push({block: startBlockNumber, val: msg});
     }
 
-    if (err !== null && msg === 'contract not found'){
-        self.binarySearchCreation(adress,startBlockNumber+1,endBlockNumber,function (err, next) {
+    if (err !== null && msg === 'contract not found') {
+        self.binarySearchCreation(adress, startBlockNumber + 1, endBlockNumber, function (err, next) {
             self._getRange(adress, next, endBlockNumber, index, array, hashCollector, txReading, cb);
         })
     }
     else {
-        self.findNextBlock(adress, startBlockNumber+1, endBlockNumber, txReading, function (err, next) {
+        self.findNextBlock(adress, startBlockNumber + 1, endBlockNumber, txReading, function (err, next) {
             self._getRange(adress, next, endBlockNumber, index, array, hashCollector, txReading, cb);
         })
     }
@@ -523,33 +528,33 @@ StateDB.prototype._errorCheck = function (err, msg, adress, val, startBlockNumbe
 StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb) {
     var self = this;
     if (startBlockNumber < endBlockNumber) {
-            self.blockStateRoot(startBlockNumber, function (err, stateRoot) { // find account
-                if (err !== null) {
-                    self._errorCheck(err, 'block not found', adress, null, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
-                }
-                else {
+        self.blockStateRoot(startBlockNumber, function (err, stateRoot) { // find account
+            if (err !== null) {
+                self._errorCheck(err, 'block not found', adress, null, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
+            }
+            else {
 
-                    self._sfind(stateRoot, self.sha3(adress), 0, hashCollector.newBlock(), function (err, node, hashCollector) {
-                        if (node === null) { // account didn`t changed
-                            self._errorCheck(
-                                err, 'contract not found', adress, null,
-                                startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
-                        }
-                        else {
-                            self._sfind(node[2], self.sha3(index), 0, hashCollector.goStorage(), function (err, val, hashCollector) {
-                                if (val === null) {
-                                    self._errorCheck(err, 'uninitialised', adress, null, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
-                                }
-                                else {
-                                    self._errorCheck(err, 'found', adress, val, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
-                                }
-                            });
-                        }
+                self._sfind(stateRoot, self.sha3(adress), 0, hashCollector.newBlock(), function (err, node, hashCollector) {
+                    if (node === null) { // account didn`t changed
+                        self._errorCheck(
+                            err, 'contract not found', adress, null,
+                            startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
+                    }
+                    else {
+                        self._sfind(node[2], self.sha3(index), 0, hashCollector.goStorage(), function (err, val, hashCollector) {
+                            if (val === null) {
+                                self._errorCheck(err, 'uninitialised', adress, null, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
+                            }
+                            else {
+                                self._errorCheck(err, 'found', adress, val, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
+                            }
+                        });
+                    }
 
-                    })
-                }
+                })
+            }
 
-            });
+        });
 
     }
     else {

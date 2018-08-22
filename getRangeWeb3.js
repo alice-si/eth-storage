@@ -1,7 +1,7 @@
 var Web3 = require("web3");
 
 // connect with geth: geth --datadir ... --rinkeby --nodiscover --rpc
-web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+var web3;
 
 var _getRange = function (adr, index, startBlock, endBlock, array, cb) {
     if (startBlock < endBlock) {
@@ -20,6 +20,7 @@ var _getRange = function (adr, index, startBlock, endBlock, array, cb) {
 };
 
 var getRange = function (adr, index, startBlock, endBlock, cb) {
+
     if (index instanceof Buffer) index = '0x' + index.toString('hex');
     _getRange(adr, index, startBlock, endBlock, [], cb);
 };
@@ -36,6 +37,7 @@ var getRange = function (adr, index, startBlock, endBlock, cb) {
  * @param {Function} cb the callback
  */
 var getRangeMulti = function (adress, index, startBlockNumber, endBlockNumber, cb, n = 2) {
+    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
     var start = startBlockNumber;
     var end = endBlockNumber;
     var length = end - start;
@@ -66,6 +68,8 @@ var getRangeMulti = function (adress, index, startBlockNumber, endBlockNumber, c
             ended++;
             if (ended === realN) {
                 // console.log('rawresult',result);
+                delete web3;
+                web3 =null;
                 cb(null, removeDuplicates());
             }
         }
