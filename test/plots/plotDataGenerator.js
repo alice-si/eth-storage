@@ -6,8 +6,7 @@ var dtg = require('./dataToGenerate');
 const t = require('exectimer');
 const Tick = t.Tick;
 
-// var stateDB = new StateDB(Settings.dbPath);
-var stateDB = new StateDBWeb3(Settings.dbPath);
+var stateDB = new StateDB(Settings.dbPath);
 
 var numberOfExecutions = 5;
 
@@ -67,7 +66,7 @@ async function runExample(name, j, cb) {
     }
 }
 
-var runTestCase = async function(name,tc,testCase,method,threads,txReading){
+var runTestCase = async function(name,tc,testCase,threads,method,txReading){
     await runExample(name, tc, function (cb) {
         stateDB.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb, threads,method,txReading);
     });
@@ -80,22 +79,24 @@ async function benchmark(tests,name) {
         var testCase = tests[j];
         console.log('Started test case ' + (j + 1) + ', message: "'+testCase.msg+'"\n');
 
-        await runExample('web3APIgetBlocksIndependent', 'web3ApiGet2000BlocksIndependently', function (cb) {
-            stateDB.getRange(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb);
-        });
-        await displayResult('web3APIgetBlocksIndependent', testCase, tc);
+        // for (var i = 16; i > 0; i = Math.floor(i/2)) {
+        //     await runExample('web3APIgetBlocksIndependent', 'web3 n= '+i+' testcase '+j , function (cb) {
+        //         StateDBWeb3.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb, i);
+        //     });
+        //     await displayResult('web3APIgetBlocksIndependent', testCase, j);
+        // }
 
 
         // tested methods and plot names
 
-        // for (var i = 16; i > 0; i--){
-        //     await runTestCase('HashSet with n '+i,'hashSet '+j,testCase,'hashSet',i,true);
-        //     await runTestCase('LastPath with n '+i,'lastPath '+j,testCase,'lastPath',i,true);
-        //     await runTestCase('Set with n '+i,'set '+j,testCase,'set',i,true);
-        //     await runTestCase('HashSet with n '+i,'hls'+j,testCase,'hashSet',i,true);
-        //     await runTestCase('LastPath with n '+i,'hls'+j,testCase,'lastPath',i,true);
-        //     await runTestCase('Set with n '+i,'hls'+j,testCase,'set',i,true);
-        // }
+        for (var i = 16; i > 0; i--){
+            await runTestCase('n='+i+' hashset tx reading','hashSet vs Set vs LastPath with tx reading and no tx reading '+j,testCase,i,'hashSet',true);
+            await runTestCase('n='+i+' hashset no tx reading','hashSet vs Set vs LastPath with tx reading and no tx reading '+j,testCase,i,'hashSet',false);
+            await runTestCase('n='+i+' set tx reading','hashSet vs Set vs LastPath with tx reading and no tx reading '+j,testCase,i,'set',true);
+            await runTestCase('n='+i+' set tx no reading','hashSet vs Set vs LastPath with tx reading and no tx reading '+j,testCase,i,'set',false);
+            await runTestCase('n='+i+' lastPath tx reading','hashSet vs Set vs LastPath with tx reading and no tx reading '+j,testCase,i,'lastPath',true);
+            await runTestCase('n='+i+' lastPAth no txReading','hashSet vs Set vs LastPath with tx reading and no tx reading '+j,testCase,i,'lastPath',false);
+        }
 
     }
     // save results
@@ -108,7 +109,7 @@ async function benchmark(tests,name) {
 }
 
 // run benchmark
-benchmark(dtg.cases,'web3API2000blockx5results.json');
+benchmark(dtg.cases,'txReadingVsNotxReading.json');
 
 
 
