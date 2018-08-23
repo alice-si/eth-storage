@@ -16,10 +16,12 @@ var stateDB;
 
 var resultsArr = {};
 
-var displayResult = function (method, testCase, testIdx) {
-    var n = testIdx;
+var displayResult = function (timerName, testCase, testName) {
+    var method = timerName;
+    var testIdx = testName;
+    var n = testName;
     console.log(method, ': test case ' + (+testIdx + 1) + ' "' + testCase.msg + '",' + ' (iterations ' + numberOfExecutions + ' searched in ' + (testCase.endBlock - testCase.startBlock) + ' blocks):')
-    var results = t.timers[method + testIdx];
+    var results = t.timers[method];
 
     console.log('result raw');
     if (resultsArr[n] === undefined) {
@@ -56,10 +58,10 @@ var displayResult = function (method, testCase, testIdx) {
     ), '\n');   // median tick duration
 };
 
-async function runExample(name, j, cb) {
+async function runExample(timerName, cb) {
     for (var i = 0; i < numberOfExecutions; i++) {
         await new Promise(function (resolve, reject) {
-            Tick.wrap(name + j, function (done) {
+            Tick.wrap(timerName, function (done) {
                 cb(function () {
                     done();
                     resolve();
@@ -69,11 +71,18 @@ async function runExample(name, j, cb) {
     }
 }
 
-var runTestCase = async function (name, tc, testCase, threads, method, txReading) {
-    await runExample(name, tc, function (cb) {
+var runTestCaseGetRangeMulti = async function (timerName, testName, testCase, threads, method, txReading) {
+    await runExample(timerName, function (cb) {
         stateDB.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb, threads, method, txReading);
     });
-    await displayResult(name, testCase, tc);
+    await displayResult(timerName, testCase, testName);
+};
+
+var runTestCaseWeb3API = async function (timerName, testName, testCase) {
+    await runExample(timerName, function (cb) {
+        StateDBWeb3.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb);
+    });
+    await displayResult(timerName, testCase, testName);
 };
 
 async function benchmark(tests, name) {
@@ -83,32 +92,24 @@ async function benchmark(tests, name) {
     for (var j = 0; j < tests.length; j++) { // goes through test case
 
         var testCase = tests[j];
-        console.log('Started test case ' + (j + 1) + ', message: "' + testCase.msg + '"\n');
+        console.log('Started test case ' + j + ', message: "' + testCase.msg + '"\n');
 
-        // for (var i = 16; i > 0; i = Math.floor(i/2)) {
-        // var yn = await readlineSync.question("Have you turned on web3 api?");
-        // await process.stdin.on('data', async function (data) {
-        //     await console.log(data);
-        // });
         var n = prompt('Have you turned web3 api on?');
         await console.log('ok');
 
-
-        await runExample('web3 ts '+j, testName, function (cb) {
-            StateDBWeb3.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb);
-        });
-        await displayResult('web3 ts '+j, testCase, testName);
-        // }
-
+        // run web3 api getrange
+        await runTestCaseWeb3API('web3 ts '+j, testName, testCase);
 
         // tested methods and plot names
         var n = prompt('Have you turned web3 api offffffffffffffffffffffffffffff?');
         await console.log('ok');
+
         stateDB = new StateDB(Settings.dbPath);
 
-        await runTestCase('n=' + 1 + ' hashset n=1 ts '+j, testName, testCase, 1, 'hashSet', true);
-        await runTestCase('n=' + 1 + ' set n=1 ts '+j, testName, testCase, 1, 'set', true);
-        await runTestCase('n=' + 1 + ' lastPath n=1 ts '+j, testName, testCase, 1, 'lastPath', true);
+        // run getrange
+        await runTestCaseGetRangeMulti('n=' + 1 + ' hashset  ts '+j, testName, testCase, 1, 'hashSet', true);
+        await runTestCaseGetRangeMulti('n=' + 1 + ' set ts '+j, testName, testCase, 1, 'set', true);
+        await runTestCaseGetRangeMulti('n=' + 1 + ' lastPath ts '+j, testName, testCase, 1, 'lastPath', true);
 
         stateDB.free();
         stateDB = null;
