@@ -87,7 +87,7 @@ var runTestCaseWeb3API = async function (timerName, testName, testCase) {
 
 async function benchmark(tests, name) {
 
-    var testName = '4methods';
+    var testName = '4 methods comparision';
 
     for (var j = 0; j < tests.length; j++) { // goes through test case
 

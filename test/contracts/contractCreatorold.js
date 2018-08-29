@@ -83,6 +83,7 @@ var con3 = getSchwifty.at(getSchwiftyPartialInstance3.address);
 
 
 
+
 // var adi1 = "0x16c8985321696c21d58f3194eee166eedaf37356"
 //
 // var adi2 = "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad"
@@ -92,7 +93,7 @@ var con3 = getSchwifty.at(getSchwiftyPartialInstance3.address);
 // var con2 = getSchwifty.at(adi2);
 // var con3 = getSchwifty.at(adi3);
 
-
+/*
 var timeOutIt = function (cb,times,timeOut) {
     if(times > 0){
         cb();
@@ -132,3 +133,4 @@ timeOutIt(function () { // 10 times through 10000 blocks
     contractChange(con3)
 },10,1000*15*1000);
 
+*/
