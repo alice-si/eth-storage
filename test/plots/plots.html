@@ -17,37 +17,63 @@
 <!--<h3>Contents of the file:</h3>-->
 <!--<pre id="file-content"></pre>-->
 <script type="text/javascript">
+    
+    var contents;
+    
+    function showDescr(rangeLen,idx) {
 
-    var makePlot = async function (data,name,element) {
+        console.log('descr','idx',idx,'j',JSON.stringify(contents[rangeLen],null,2));
+        alert(JSON.stringify(contents[rangeLen][idx],null,2));
+    };
+
+    var makeDescriptions = async function (rangeLen,dataDescr) {
+        var title = document.createElement("div");
+        title.style.margin = "3px";
+        title.innerHTML = "Results descriptions:";
+
+        dataDescr.appendChild(title);
+
+        var data = contents[rangeLen];
+
+        for (var idx = 0; idx < data.length; idx++){
+            var but = document.createElement("button");
+            but.style.margin = "3px";
+            but.innerHTML = "t"+idx;
+            var helpIdx = idx;
+            but.onclick = function () {
+                showDescr(rangeLen,helpIdx);
+            };
+            dataDescr.appendChild(but);
+        }
+    };
+
+    var makePlot = async function (data,plotGroup,type) {
+        var x = [];
+        var y = [];
+
+        for (var a = 0; a < data.length; a++){
+            await x.push("t"+a);
+            await y.push(data[a].results[type]/1000000000);
+
+        }
+
+        // await console.log('x',x);
+        // await console.log('y',y);
 
         var title = document.createElement("div");
         title.style.margin = "3px";
-        title.innerHTML = " Plot for "+name+" (sec):";
+        title.innerHTML = "Data type: "+type + "in sec.";
 
-        element.appendChild(title);
+        plotGroup.appendChild(title);
 
         var div = document.createElement("div");
-        div.style.width = "600px";
+        div.style.width = "" + (150 + x.length * 20) + "px";
         div.style.height = "200px";
         div.style.background = "blue";
         div.style.color = "white";
         div.style.margin = "3px";
 
-        element.appendChild(div);
-
-        console.log('makePlot:resultsArr:',data);
-
-        var x = [];
-        var y = [];
-
-        for (var a = 0; a < data.length; a++){
-           await x.push(data[a].name);
-           await y.push(data[a].val/1000000000);
-
-        }
-
-        await console.log('x',x);
-        await console.log('y',y);
+        plotGroup.appendChild(div);
 
         Plotly.plot(div, [{
             x: x,
@@ -57,12 +83,17 @@
             margin: {t: 0}
         });
 
+
+        // console.log('makePlot:resultsArr:',data);
+
+
     };
 
     var displayResults = function(string){
 
         var json = JSON.parse(string);
-        console.log('json',json);
+        contents = json;
+        console.log('will display json:',json);
 
         Object.keys(json).forEach(function (rangeLen) { //for each test case
 
@@ -76,20 +107,26 @@
             title.innerHTML = "Range length "+rangeLen;
             div.appendChild(title);
 
-            var plotGroup = document.createElement("div");
-            plotGroup.style.margin = "3px";
-            plotGroup.style.border = "3px solid grey";
-            div.appendChild(plotGroup);
-
             var dataDescr = document.createElement("div");
             dataDescr.style.margin = "3px";
             dataDescr.style.border = "3px solid blue";
             div.appendChild(dataDescr);
 
+            var plotGroup = document.createElement("div");
+            plotGroup.style.margin = "3px";
+            plotGroup.style.border = "3px solid grey";
+            div.appendChild(plotGroup);
+
+
             // add result for this rangeLen
-            for (var i = 0; i < Object.keys(json[rangeLen]).forEach(function (tt) { // for each time type
-                makePlot(json[rangeLen][tt],,plotGroup);
-            })
+            // console.log("contents:");
+            makeDescriptions(rangeLen,dataDescr);
+            makePlot(json[rangeLen],plotGroup,'duration');
+            makePlot(json[rangeLen],plotGroup,'min');
+            makePlot(json[rangeLen],plotGroup,'max');
+            makePlot(json[rangeLen],plotGroup,'mean');
+            makePlot(json[rangeLen],plotGroup,'median');
+
         });
     };
 
@@ -99,15 +136,17 @@
             return;
         }
         var reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = async function(e) {
             var contents = e.target.result;
-            displayResults(contents);
+            await displayResults(contents);
+            
         };
         reader.readAsText(file);
     }
 
-    document.getElementById('file-input')
-        .addEventListener('change', readSingleFile, false);
+    document.getElementById('file-input') .addEventListener('change', readSingleFile, false);
+    
+    
 </script>
 </body>
 </html>
