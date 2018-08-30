@@ -1,0 +1,32 @@
+
+
+Circa block nr 2901279:
+ 6 contracts where created, from sampleContract6Var.sol
+ c1 at address: "0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256",
+ c2 at address: "0x21983b88993b18b1c040c3b8225b6037dd0f0400",
+ c3 at address: "0xbf9cecaa014ea8e569782833f266fdc7966ef4b9",
+ c4 at address: "0x21ef697043810309630cf78ea95f7e334a16813e",
+ c5 at address: "0x686bb1f3714b953661397956a2f37c8676b00e7e",
+ c6 at address: "0xbec575ac6fe2ad44bf689a3eaca5dea3f1330c61",
+ they all have 6 variables with setters and getters:
+  int1 , int2, int3, string1, string2, string3
+
+Between blocks nr 2901503 and += 10000:
+ c1 variables int1, int2 and int3 where changed each 5 blocks,
+  getting same value each 5*100 blocks
+ c2 variables int1, int2 and int3 where changed each 5 blocks,
+  int1 and int2 getting same value each 5*100 blocks,
+  int1, int2 and int3 getting same value each 5*1000 blocks,
+ c3 variables int1, int2 and int3 where changed each 10 blocks,
+  getting same value each 10*100 blocks
+ c4 variables int1, int2 and int3 where changed each 10 blocks,
+  int1 and int2 getting same value each 10*100 blocks,
+  int1, int2 and int3 getting same value each 10*1000 blocks,
+ c5 variables int1, int2 and int3 where changed each 20 blocks,
+  getting same value each 20*100 blocks
+ c6 variables int1, int2 and int3 where changed each 20 blocks,
+  int1 and int2 getting same value each 20*100 blocks,
+  int1, int2 and int3 getting same value each 20*1000 blocks,
+
+Circa block nr 2901745:
+  peers connection problem occured, ended at block nr 2901745

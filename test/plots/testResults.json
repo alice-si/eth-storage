@@ -1,0 +1,49 @@
+{
+  "500": [
+    {
+      "timerName": "sample",
+      "params": {
+        "threads": 2,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xcd56b102622125B62E7acEEdA08D393cA0cc28Fc",
+        "idx": 0,
+        "startBlock": 2700000,
+        "endBlock": 2700500,
+        "msg": "this is sample 500 blocks query, should run fast"
+      },
+      "results": {
+        "duration": 273043511,
+        "min": 3433902,
+        "max": 225231570,
+        "mean": 27304351.1,
+        "median": 4658642.5
+      }
+    },
+    {
+      "timerName": "sample",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xcd56b102622125B62E7acEEdA08D393cA0cc28Fc",
+        "idx": 0,
+        "startBlock": 2700000,
+        "endBlock": 2700500,
+        "msg": "this is sample 500 blocks query, should run fast"
+      },
+      "results": {
+        "duration": 296645416,
+        "min": 3461661,
+        "max": 247656285,
+        "mean": 29664541.6,
+        "median": 4600811.5
+      }
+    }
+  ]
+}

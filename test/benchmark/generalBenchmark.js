@@ -6,11 +6,14 @@ const Tick = t.Tick;
 
 var stateDB = new StateDB(Settings.dbPath);
 
-var numberOfExecutions = 5;
+var numberOfExecutions = 10;
 
-var displayResult = function (method, testCase, testIdx) {
-    console.log(method, ': test case ' + (+testIdx + 1) + ' "'+ testCase.msg+'",'+ ' (iterations ' + numberOfExecutions + ' searched in ' + (testCase.endBlock - testCase.startBlock) + ' blocks):')
-    var results = t.timers[method + testIdx];
+var displayResult = function (name, testCase) {
+
+    console.log('timer name:',name, 'test case msg:',testCase.msg,
+        '(iterations:',numberOfExecutions,' searched in range:',(testCase.endBlock - testCase.startBlock),'blocks)');
+
+    var results = t.timers[name];
     console.log('duration', results.parse(
         results.duration()
     )); // total duration of all ticks
@@ -28,10 +31,10 @@ var displayResult = function (method, testCase, testIdx) {
     ), '\n');   // median tick duration
 };
 
-async function runExample(name, j, cb) {
+async function runExample(name, cb) {
     for (var i = 0; i < numberOfExecutions; i++) {
         await new Promise(function (resolve, reject) {
-            Tick.wrap(name + j, function (done) {
+            Tick.wrap(name, function (done) {
                 cb(function () {
                     done();
                     resolve();
@@ -41,37 +44,20 @@ async function runExample(name, j, cb) {
     }
 }
 
+var tname = 'sample test';
+
 async function benchmark() {
     for (var j = 0; j < Settings.getRangeTests.length; j++) { // goes through test case
 
         var testCase = Settings.getRangeTests[j];
+
         console.log('Started test case ' + (j + 1) + ', message: "'+testCase.msg+'"\n');
 
-        await runExample('getRangeMulti8HashSet', j, function (cb) {
+        await runExample(tname+j,function (cb) {
             stateDB.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb, 8);
         });
 
-        displayResult('getRangeMulti8HashSet', testCase, j);
-
-        await runExample('getRangeMulti8LastPath', j, function (cb) {
-            stateDB.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb, 8, 'lastPath');
-        });
-
-
-        displayResult('getRangeMulti8LastPath', testCase, j);
-
-        await runExample('getRangeMulti8Set', j, function (cb) {
-            stateDB.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb, 8, 'set');
-        });
-
-
-        displayResult('getRangeMulti8Set', testCase, j);
-
-        await runExample('getRangeMulti100HashSet', j, function (cb) {
-            stateDB.getRangeMulti(testCase.adr, testCase.idx, testCase.startBlock, testCase.endBlock, cb, 4);
-        });
-
-        displayResult('getRangeMulti100HashSet', testCase, j);
+        displayResult(tname+j,testCase);
     }
 }
 

@@ -5,8 +5,7 @@ var getRangeTests = [
         idx: 0,
         startBlock: 2700000,
         endBlock: 2700500,
-        expectedOutput: '',
-        msg: '500 blocks, contract 0xcd56b102... at index 0'
+        msg: 'this is sample 500 blocks query, should run fast'
     },
     // {
     //     adr: "0xcd56b102622125B62E7acEEdA08D393cA0cc28Fc",

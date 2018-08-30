@@ -64,15 +64,16 @@
         var json = JSON.parse(string);
         console.log('json',json);
 
-        Object.keys(json).forEach(function (tc) { //for each test case
+        Object.keys(json).forEach(function (rangeLen) { //for each test case
 
+            // create new elements
             var div = document.createElement("div");
             div.style.margin = "3px 3px 40px 3px";
             div.style.border = "2px dotted yellow";
             document.getElementById("tester").appendChild(div);
 
             var title = document.createElement("h3");
-            title.innerHTML = " Test case "+tc+": "+json[tc].duration[0].msg+":";
+            title.innerHTML = "Range length "+rangeLen;
             div.appendChild(title);
 
             var plotGroup = document.createElement("div");
@@ -80,9 +81,14 @@
             plotGroup.style.border = "3px solid grey";
             div.appendChild(plotGroup);
 
-            Object.keys(json[tc]).forEach(function (tt) { // for each time type
-                makePlot(json[tc][tt],tt,plotGroup);
+            var dataDescr = document.createElement("div");
+            dataDescr.style.margin = "3px";
+            dataDescr.style.border = "3px solid blue";
+            div.appendChild(dataDescr);
 
+            // add result for this rangeLen
+            for (var i = 0; i < Object.keys(json[rangeLen]).forEach(function (tt) { // for each time type
+                makePlot(json[rangeLen][tt],,plotGroup);
             })
         });
     };
