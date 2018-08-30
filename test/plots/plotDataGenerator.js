@@ -119,16 +119,29 @@ async function benchmark(tests, name) {
 
     for (var j = 0; j < tests.length; j++) { // goes through test case
 
-        var timerName ='sample';
         var testCase = tests[j];
         console.log('Started test case ' + j + ', message: "' + testCase.msg + '"\n');
 
 
         // run web3 api getrange
-        await runTestCaseWeb3API(timerName+'(web3)', 1, testCase);
+        // await runTestCaseWeb3API(timerName+'(web3)', 1, testCase);
 
         // run getRange
-        await runTestCaseGetRangeMulti(timerName, testCase, 2, 'hashSet', true);
+        await runTestCaseGetRangeMulti('hashSet,n=1,'+j, testCase, 1, 'hashSet', true);
+        await runTestCaseGetRangeMulti('set,n=1,'+j, testCase, 1, 'set', true);
+        await runTestCaseGetRangeMulti('lastPath,n=1,'+j, testCase, 1, 'lastPath', true);
+
+        await runTestCaseGetRangeMulti('hashSet,n=2,'+j, testCase, 2, 'hashSet', true);
+        await runTestCaseGetRangeMulti('set,n=2,'+j, testCase, 2, 'set', true);
+        await runTestCaseGetRangeMulti('lastPath,n=2,'+j, testCase, 2, 'lastPath', true);
+
+        await runTestCaseGetRangeMulti('hashSet,n=4,'+j, testCase, 4, 'hashSet', true);
+        await runTestCaseGetRangeMulti('set,n=4,'+j, testCase, 4, 'set', true);
+        await runTestCaseGetRangeMulti('lastPath,n=4,'+j, testCase, 4, 'lastPath', true);
+
+        await runTestCaseGetRangeMulti('hashSet,n=8,'+j, testCase, 8, 'hashSet', true);
+        await runTestCaseGetRangeMulti('set,n=8,'+j, testCase, 8, 'set', true);
+        await runTestCaseGetRangeMulti('lastPath,n=8,'+j, testCase, 8, 'lastPath', true);
 
     }
 

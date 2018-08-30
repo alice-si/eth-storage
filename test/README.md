@@ -6,44 +6,42 @@ You can set test cases in "test/settings.js" in array getRangeTests.
 
     {
         adr: "6badc9463c5cc91cbfb5176ef99a454c3c77b00e",
-        idx: stateDB.atStruct(0, 1),
+        idx: 0,
         startBlock: 1110000,
         endBlock: 1113334,
-        cb: testLog,
-        expectedOutput: '', // unnecessary field
-        msg: 'at struct(0,1) search in 3334 blocks'
+        msg: 'sample contract get sample variable named var, when other variables changed each 14 blocks'
     },
 
-currently test cases are set to test 3 sample contracts:
-
-    "0x16c8985321696c21d58f3194eee166eedaf37356" have been changed 1000 times in 10000 blocks
-    "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad" have been changed 100 times in 10000 blocks
-    "0x68abe76de1aaaace161bae789a71e54183e1df8b" have been changed 10 times in 10000 blocks
 
 ## Folders:
+### contracts
+#### testContracts
+.sol, .abi and .bin files of tested contracts
+#### contractsHistory.txt
+All information about tested contracts (when created, when and how has changed) are in test/contracts/contractsHistory.txt
+#### contractsCreatorConsolePaste.js
+Functions for creating and changing contracts, paste it in the geth console
+#### contractsCreator.js
+Library for creating and changing contracts, saving all change and creations to files, in development...
 ### benchmark
 #### generalBenchmark.js:
-Script repeats each test case 'numberOfExecutions'
+Script repeats each test case from settings.js 'numberOfExecutions'
 and outputs full, mean, median, max and min time of execution.
-currently methods tested in benchmark are set to:
-
-    hashSet with parallelity 8
-    set with parallelity 8
-    lastPath with parallelity 8
-    hashSet with parallelity 100
 
 ### plots
+You can generate test results here.
+plot.html displays data, grouped by test block range length, and sorted by resulted mean time,
+gives plot for duration, min, max, mean and median
+you can check each candle detailed description by clicking corresponding button.
 
     Use dataToGenerate.js to set test cases
     Use plotDataGenerator.js to save results of test cases in 'results.json'
-    Use plot.html and choos file 'results.json' to show charts (need internet connection for cdn links)
+    Use plot.html and choose file 'results.json' to show charts (need internet connection for cdn links)
 
 
 ### samples
-Run each test case for various implementations and outputs time of execution and found value.
+Run each test case from settings.js for various implementations and outputs time of execution and found value.
 
-### contract_creator
-geth console input to generate test contracts on testnet
 
 ## Implementation versions:
 

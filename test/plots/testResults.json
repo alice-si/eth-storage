@@ -1,29 +1,76 @@
 {
-  "500": [
+  "10000": [
     {
-      "timerName": "sample",
+      "timerName": "hashSet,n=1,0",
+      "executions": 10,
       "params": {
-        "threads": 2,
+        "threads": 1,
         "method": "hashSet",
         "txReading": true
       },
       "testCase": {
-        "adr": "0xcd56b102622125B62E7acEEdA08D393cA0cc28Fc",
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
         "idx": 0,
-        "startBlock": 2700000,
-        "endBlock": 2700500,
-        "msg": "this is sample 500 blocks query, should run fast"
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
       },
       "results": {
-        "duration": 273043511,
-        "min": 3433902,
-        "max": 225231570,
-        "mean": 27304351.1,
-        "median": 4658642.5
+        "duration": 21190609821,
+        "min": 2017143292,
+        "max": 2570981782,
+        "mean": 2119060982.1,
+        "median": 2077885570
       }
     },
     {
-      "timerName": "sample",
+      "timerName": "set,n=1,0",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 19880214403,
+        "min": 1930812535,
+        "max": 2215663424,
+        "mean": 1988021440.3,
+        "median": 1966890350
+      }
+    },
+    {
+      "timerName": "lastPath,n=1,0",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 19964104934,
+        "min": 1925389746,
+        "max": 2191852297,
+        "mean": 1996410493.4,
+        "median": 1981101460.5
+      }
+    },
+    {
+      "timerName": "hashSet,n=2,0",
       "executions": 10,
       "params": {
         "threads": 2,
@@ -31,18 +78,2410 @@
         "txReading": true
       },
       "testCase": {
-        "adr": "0xcd56b102622125B62E7acEEdA08D393cA0cc28Fc",
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
         "idx": 0,
-        "startBlock": 2700000,
-        "endBlock": 2700500,
-        "msg": "this is sample 500 blocks query, should run fast"
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
       },
       "results": {
-        "duration": 296645416,
-        "min": 3461661,
-        "max": 247656285,
-        "mean": 29664541.6,
-        "median": 4600811.5
+        "duration": 18542963097,
+        "min": 1659049025,
+        "max": 2242324999,
+        "mean": 1854296309.7,
+        "median": 1819154180.5
+      }
+    },
+    {
+      "timerName": "set,n=2,0",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 19514986565,
+        "min": 1894386445,
+        "max": 2136663636,
+        "mean": 1951498656.5,
+        "median": 1929543584
+      }
+    },
+    {
+      "timerName": "lastPath,n=2,0",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 19399127339,
+        "min": 1893275053,
+        "max": 2149373699,
+        "mean": 1939912733.9,
+        "median": 1917828993
+      }
+    },
+    {
+      "timerName": "hashSet,n=4,0",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 18563940741,
+        "min": 1805327072,
+        "max": 2035171790,
+        "mean": 1856394074.1,
+        "median": 1821629880
+      }
+    },
+    {
+      "timerName": "set,n=4,0",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 17910319134,
+        "min": 1748761251,
+        "max": 2013410723,
+        "mean": 1791031913.4,
+        "median": 1767359324.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=4,0",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 18012472054,
+        "min": 1753596473,
+        "max": 1968640971,
+        "mean": 1801247205.4,
+        "median": 1789441420
+      }
+    },
+    {
+      "timerName": "hashSet,n=8,0",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 13334980714,
+        "min": 1280152922,
+        "max": 1562994362,
+        "mean": 1333498071.4,
+        "median": 1301868751.5
+      }
+    },
+    {
+      "timerName": "set,n=8,0",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 13080378490,
+        "min": 1257271724,
+        "max": 1489071402,
+        "mean": 1308037849,
+        "median": 1285195565.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=8,0",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 13321546858,
+        "min": 1288726881,
+        "max": 1524881137,
+        "mean": 1332154685.8,
+        "median": 1306448744
+      }
+    },
+    {
+      "timerName": "hashSet,n=1,1",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 9712338760,
+        "min": 912235022,
+        "max": 1372127513,
+        "mean": 971233876,
+        "median": 926120991.5
+      }
+    },
+    {
+      "timerName": "set,n=1,1",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 9593304201,
+        "min": 910173140,
+        "max": 1273652669,
+        "mean": 959330420.1,
+        "median": 926694679.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=1,1",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 9734932597,
+        "min": 925668878,
+        "max": 1333182029,
+        "mean": 973493259.7,
+        "median": 930750847
+      }
+    },
+    {
+      "timerName": "hashSet,n=2,1",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 7354409501,
+        "min": 691846385,
+        "max": 1053640321,
+        "mean": 735440950.1,
+        "median": 700004471.5
+      }
+    },
+    {
+      "timerName": "set,n=2,1",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 7125426348,
+        "min": 664235348,
+        "max": 1032420042,
+        "mean": 712542634.8,
+        "median": 679027600
+      }
+    },
+    {
+      "timerName": "lastPath,n=2,1",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 6938640082,
+        "min": 650959308,
+        "max": 994045676,
+        "mean": 693864008.2,
+        "median": 658747273.5
+      }
+    },
+    {
+      "timerName": "hashSet,n=4,1",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5997203015,
+        "min": 557358754,
+        "max": 924055767,
+        "mean": 599720301.5,
+        "median": 561945171.5
+      }
+    },
+    {
+      "timerName": "set,n=4,1",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5839062070,
+        "min": 513147268,
+        "max": 844605150,
+        "mean": 583906207,
+        "median": 546699007.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=4,1",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5824072681,
+        "min": 509855761,
+        "max": 810655274,
+        "mean": 582407268.1,
+        "median": 557062143
+      }
+    },
+    {
+      "timerName": "hashSet,n=8,1",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5284433471,
+        "min": 484606301,
+        "max": 814428967,
+        "mean": 528443347.1,
+        "median": 498903258.5
+      }
+    },
+    {
+      "timerName": "set,n=8,1",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5305302655,
+        "min": 475089047,
+        "max": 761108904,
+        "mean": 530530265.5,
+        "median": 491249462
+      }
+    },
+    {
+      "timerName": "lastPath,n=8,1",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5140346338,
+        "min": 472983984,
+        "max": 729412140,
+        "mean": 514034633.8,
+        "median": 492597062.5
+      }
+    },
+    {
+      "timerName": "hashSet,n=1,2",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 17234137612,
+        "min": 1570400898,
+        "max": 2214746861,
+        "mean": 1723413761.2,
+        "median": 1678361895.5
+      }
+    },
+    {
+      "timerName": "set,n=1,2",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 16096157476,
+        "min": 1539706032,
+        "max": 1772105614,
+        "mean": 1609615747.6,
+        "median": 1599036965.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=1,2",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 16559217071,
+        "min": 1575885888,
+        "max": 1895772343,
+        "mean": 1655921707.1,
+        "median": 1625963793
+      }
+    },
+    {
+      "timerName": "hashSet,n=2,2",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 14257021891,
+        "min": 1339077236,
+        "max": 1647006208,
+        "mean": 1425702189.1,
+        "median": 1418581572
+      }
+    },
+    {
+      "timerName": "set,n=2,2",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 13917239883,
+        "min": 1329925992,
+        "max": 1649415594,
+        "mean": 1391723988.3,
+        "median": 1358952228
+      }
+    },
+    {
+      "timerName": "lastPath,n=2,2",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 13860104488,
+        "min": 1320062777,
+        "max": 1687559663,
+        "mean": 1386010448.8,
+        "median": 1362169454.5
+      }
+    },
+    {
+      "timerName": "hashSet,n=4,2",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 12448559587,
+        "min": 1193753280,
+        "max": 1552056768,
+        "mean": 1244855958.7,
+        "median": 1209936570.5
+      }
+    },
+    {
+      "timerName": "set,n=4,2",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 11946191068,
+        "min": 1112677728,
+        "max": 1401910442,
+        "mean": 1194619106.8,
+        "median": 1154813708.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=4,2",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 11860386703,
+        "min": 1111515959,
+        "max": 1395127972,
+        "mean": 1186038670.3,
+        "median": 1170968982
+      }
+    },
+    {
+      "timerName": "hashSet,n=8,2",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 8917025007,
+        "min": 831336821,
+        "max": 1060365217,
+        "mean": 891702500.7,
+        "median": 864309217.5
+      }
+    },
+    {
+      "timerName": "set,n=8,2",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 8329333283,
+        "min": 786307985,
+        "max": 1067753247,
+        "mean": 832933328.3,
+        "median": 809850260
+      }
+    },
+    {
+      "timerName": "lastPath,n=8,2",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 0,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageInt, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 8352829808,
+        "min": 783785507,
+        "max": 1029074559,
+        "mean": 835282980.8,
+        "median": 819211498
+      }
+    },
+    {
+      "timerName": "hashSet,n=1,3",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 22364200752,
+        "min": 2145089546,
+        "max": 2618963363,
+        "mean": 2236420075.2,
+        "median": 2204003322.5
+      }
+    },
+    {
+      "timerName": "set,n=1,3",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 21688245414,
+        "min": 2073496293,
+        "max": 2361946097,
+        "mean": 2168824541.4,
+        "median": 2159973042.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=1,3",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 22018531248,
+        "min": 2109476694,
+        "max": 2424485262,
+        "mean": 2201853124.8,
+        "median": 2155798385
+      }
+    },
+    {
+      "timerName": "hashSet,n=2,3",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 19044237188,
+        "min": 1766537347,
+        "max": 2219765086,
+        "mean": 1904423718.8,
+        "median": 1845611417
+      }
+    },
+    {
+      "timerName": "set,n=2,3",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 17472915101,
+        "min": 1691050625,
+        "max": 1929157270,
+        "mean": 1747291510.1,
+        "median": 1719768170.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=2,3",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 17462076205,
+        "min": 1670145463,
+        "max": 1945084817,
+        "mean": 1746207620.5,
+        "median": 1730529442.5
+      }
+    },
+    {
+      "timerName": "hashSet,n=4,3",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 16836256347,
+        "min": 1619776087,
+        "max": 1879100955,
+        "mean": 1683625634.7,
+        "median": 1651427100
+      }
+    },
+    {
+      "timerName": "set,n=4,3",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 16455518894,
+        "min": 1576679592,
+        "max": 1839676370,
+        "mean": 1645551889.4,
+        "median": 1626768035.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=4,3",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 16954423691,
+        "min": 1647255526,
+        "max": 1848157285,
+        "mean": 1695442369.1,
+        "median": 1688530459
+      }
+    },
+    {
+      "timerName": "hashSet,n=8,3",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 13095133987,
+        "min": 1234443474,
+        "max": 1436457139,
+        "mean": 1309513398.7,
+        "median": 1288750270
+      }
+    },
+    {
+      "timerName": "set,n=8,3",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 12825651864,
+        "min": 1214333044,
+        "max": 1435654696,
+        "mean": 1282565186.4,
+        "median": 1269652276.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=8,3",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 12871785921,
+        "min": 1206486476,
+        "max": 1481771277,
+        "mean": 1287178592.1,
+        "median": 1272216136.5
+      }
+    },
+    {
+      "timerName": "hashSet,n=1,4",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 9098208562,
+        "min": 815718737,
+        "max": 1250372049,
+        "mean": 909820856.2,
+        "median": 869992633.5
+      }
+    },
+    {
+      "timerName": "set,n=1,4",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 8759824277,
+        "min": 814803201,
+        "max": 1201196828,
+        "mean": 875982427.7,
+        "median": 841770639
+      }
+    },
+    {
+      "timerName": "lastPath,n=1,4",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 8319153926,
+        "min": 790326370,
+        "max": 1119448376,
+        "mean": 831915392.6,
+        "median": 801325651
+      }
+    },
+    {
+      "timerName": "hashSet,n=2,4",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 6322005911,
+        "min": 575307573,
+        "max": 921251071,
+        "mean": 632200591.1,
+        "median": 599011262
+      }
+    },
+    {
+      "timerName": "set,n=2,4",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 6182531926,
+        "min": 563476548,
+        "max": 909443178,
+        "mean": 618253192.6,
+        "median": 589531791.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=2,4",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5848934540,
+        "min": 549149775,
+        "max": 854380461,
+        "mean": 584893454,
+        "median": 554377736
+      }
+    },
+    {
+      "timerName": "hashSet,n=4,4",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5152441591,
+        "min": 485450383,
+        "max": 744270961,
+        "mean": 515244159.1,
+        "median": 490051195
+      }
+    },
+    {
+      "timerName": "set,n=4,4",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5148903851,
+        "min": 478463833,
+        "max": 736774466,
+        "mean": 514890385.1,
+        "median": 488623915.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=4,4",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5194363465,
+        "min": 483470236,
+        "max": 751674412,
+        "mean": 519436346.5,
+        "median": 491155646.5
+      }
+    },
+    {
+      "timerName": "hashSet,n=8,4",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5937435648,
+        "min": 497879771,
+        "max": 1197497673,
+        "mean": 593743564.8,
+        "median": 510425336.5
+      }
+    },
+    {
+      "timerName": "set,n=8,4",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5192143768,
+        "min": 474902959,
+        "max": 722521203,
+        "mean": 519214376.8,
+        "median": 488723385.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=8,4",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5426292172,
+        "min": 485298736,
+        "max": 732234827,
+        "mean": 542629217.2,
+        "median": 512568954.5
+      }
+    },
+    {
+      "timerName": "hashSet,n=1,5",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 17098918989,
+        "min": 1591060854,
+        "max": 2022818482,
+        "mean": 1709891898.9,
+        "median": 1691866691
+      }
+    },
+    {
+      "timerName": "set,n=1,5",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 16702194355,
+        "min": 1577624943,
+        "max": 1795924452,
+        "mean": 1670219435.5,
+        "median": 1671948261
+      }
+    },
+    {
+      "timerName": "lastPath,n=1,5",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 17043265107,
+        "min": 1614975307,
+        "max": 1806816809,
+        "mean": 1704326510.7,
+        "median": 1692223960.5
+      }
+    },
+    {
+      "timerName": "hashSet,n=2,5",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 14488195449,
+        "min": 1377361129,
+        "max": 1632036864,
+        "mean": 1448819544.9,
+        "median": 1425838517.5
+      }
+    },
+    {
+      "timerName": "set,n=2,5",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 13875831042,
+        "min": 1295429673,
+        "max": 1574734400,
+        "mean": 1387583104.2,
+        "median": 1361013083.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=2,5",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 13276468162,
+        "min": 1239946970,
+        "max": 1578346166,
+        "mean": 1327646816.2,
+        "median": 1311932192
+      }
+    },
+    {
+      "timerName": "hashSet,n=4,5",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 11689069448,
+        "min": 1105977508,
+        "max": 1391890955,
+        "mean": 1168906944.8,
+        "median": 1143149237.5
+      }
+    },
+    {
+      "timerName": "set,n=4,5",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 11316766640,
+        "min": 1066680409,
+        "max": 1282422484,
+        "mean": 1131676664,
+        "median": 1109574622.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=4,5",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 11585554788,
+        "min": 1103951095,
+        "max": 1337154663,
+        "mean": 1158555478.8,
+        "median": 1133896209
+      }
+    },
+    {
+      "timerName": "hashSet,n=8,5",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 8461321570,
+        "min": 809838437,
+        "max": 1064633434,
+        "mean": 846132157,
+        "median": 822218989.5
+      }
+    },
+    {
+      "timerName": "set,n=8,5",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 8304301782,
+        "min": 784463547,
+        "max": 1059524219,
+        "mean": 830430178.2,
+        "median": 797450174
+      }
+    },
+    {
+      "timerName": "lastPath,n=8,5",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 1,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageByte, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 8401091548,
+        "min": 792609297,
+        "max": 1052236945,
+        "mean": 840109154.8,
+        "median": 799170980
+      }
+    },
+    {
+      "timerName": "hashSet,n=1,6",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 22061331128,
+        "min": 2091158268,
+        "max": 2508526923,
+        "mean": 2206133112.8,
+        "median": 2161497736
+      }
+    },
+    {
+      "timerName": "set,n=1,6",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 22387361598,
+        "min": 2146563862,
+        "max": 2365324995,
+        "mean": 2238736159.8,
+        "median": 2231694810.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=1,6",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 21578653570,
+        "min": 2017796144,
+        "max": 2406473213,
+        "mean": 2157865357,
+        "median": 2158597425.5
+      }
+    },
+    {
+      "timerName": "hashSet,n=2,6",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 18950117438,
+        "min": 1729013746,
+        "max": 2347809011,
+        "mean": 1895011743.8,
+        "median": 1827600140
+      }
+    },
+    {
+      "timerName": "set,n=2,6",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 19380804286,
+        "min": 1716174140,
+        "max": 2224704662,
+        "mean": 1938080428.6,
+        "median": 1931000422.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=2,6",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 18069370468,
+        "min": 1717171925,
+        "max": 2086832991,
+        "mean": 1806937046.8,
+        "median": 1780260873.5
+      }
+    },
+    {
+      "timerName": "hashSet,n=4,6",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 17849820260,
+        "min": 1695735741,
+        "max": 1962647066,
+        "mean": 1784982026,
+        "median": 1758369235.5
+      }
+    },
+    {
+      "timerName": "set,n=4,6",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 17784677394,
+        "min": 1665369872,
+        "max": 1979691658,
+        "mean": 1778467739.4,
+        "median": 1762561628.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=4,6",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 17862960591,
+        "min": 1664345870,
+        "max": 1894306252,
+        "mean": 1786296059.1,
+        "median": 1788897034
+      }
+    },
+    {
+      "timerName": "hashSet,n=8,6",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 12863990761,
+        "min": 1210937183,
+        "max": 1564698462,
+        "mean": 1286399076.1,
+        "median": 1248101715.5
+      }
+    },
+    {
+      "timerName": "set,n=8,6",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 11970486438,
+        "min": 1133964835,
+        "max": 1458048053,
+        "mean": 1197048643.8,
+        "median": 1153537047.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=8,6",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x16c8985321696c21d58f3194eee166eedaf37356",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 11604445359,
+        "min": 1095557569,
+        "max": 1401888852,
+        "mean": 1160444535.9,
+        "median": 1134129847.5
+      }
+    },
+    {
+      "timerName": "hashSet,n=1,7",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 8244351410,
+        "min": 763298273,
+        "max": 1154801113,
+        "mean": 824435141,
+        "median": 783888317.5
+      }
+    },
+    {
+      "timerName": "set,n=1,7",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 8727877678,
+        "min": 777283712,
+        "max": 1073627377,
+        "mean": 872787767.8,
+        "median": 822103583.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=1,7",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 8490137041,
+        "min": 772114867,
+        "max": 1229721345,
+        "mean": 849013704.1,
+        "median": 812938458.5
+      }
+    },
+    {
+      "timerName": "hashSet,n=2,7",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 6338725622,
+        "min": 576008233,
+        "max": 878173596,
+        "mean": 633872562.2,
+        "median": 610276568
+      }
+    },
+    {
+      "timerName": "set,n=2,7",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 6239275611,
+        "min": 578080398,
+        "max": 935142951,
+        "mean": 623927561.1,
+        "median": 589762346.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=2,7",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 6200246850,
+        "min": 581099969,
+        "max": 903963329,
+        "mean": 620024685,
+        "median": 588219403.5
+      }
+    },
+    {
+      "timerName": "hashSet,n=4,7",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5584397130,
+        "min": 510439730,
+        "max": 801969250,
+        "mean": 558439713,
+        "median": 527221896
+      }
+    },
+    {
+      "timerName": "set,n=4,7",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5398266804,
+        "min": 502291410,
+        "max": 794853671,
+        "mean": 539826680.4,
+        "median": 506411577.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=4,7",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5566880121,
+        "min": 518442571,
+        "max": 824465419,
+        "mean": 556688012.1,
+        "median": 522506193
+      }
+    },
+    {
+      "timerName": "hashSet,n=8,7",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5446324467,
+        "min": 512221966,
+        "max": 753115315,
+        "mean": 544632446.7,
+        "median": 521997019.5
+      }
+    },
+    {
+      "timerName": "set,n=8,7",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5343562386,
+        "min": 498531082,
+        "max": 758906169,
+        "mean": 534356238.6,
+        "median": 508634361
+      }
+    },
+    {
+      "timerName": "lastPath,n=8,7",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte and sStorageString where changed each 80 blocks"
+      },
+      "results": {
+        "duration": 5524311562,
+        "min": 505527400,
+        "max": 772354418,
+        "mean": 552431156.2,
+        "median": 519378926.5
+      }
+    },
+    {
+      "timerName": "hashSet,n=1,8",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 18740408338,
+        "min": 1787841418,
+        "max": 2216178509,
+        "mean": 1874040833.8,
+        "median": 1840428179
+      }
+    },
+    {
+      "timerName": "set,n=1,8",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 17502934496,
+        "min": 1671464533,
+        "max": 1997259047,
+        "mean": 1750293449.6,
+        "median": 1721863724.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=1,8",
+      "executions": 10,
+      "params": {
+        "threads": 1,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 16866447438,
+        "min": 1606186472,
+        "max": 1881661988,
+        "mean": 1686644743.8,
+        "median": 1667206084
+      }
+    },
+    {
+      "timerName": "hashSet,n=2,8",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 13933415720,
+        "min": 1325200264,
+        "max": 1563596837,
+        "mean": 1393341572,
+        "median": 1369814770
+      }
+    },
+    {
+      "timerName": "set,n=2,8",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 13591066511,
+        "min": 1292355611,
+        "max": 1528270830,
+        "mean": 1359106651.1,
+        "median": 1323212919
+      }
+    },
+    {
+      "timerName": "lastPath,n=2,8",
+      "executions": 10,
+      "params": {
+        "threads": 2,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 13647887301,
+        "min": 1291811224,
+        "max": 1554939600,
+        "mean": 1364788730.1,
+        "median": 1331726476
+      }
+    },
+    {
+      "timerName": "hashSet,n=4,8",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 13027499489,
+        "min": 1241461896,
+        "max": 1487800139,
+        "mean": 1302749948.9,
+        "median": 1262574738
+      }
+    },
+    {
+      "timerName": "set,n=4,8",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 12459126547,
+        "min": 1212148815,
+        "max": 1430149143,
+        "mean": 1245912654.7,
+        "median": 1225675972.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=4,8",
+      "executions": 10,
+      "params": {
+        "threads": 4,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 12775712239,
+        "min": 1215320548,
+        "max": 1475540904,
+        "mean": 1277571223.9,
+        "median": 1260248115
+      }
+    },
+    {
+      "timerName": "hashSet,n=8,8",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "hashSet",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 9164531703,
+        "min": 882390921,
+        "max": 1123124399,
+        "mean": 916453170.3,
+        "median": 892073187.5
+      }
+    },
+    {
+      "timerName": "set,n=8,8",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "set",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 9003007237,
+        "min": 863155417,
+        "max": 1081210749,
+        "mean": 900300723.7,
+        "median": 882166792.5
+      }
+    },
+    {
+      "timerName": "lastPath,n=8,8",
+      "executions": 10,
+      "params": {
+        "threads": 8,
+        "method": "lastPath",
+        "txReading": true
+      },
+      "testCase": {
+        "adr": "0x68abe76de1aaaace161bae789a71e54183e1df8b",
+        "idx": 2,
+        "startBlock": 2785000,
+        "endBlock": 2795000,
+        "msg": "get sStorageString, sStorageByte where changed each 800 blocks, sStorageString where changed each 8 blocks"
+      },
+      "results": {
+        "duration": 8970343017,
+        "min": 859467571,
+        "max": 1081628677,
+        "mean": 897034301.7,
+        "median": 878625709.5
       }
     }
   ]

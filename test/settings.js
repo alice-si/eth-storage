@@ -32,7 +32,7 @@ function newTimeCb(testCase) {
     var startTime = Date.now();
     return function (err, val) {
         console.log('time in milis:', Date.now() - startTime, '\nmsg:', testCase.msg, '\nvalue:\n', val);
-        console.log('val tail',val.slice(val.length - 10,val.length))
+        // console.log('val tail',val.slice(val.length - 10,val.length))
     }
 }
 

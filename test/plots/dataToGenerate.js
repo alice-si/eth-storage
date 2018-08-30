@@ -7,7 +7,13 @@ var getRangeTests = [
     //     endBlock: 2700500,
     //     msg: 'this is sample 500 blocks query, should run fast'
     // },
-
+    // {
+    //     adr: "0xcd56b102622125B62E7acEEdA08D393cA0cc28Fc",
+    //     idx: 0,
+    //     startBlock: 2700000,
+    //     endBlock: 2700500,
+    //     msg: 'this is sample 500 blocks query, should run fast'
+    // },
 
     {
         adr: "0x16c8985321696c21d58f3194eee166eedaf37356",
