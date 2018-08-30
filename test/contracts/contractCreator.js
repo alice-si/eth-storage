@@ -1,30 +1,40 @@
-const fs = require('fs');
 var Web3 = require('web3');
+const fs = require('fs');
 
-var web3;
+var myAccount = "0x4b1df37f8e626d8bee43f7a45c0ac070279edc8a";
+
+// var web3;
+var hej = 0;
 
 var deployedContractsFile = 'deployedContracts.json';
 var contractsHistoryFile = 'contractsHistory.json';
 
-export async function setWeb3(){
-    web3 = await new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+async function setWeb3() {
+    var provider = new Web3.providers.HttpProvider("http://localhost:8545");
+    web3 = new Web3(provider);
+    console.log(web3.version);
+    web3.eth.getStorageAt("0x16c8985321696c21d58f3194eee166eedaf37356",0,'latest',console.log);
+    hej = 2;
 };
 
-export async function unlockAccount(){
+async function unlockAccount() {
     await fs.readFile('accountData', async function read(err, pass) {
         if (err) {
             throw err;
         }
+        console.log(hej);
         pass = pass.toString();
-        await web3.eth.personal.unlockAccount(web3.eth.coinbase,pass,1000*60*60*24*4); //4 days
+        console.log('pass',pass,'wpers',web3.personal.unlockAccount);
+        // web3.personal.unlockAccount(myAccount, pass, 1000 * 60 * 60 * 24 * 4); //4 days
     });
 };
 
-export function endWeb3() {
+function endWeb3() {
+    delete (web3);
     web3 = null;
 };
 
-export function getContractSource(abi_file, code_file, cb) {
+function getContractSource(abi_file, code_file, cb) {
     fs.readFile(abi_file, function read(err, abi_raw) {
         if (err) {
             throw err;
@@ -39,7 +49,7 @@ export function getContractSource(abi_file, code_file, cb) {
     });
 };
 
-export async function changeJSONFile(file, changeContent, cb) {
+async function changeJSONFile(file, changeContent, cb) {
     await fs.readFile(file, async function read(err, content) {
         if (err) {
             throw err;
@@ -53,13 +63,13 @@ export async function changeJSONFile(file, changeContent, cb) {
     });
 };
 
-export function deployContract(name, descr, abi_file, code_file, cb) {
+function deployContract(name, descr, abi_file, code_file, cb) {
 
     getContractSource(abi_file, code_file, function (err, abi, code) {
-        var Contract = eth.contract(abi);
-        var deploy = {from: eth.coinbase, data: code, gas: 2000000};
-        var contractPartialInstance = Contract.new("DISQUALIFIED!", deploy);
-        var contract = Contract.at(contractPartialInstance.address);
+        var iContract = web3.eth.contract(abi);
+        var deploy = {from: web3.eth[myAccount], data: code, gas: 2000000};
+        var contractPartialInstance = iContract.new("DISQUALIFIED!", deploy);
+        var contract = iContract.at(contractPartialInstance.address);
 
         changeJSONFile(
             deployedContractsFile,
@@ -81,13 +91,13 @@ export function deployContract(name, descr, abi_file, code_file, cb) {
 
 };
 
-export function contractAtAddress(abi, address, cb) {
-    var Contract = eth.contract(abi);
+function contractAtAddress(abi, address, cb) {
+    var Contract = web3.eth.contract(abi);
     var contract = Contract.at(address);
     cb(null, contract);
 };
 
-export function openContract(address, name, cb) {
+function openContract(address, name, cb) {
     fs.readFile(deployedContractsFile, function read(err, content) {
         if (err) {
             throw err;
@@ -114,7 +124,7 @@ export function openContract(address, name, cb) {
     });
 };
 
-export function timeOutIt(cb, times, timeOut) {
+function timeOutIt(cb, times, timeOut) {
     if (times > 0) {
         cb();
         setTimeout(function () {
@@ -123,19 +133,19 @@ export function timeOutIt(cb, times, timeOut) {
     }
 };
 
-export function contractChange(contract, func, arg) {
+function contractChange(contract, func, arg) {
     var getData = contract[func].getData(arg);
-    var tx = {to: contract.address, from: eth.coinbase, data: getData};
+    var tx = {to: contract.address, from: web3.eth.coinbase, data: getData};
     web3.eth.sendTransaction(tx);
 
-    web3.eth.getBlockNumber(function(err,number){
+    web3.eth.getBlockNumber(function (err, number) {
         changeJSONFile(
             contractsHistoryFile,
             function (content) {
                 var adr = contract.address;
                 // add to history
                 if (content[adr] === undefined) content[adr] = [];
-                content[adr].push({send: number, func: func, arg:arg, tx:tx});
+                content[adr].push({send: number, func: func, arg: arg, tx: tx});
                 console.log('jsone end');
             },
             function (err) {
@@ -165,10 +175,23 @@ export function contractChange(contract, func, arg) {
 //     function (err) {
 //         console.log('go');
 //         cb(err, contract);
-    // });
+// });
 
 // getContractSource('sampleContract_sol_SimpleStorage.abi', 'sampleContract_sol_SimpleStorage.bin', (err, abi, code) => {
 //     console.log(abi);
 //     console.log(code);
 // });
 
+module.exports = {
+    setWeb3: setWeb3,
+    unlockAccount: unlockAccount,
+    endWeb3: endWeb3,
+    getContractSource: getContractSource,
+    changeJSONFile: changeJSONFile,
+    deployContract: deployContract,
+    contractAtAddress: contractAtAddress,
+    openContract: openContract,
+    timeOutIt: timeOutIt,
+    contractChange: contractChange,
+    web3: web3,
+};
