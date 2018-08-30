@@ -34,7 +34,6 @@ plot.html displays data, grouped by test block range length, and sorted by resul
 gives plot for duration, min, max, mean and median
 you can check each candle detailed description by clicking corresponding button.
 #### testResult.json format:
-dict(blockRangeLength=>array(of dicts(executions=>numberofexecutionresult=>results
 
     {
       <int>blockRangeLength:[
