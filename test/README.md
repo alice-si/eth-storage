@@ -33,6 +33,23 @@ You can generate test results here.
 plot.html displays data, grouped by test block range length, and sorted by resulted mean time,
 gives plot for duration, min, max, mean and median
 you can check each candle detailed description by clicking corresponding button.
+#### testResult.json format:
+dict(blockRangeLength=>array(of dicts(executions=>numberofexecutionresult=>results
+
+    {
+      <int>blockRangeLength:[
+        {
+          executions: <int>executions,
+          timerName: <string>timerName,
+          params: <{method,threads,txReading}>params,
+          results: <{duration,min,max,mean,median}>results,
+          testCase: <test case format>testCase
+        },
+        ...
+      ]
+    }
+
+How to:
 
     Use dataToGenerate.js to set test cases
     Use plotDataGenerator.js to save results of test cases in 'results.json'
