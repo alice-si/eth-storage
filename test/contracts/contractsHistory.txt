@@ -1,4 +1,16 @@
+Circa block nr 2778581:
+ 3 contracts where created, from sampleContract.sol
+ a1 at address: "0x16c8985321696c21d58f3194eee166eedaf37356",
+ a2 at address: "0xf0764a85241e2ad94a3c75e0a9a17d3ede3865ad",
+ a3 at address: "0x68abe76de1aaaace161bae789a71e54183e1df8b"
+ they all have 6 variables with setters and getters:
+  sStorageInt, sStorageString, sStorageByte
 
+Between blocks nr 2778826 and += 8000:
+ a1 variable sStorageInt, sStorageByte and sStorageString where changed each 8 blocks,
+ a2 variable sStorageInt, sStorageByte and sStorageString where changed each 80 blocks,
+ a3 variable sStorageInt, sStorageByte where changed each 800 blocks,
+ a3 variable sStorageString where changed each 8 blocks,
 
 Circa block nr 2901279:
  6 contracts where created, from sampleContract6Var.sol

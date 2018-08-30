@@ -62,7 +62,7 @@
 
         var title = document.createElement("div");
         title.style.margin = "3px";
-        title.innerHTML = "Data type: "+type + "in sec.";
+        title.innerHTML = "Data type: "+type + " in sec.";
 
         plotGroup.appendChild(title);
 
@@ -97,6 +97,8 @@
 
         Object.keys(json).forEach(function (rangeLen) { //for each test case
 
+            contents[rangeLen].sort(function (a,b) { return a.results.mean - b.results.mean});
+
             // create new elements
             var div = document.createElement("div");
             div.style.margin = "3px 3px 40px 3px";
@@ -121,11 +123,11 @@
             // add result for this rangeLen
             // console.log("contents:");
             makeDescriptions(rangeLen,dataDescr);
-            makePlot(json[rangeLen],plotGroup,'duration');
+            makePlot(json[rangeLen],plotGroup,'mean');
             makePlot(json[rangeLen],plotGroup,'min');
             makePlot(json[rangeLen],plotGroup,'max');
-            makePlot(json[rangeLen],plotGroup,'mean');
             makePlot(json[rangeLen],plotGroup,'median');
+            makePlot(json[rangeLen],plotGroup,'duration');
 
         });
     };
