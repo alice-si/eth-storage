@@ -27,18 +27,21 @@ Between blocks nr 2901503 and += 10000:
  c1 variables int1, int2 and int3 where changed each 5 blocks,
   getting same value each 5*100 blocks
  c2 variables int1, int2 and int3 where changed each 5 blocks,
-  int1 and int2 getting same value each 5*100 blocks,
-  int1, int2 and int3 getting same value each 5*1000 blocks,
+  int1 and int2 getting same value each 5*10 blocks,
+  int1, int2 and int3 getting same value each 5*100 blocks,
  c3 variables int1, int2 and int3 where changed each 10 blocks,
   getting same value each 10*100 blocks
  c4 variables int1, int2 and int3 where changed each 10 blocks,
-  int1 and int2 getting same value each 10*100 blocks,
-  int1, int2 and int3 getting same value each 10*1000 blocks,
+  int1 and int2 getting same value each 10*10 blocks,
+  int1, int2 and int3 getting same value each 10*100 blocks,
  c5 variables int1, int2 and int3 where changed each 20 blocks,
   getting same value each 20*100 blocks
  c6 variables int1, int2 and int3 where changed each 20 blocks,
-  int1 and int2 getting same value each 20*100 blocks,
-  int1, int2 and int3 getting same value each 20*1000 blocks,
+  int1 and int2 getting same value each 20*10 blocks,
+  int1, int2 and int3 getting same value each 20*100 blocks,
 
 Circa block nr 2901745:
   peers connection problem occured, ended at block nr 2901745
+
+Circa block nr 2906576:
+  connection lost genreating stopped

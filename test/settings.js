@@ -1,4 +1,5 @@
 var dbPath = 'C:/Users/ja1/Alice/dirforfullrinkeby/geth/chaindata';  // database path
+var dtg = require('./plots/dataToGenerate');
 
 module.exports.dbPath = dbPath;
 module.exports.myAssertEqual = myAssertEqual;
@@ -153,4 +154,5 @@ var getRangeTests = [
 
 module.exports.newAssertCb = newAssertCb;
 module.exports.newTimeCb = newTimeCb;
-module.exports.getRangeTests = getRangeTests;
+// module.exports.getRangeTests = getRangeTests;
+module.exports.getRangeTests = dtg.cases;

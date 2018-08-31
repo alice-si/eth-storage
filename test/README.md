@@ -30,7 +30,7 @@ and outputs full, mean, median, max and min time of execution.
 
 ### plots
 You can generate test results here.
-plot.html displays data, grouped by test block range length, and sorted by resulted mean time,
+plot.html displays data, grouped by test block range length,
 gives plot for duration, min, max, mean and median
 you can check each candle detailed description by clicking corresponding button.
 #### testResult.json format:
@@ -54,6 +54,10 @@ How to:
     Use plotDataGenerator.js to save results of test cases in 'results.json'
     Use plot.html and choose file 'results.json' to show charts (need internet connection for cdn links)
 
+#### results:
+Results or logs of plotDataGenerator.js
+#### conclusions.txt:
+Interpretation of results in results folder.
 
 ### samples
 Run each test case from settings.js for various implementations and outputs time of execution and found value.

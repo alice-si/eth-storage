@@ -12,21 +12,21 @@
 <div id="visualization"></div>
 <!--<div id="tester" style="width:600px;height:250px;"></div>-->
 <p>Choose file with benchmark results ('results.json'):</p>
-<input type="file" id="file-input" />
+<input type="file" id="file-input"/>
 <div id="tester"></div>
 <!--<h3>Contents of the file:</h3>-->
 <!--<pre id="file-content"></pre>-->
 <script type="text/javascript">
-    
-    var contents;
-    
-    function showDescr(rangeLen,idx) {
 
-        console.log('descr','idx',idx,'j',JSON.stringify(contents[rangeLen],null,2));
-        alert(JSON.stringify(contents[rangeLen][idx],null,2));
+    var contents;
+
+    function showDescr(rangeLen, idx) {
+
+        console.log('descr', 'idx', idx, 'j', JSON.stringify(contents[rangeLen], null, 2));
+        alert(JSON.stringify(contents[rangeLen][idx], null, 2));
     };
 
-    var makeDescriptions = async function (rangeLen,dataDescr) {
+    var makeDescriptions = async function (rangeLen, dataDescr, filter) {
         var title = document.createElement("div");
         title.style.margin = "3px";
         title.innerHTML = "Results descriptions:";
@@ -35,26 +35,36 @@
 
         var data = contents[rangeLen];
 
-        for (var idx = 0; idx < data.length; idx++){
-            var but = document.createElement("button");
-            but.style.margin = "3px";
-            but.innerHTML = "t"+idx;
-            var helpIdx = idx;
-            but.onclick = function () {
-                showDescr(rangeLen,helpIdx);
-            };
-            dataDescr.appendChild(but);
+        for (var idx = 0; idx < data.length; idx++) {
+            // console.log('czy????',data[idx]);
+            var filterResult = filter(data[idx]);
+            // console.log('sfff',filterResult);
+            if (filterResult) {
+                console.log('ok');
+                var but = document.createElement("button");
+                but.style.margin = "3px";
+                but.innerHTML = "t" + idx;
+                let helpIdx = idx;
+                but.onclick = function () {
+                    showDescr(rangeLen, helpIdx);
+                };
+                dataDescr.appendChild(but);
+            }
         }
     };
 
-    var makePlot = async function (data,plotGroup,type) {
+    var makePlot = async function (data, plotGroup, type, filter) {
         var x = [];
         var y = [];
 
-        for (var a = 0; a < data.length; a++){
-            await x.push("t"+a);
-            await y.push(data[a].results[type]/1000000000);
+        for (var a = 0; a < data.length; a++) {
 
+            var filterResult = filter(data[a]);
+            console.log('sfff',filterResult);
+            if (filter(data[a])) {
+                await x.push("t" + a);
+                await y.push(data[a].results[type] / 1000000000);
+            }
         }
 
         // await console.log('x',x);
@@ -62,7 +72,7 @@
 
         var title = document.createElement("div");
         title.style.margin = "3px";
-        title.innerHTML = "Data type: "+type + " in sec.";
+        title.innerHTML = "Data type: " + type + " in sec.";
 
         plotGroup.appendChild(title);
 
@@ -89,15 +99,15 @@
 
     };
 
-    var displayResults = function(string){
+    var displayResults = function (string) {
 
         var json = JSON.parse(string);
         contents = json;
-        console.log('will display json:',json);
+        console.log('will display json:', json);
 
-        Object.keys(json).forEach(function (rangeLen) { //for each test case
+        Object.keys(json).forEach(async function (rangeLen) { //for each test case
 
-            contents[rangeLen].sort(function (a,b) { return a.results.mean - b.results.mean});
+            // contents[rangeLen].sort(function (a,b) { return a.results.mean - b.results.mean});
 
             // create new elements
             var div = document.createElement("div");
@@ -106,28 +116,54 @@
             document.getElementById("tester").appendChild(div);
 
             var title = document.createElement("h3");
-            title.innerHTML = "Range length "+rangeLen;
+            title.innerHTML = "Range length " + rangeLen;
             div.appendChild(title);
 
-            var dataDescr = document.createElement("div");
-            dataDescr.style.margin = "3px";
-            dataDescr.style.border = "3px solid blue";
-            div.appendChild(dataDescr);
+            var checkIfCandles = function(filter,i,cb){
+                // if (i >= contents[rangeLen])
+                for (var i = 0; i < contents[rangeLen].length; i++){
+                    if (filter(contents[rangeLen][i])) return true;
 
-            var plotGroup = document.createElement("div");
-            plotGroup.style.margin = "3px";
-            plotGroup.style.border = "3px solid grey";
-            div.appendChild(plotGroup);
+                }
+                return false;
+            };
 
 
-            // add result for this rangeLen
-            // console.log("contents:");
-            makeDescriptions(rangeLen,dataDescr);
-            makePlot(json[rangeLen],plotGroup,'mean');
-            makePlot(json[rangeLen],plotGroup,'min');
-            makePlot(json[rangeLen],plotGroup,'max');
-            makePlot(json[rangeLen],plotGroup,'median');
-            makePlot(json[rangeLen],plotGroup,'duration');
+            for (var i = 1; i < 16; i++) {
+                var currI = i;
+                var filter = function (result) {
+                    // console.log('vs res',result.params.threads===currI,result,currI);
+                    return result.params.threads === currI;
+                };
+
+                console.log('hej',checkIfCandles(filter));
+                if (!checkIfCandles(filter)) continue;
+                console.log('o')
+
+
+                var subtitle = document.createElement("h6");
+                subtitle.innerHTML = "Threads: "+i;
+                div.appendChild(subtitle);
+
+                var dataDescr = document.createElement("div");
+                dataDescr.style.margin = "3px";
+                dataDescr.style.border = "3px solid blue";
+                div.appendChild(dataDescr);
+
+                var plotGroup = document.createElement("div");
+                plotGroup.style.margin = "3px";
+                plotGroup.style.border = "3px solid grey";
+                div.appendChild(plotGroup);
+
+                // add result for this rangeLen
+                // console.log("contents:")
+                await makeDescriptions(rangeLen, dataDescr, filter);
+                await makePlot(json[rangeLen], plotGroup, 'mean', filter);
+                await makePlot(json[rangeLen], plotGroup, 'min', filter);
+                await makePlot(json[rangeLen], plotGroup, 'max', filter);
+                await makePlot(json[rangeLen], plotGroup, 'median', filter);
+                await makePlot(json[rangeLen], plotGroup, 'duration', filter);
+            }
 
         });
     };
@@ -138,17 +174,17 @@
             return;
         }
         var reader = new FileReader();
-        reader.onload = async function(e) {
+        reader.onload = async function (e) {
             var contents = e.target.result;
             await displayResults(contents);
-            
+
         };
         reader.readAsText(file);
     }
 
-    document.getElementById('file-input') .addEventListener('change', readSingleFile, false);
-    
-    
+    document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+
+
 </script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 var prompt = require('prompt-sync')();
 var fs = require('fs');
 
-var StateDB = require('../../ethStorage.js');
+var StateDB = require('../../ethStorageLoggingVersion.js');
 var StateDBWeb3 = require('../../getRangeWeb3.js');
 var Settings = require('../settings.js');
 var dtg = require('./dataToGenerate');
@@ -11,10 +11,10 @@ const Tick = t.Tick;
 
 // var stateDB = new StateDB(Settings.dbPath);
 
-var inputFileName = 'testResults.json';
-var outputFileName = 'testResults.json';
+var inputFileName = 'results/helpResults.json';
+var outputFileName = 'results/allForCycleContractsNumberOfExecutions1.json';
 
-var numberOfExecutions = 10;
+var numberOfExecutions = 1;
 var stateDB;
 
 
@@ -127,21 +127,36 @@ async function benchmark(tests, name) {
         // await runTestCaseWeb3API(timerName+'(web3)', 1, testCase);
 
         // run getRange
+        // await runTestCaseGetRangeMulti('hashSet1,n=1,'+j, testCase, 2, 'hashSet', true);
+        // await runTestCaseGetRangeMulti('hashSet2,n=1,'+j, testCase, 2, 'hashSet', true);
+        // await runTestCaseGetRangeMulti('hashSet3,n=1,'+j, testCase, 2, 'hashSet', true);
         await runTestCaseGetRangeMulti('hashSet,n=1,'+j, testCase, 1, 'hashSet', true);
+        await runTestCaseGetRangeMulti('hashSet,n=1,'+j+"f", testCase, 1, 'hashSet', false);
         await runTestCaseGetRangeMulti('set,n=1,'+j, testCase, 1, 'set', true);
+        await runTestCaseGetRangeMulti('set,n=1,'+j+"f", testCase, 1, 'set', false);
         await runTestCaseGetRangeMulti('lastPath,n=1,'+j, testCase, 1, 'lastPath', true);
+        await runTestCaseGetRangeMulti('lastPath,n=1,'+j+"f", testCase, 1, 'lastPath', false);
 
         await runTestCaseGetRangeMulti('hashSet,n=2,'+j, testCase, 2, 'hashSet', true);
+        await runTestCaseGetRangeMulti('hashSet,n=2,'+j+"f", testCase, 2, 'hashSet', false);
         await runTestCaseGetRangeMulti('set,n=2,'+j, testCase, 2, 'set', true);
+        await runTestCaseGetRangeMulti('set,n=2,'+j+"f", testCase, 2, 'set', false);
         await runTestCaseGetRangeMulti('lastPath,n=2,'+j, testCase, 2, 'lastPath', true);
+        await runTestCaseGetRangeMulti('lastPath,n=2,'+j+"f", testCase, 2, 'lastPath', false);
 
         await runTestCaseGetRangeMulti('hashSet,n=4,'+j, testCase, 4, 'hashSet', true);
+        await runTestCaseGetRangeMulti('hashSet,n=4,'+j+"f", testCase, 4, 'hashSet', false);
         await runTestCaseGetRangeMulti('set,n=4,'+j, testCase, 4, 'set', true);
+        await runTestCaseGetRangeMulti('set,n=4,'+j+"f", testCase, 4, 'set', false);
         await runTestCaseGetRangeMulti('lastPath,n=4,'+j, testCase, 4, 'lastPath', true);
+        await runTestCaseGetRangeMulti('lastPath,n=4,'+j+"f", testCase, 4, 'lastPath', false);
 
         await runTestCaseGetRangeMulti('hashSet,n=8,'+j, testCase, 8, 'hashSet', true);
+        await runTestCaseGetRangeMulti('hashSet,n=8,'+j+"f", testCase, 8, 'hashSet', false);
         await runTestCaseGetRangeMulti('set,n=8,'+j, testCase, 8, 'set', true);
+        await runTestCaseGetRangeMulti('set,n=8,'+j+"f", testCase, 8, 'set', false);
         await runTestCaseGetRangeMulti('lastPath,n=8,'+j, testCase, 8, 'lastPath', true);
+        await runTestCaseGetRangeMulti('lastPath,n=8,'+j+"f", testCase, 8, 'lastPath', false);
 
     }
 
@@ -159,7 +174,7 @@ fs.readFile(inputFileName, async function read(err, content) {
     }
     resultsArr = JSON.parse(content);
     // run benchmark
-    benchmark(dtg.cases, outputFileName);
+    benchmark(dtg.cases2, outputFileName);
 });
 
 

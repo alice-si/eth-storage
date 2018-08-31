@@ -5,7 +5,7 @@ var getRangeTests = [
     //     idx: 0,
     //     startBlock: 2700000,
     //     endBlock: 2700500,
-    //     msg: 'this is sample 500 blocks query, should run fast'
+    //     msg: 'this is sample 500 blocks query, should run fas'
     // },
     // {
     //     adr: "0xcd56b102622125B62E7acEEdA08D393cA0cc28Fc",
@@ -82,3 +82,136 @@ var getRangeTests = [
 ];
 
 module.exports.cases = getRangeTests;
+
+var test6vars = [
+
+    {
+        adr: "0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256",
+        idx: 0,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 5 block, cycle 50'
+    },
+    {
+        adr: "0x21983b88993b18b1c040c3b8225b6037dd0f0400",
+        idx: 0,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 5 block, cycle 500'
+    },
+    {
+        adr: "0xbf9cecaa014ea8e569782833f266fdc7966ef4b9",
+        idx: 0,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 10 block, cycle 100'
+    },
+    {
+        adr: "0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256",
+        idx: 1,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 5 block, cycle 50'
+    },
+    {
+        adr: "0x21983b88993b18b1c040c3b8225b6037dd0f0400",
+        idx: 1,
+        startBlock: 2901000,
+        endBlock: 2795000,
+    },
+    {
+        adr: "0xbf9cecaa014ea8e569782833f266fdc7966ef4b9",
+        idx: 1,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 10 block, cycle 100'
+    },
+    {
+        adr: "0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256",
+        idx: 2,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 5 block, cycle 50'
+    },
+    {
+        adr: "0x21983b88993b18b1c040c3b8225b6037dd0f0400",
+        idx: 2,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 5 block, cycle 500'
+    },
+    {
+        adr: "0xbf9cecaa014ea8e569782833f266fdc7966ef4b9",
+        idx: 2,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 10 block, cycle 100'
+    },
+
+    {
+        adr: "0x21ef697043810309630cf78ea95f7e334a16813e",
+        idx: 0,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 10 block, cycle 1000'
+    },
+    {
+        adr: "0x686bb1f3714b953661397956a2f37c8676b00e7e",
+        idx: 0,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 20 block, cycle 200'
+    },
+    {
+        adr: "0xbec575ac6fe2ad44bf689a3eaca5dea3f1330c61",
+        idx: 0,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 20 block, cycle 2000'
+    },
+    {
+        adr: "0x21ef697043810309630cf78ea95f7e334a16813e",
+        idx: 1,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 10 block, cycle 1000'
+    },
+    {
+        adr: "0x686bb1f3714b953661397956a2f37c8676b00e7e",
+        idx: 1,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 20 block, cycle 2000'
+    },
+    {
+        adr: "0xbec575ac6fe2ad44bf689a3eaca5dea3f1330c61",
+        idx: 1,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 10 block, cycle 1000'
+    },
+    {
+        adr: "0x21ef697043810309630cf78ea95f7e334a16813e",
+        idx: 2,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 10 block, cycle 1000'
+    },
+    {
+        adr: "0x686bb1f3714b953661397956a2f37c8676b00e7e",
+        idx: 2,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 20 block, cycle 200'
+    },
+    {
+        adr: "0xbec575ac6fe2ad44bf689a3eaca5dea3f1330c61",
+        idx: 2,
+        startBlock: 2901000,
+        endBlock: 2795000,
+        msg: 'change each 20 block, cycle 2000'
+    },
+
+];
+
+module.exports.cases2 = test6vars;
