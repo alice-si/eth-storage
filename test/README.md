@@ -17,7 +17,7 @@ You can set test cases in "test/settings.js" in array getRangeTests.
 ### contracts
 #### testContracts
 .sol, .abi and .bin files of tested contracts
-#### contractsHistory.txt
+#### CONTRACTSHISTORY.md
 All information about tested contracts (when created, when and how has changed) are in test/contracts/contractsHistory.txt
 #### contractsCreatorConsolePaste.js
 Functions for creating and changing contracts, paste it in the geth console
@@ -56,7 +56,7 @@ How to:
 
 #### results:
 Results or logs of plotDataGenerator.js
-#### conclusions.txt:
+#### CONCLUSIONS.md:
 Interpretation of results in results folder.
 
 ### samples

@@ -13,12 +13,12 @@ Changes in contract, make queries slower even if queried variable didn`t changed
 
 ## allNOnCycleCasesForLogsGenerating.json & logsFromAllNonCycleCasesPowerOf2upTo16threads.txt
 ### conclusions:
-Tx reading is allways faster on non cycling state contracts
-When using tx reading HashCollector is almost not used.
--> tx_readed 69069 tx_found 395 bin_search 0 node_checked 3612 hash_collector 124
-Something bad happend to lastpath.
-hashSet: tx_readed 0 tx_found 0 bin_search 0 node_checked 11393 hash_collector 4728
-set: tx_readed 0 tx_found 0 bin_search 0 node_checked 11393 hash_collector 4728
-lastPath: tx_readed 0 tx_found 0 bin_search 0 node_checked 49760 hash_collector 24  
+Tx reading is allways faster on non cycling state contracts<br/>
+When using tx reading HashCollector is almost not used.<br/>
+`tx_readed 69069 tx_found 395 bin_search 0 node_checked 3612 hash_collector 124`<br/>
+Something bad happend to lastpath.<br/>
+hashSet: `tx_readed 0 tx_found 0 bin_search 0 node_checked 11393 hash_collector 4728`<br/>
+set: `tx_readed 0 tx_found 0 bin_search 0 node_checked 11393 hash_collector 4728`<br/>
+lastPath: `tx_readed 0 tx_found 0 bin_search 0 node_checked 49760 hash_collector 24`  <br/>
 
 
