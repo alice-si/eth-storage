@@ -19,6 +19,6 @@ When using tx reading HashCollector is almost not used.
 Something bad happend to lastpath.
 hashSet: tx_readed 0 tx_found 0 bin_search 0 node_checked 11393 hash_collector 4728
 set: tx_readed 0 tx_found 0 bin_search 0 node_checked 11393 hash_collector 4728
-lastPath: tx_readed 0 tx_found 0 bin_search 0 node_checked 49760 hash_collector 24
+lastPath: tx_readed 0 tx_found 0 bin_search 0 node_checked 49760 hash_collector 24  
 
 
