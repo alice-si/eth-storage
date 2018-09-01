@@ -11,8 +11,8 @@ const Tick = t.Tick;
 
 // var stateDB = new StateDB(Settings.dbPath);
 
-var inputFileName = 'results/helpResults.json';
-var outputFileName = 'results/allCycleContractsNumberOfExecutions10.json';
+var inputFileName = 'results/copy.json';
+var outputFileName = 'results_old/allCycleContractsNumberOfExecutions10.json';
 
 var numberOfExecutions = 10; //10;
 var stateDB;
@@ -137,33 +137,40 @@ async function benchmark(tests, name) {
         // await runTestCaseGetRangeMulti('hashSet3,n=1,'+j, testCase, 2, 'hashSet', true);
 
 
-        await runTestCaseGetRangeMulti('hashSet,n=1,'+j, testCase, 1, 'hashSet', true);
-        await runTestCaseGetRangeMulti('hashSet,n=1,'+j+"f", testCase, 1, 'hashSet', false);
-        await runTestCaseGetRangeMulti('set,n=1,'+j, testCase, 1, 'set', true);
-        await runTestCaseGetRangeMulti('set,n=1,'+j+"f", testCase, 1, 'set', false);
-        await runTestCaseGetRangeMulti('lastPath,n=1,'+j, testCase, 1, 'lastPath', true);
-        await runTestCaseGetRangeMulti('lastPath,n=1,'+j+"f", testCase, 1, 'lastPath', false);
+        // await runTestCaseGetRangeMulti('hashSet,n=1,'+j, testCase, 1, 'hashSet', true);
+        // await runTestCaseGetRangeMulti('hashSet,n=1,'+j+"f", testCase, 1, 'hashSet', false);
+        // await runTestCaseGetRangeMulti('set,n=1,'+j, testCase, 1, 'set', true);
+        // await runTestCaseGetRangeMulti('set,n=1,'+j+"f", testCase, 1, 'set', false);
+        // await runTestCaseGetRangeMulti('lastPath,n=1,'+j, testCase, 1, 'lastPath', true);
+        // await runTestCaseGetRangeMulti('lastPath,n=1,'+j+"f", testCase, 1, 'lastPath', false);
+        //
+        // await runTestCaseGetRangeMulti('hashSet,n=2,'+j, testCase, 2, 'hashSet', true);
+        // await runTestCaseGetRangeMulti('hashSet,n=2,'+j+"f", testCase, 2, 'hashSet', false);
+        // await runTestCaseGetRangeMulti('set,n=2,'+j, testCase, 2, 'set', true);
+        // await runTestCaseGetRangeMulti('set,n=2,'+j+"f", testCase, 2, 'set', false);
+        // await runTestCaseGetRangeMulti('lastPath,n=2,'+j, testCase, 2, 'lastPath', true);
+        // await runTestCaseGetRangeMulti('lastPath,n=2,'+j+"f", testCase, 2, 'lastPath', false);
+        //
+        // await runTestCaseGetRangeMulti('hashSet,n=4,'+j, testCase, 4, 'hashSet', true);
+        // await runTestCaseGetRangeMulti('hashSet,n=4,'+j+"f", testCase, 4, 'hashSet', false);
+        // await runTestCaseGetRangeMulti('set,n=4,'+j, testCase, 4, 'set', true);
+        // await runTestCaseGetRangeMulti('set,n=4,'+j+"f", testCase, 4, 'set', false);
+        // await runTestCaseGetRangeMulti('lastPath,n=4,'+j, testCase, 4, 'lastPath', true);
+        // await runTestCaseGetRangeMulti('lastPath,n=4,'+j+"f", testCase, 4, 'lastPath', false);
+        //
+        // await runTestCaseGetRangeMulti('hashSet,n=8,'+j, testCase, 8, 'hashSet', true);
+        // await runTestCaseGetRangeMulti('hashSet,n=8,'+j+"f", testCase, 8, 'hashSet', false);
+        // await runTestCaseGetRangeMulti('set,n=8,'+j, testCase, 8, 'set', true);
+        // await runTestCaseGetRangeMulti('set,n=8,'+j+"f", testCase, 8, 'set', false);
+        // await runTestCaseGetRangeMulti('lastPath,n=8,'+j, testCase, 8, 'lastPath', true);
+        // await runTestCaseGetRangeMulti('lastPath,n=8,'+j+"f", testCase, 8, 'lastPath', false);
 
-        await runTestCaseGetRangeMulti('hashSet,n=2,'+j, testCase, 2, 'hashSet', true);
-        await runTestCaseGetRangeMulti('hashSet,n=2,'+j+"f", testCase, 2, 'hashSet', false);
-        await runTestCaseGetRangeMulti('set,n=2,'+j, testCase, 2, 'set', true);
-        await runTestCaseGetRangeMulti('set,n=2,'+j+"f", testCase, 2, 'set', false);
-        await runTestCaseGetRangeMulti('lastPath,n=2,'+j, testCase, 2, 'lastPath', true);
-        await runTestCaseGetRangeMulti('lastPath,n=2,'+j+"f", testCase, 2, 'lastPath', false);
-
-        await runTestCaseGetRangeMulti('hashSet,n=4,'+j, testCase, 4, 'hashSet', true);
-        await runTestCaseGetRangeMulti('hashSet,n=4,'+j+"f", testCase, 4, 'hashSet', false);
-        await runTestCaseGetRangeMulti('set,n=4,'+j, testCase, 4, 'set', true);
-        await runTestCaseGetRangeMulti('set,n=4,'+j+"f", testCase, 4, 'set', false);
-        await runTestCaseGetRangeMulti('lastPath,n=4,'+j, testCase, 4, 'lastPath', true);
-        await runTestCaseGetRangeMulti('lastPath,n=4,'+j+"f", testCase, 4, 'lastPath', false);
-
-        await runTestCaseGetRangeMulti('hashSet,n=8,'+j, testCase, 8, 'hashSet', true);
-        await runTestCaseGetRangeMulti('hashSet,n=8,'+j+"f", testCase, 8, 'hashSet', false);
-        await runTestCaseGetRangeMulti('set,n=8,'+j, testCase, 8, 'set', true);
-        await runTestCaseGetRangeMulti('set,n=8,'+j+"f", testCase, 8, 'set', false);
-        await runTestCaseGetRangeMulti('lastPath,n=8,'+j, testCase, 8, 'lastPath', true);
-        await runTestCaseGetRangeMulti('lastPath,n=8,'+j+"f", testCase, 8, 'lastPath', false);
+        await runTestCaseGetRangeMulti('hashSet,n=100,'+j, testCase, 100, 'hashSet', true);
+        await runTestCaseGetRangeMulti('hashSet,n=100,'+j+"f", testCase, 100, 'hashSet', false);
+        await runTestCaseGetRangeMulti('set,n=100,'+j, testCase, 100, 'set', true);
+        await runTestCaseGetRangeMulti('set,n=100,'+j+"f", testCase, 100, 'set', false);
+        await runTestCaseGetRangeMulti('lastPath,n=100,'+j, testCase, 100, 'lastPath', true);
+        await runTestCaseGetRangeMulti('lastPath,n=100,'+j+"f", testCase, 100, 'lastPath', false);
 
     }
 
