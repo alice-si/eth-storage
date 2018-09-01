@@ -1,0 +1,458 @@
+Started test case 0, message: "change each 5 block, cycle 50"
+
+tx_readed 96682 tx_found 978 bin_search 6 node_checked 3755 hash_collector 964
+tx_readed 96682 tx_found 978 bin_search 6 node_checked 3755 hash_collector 964
+timer name: hashSet,n=1,0 test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'hashSet,n=1,0',
+  executions: 2,
+  params: { threads: 1, method: 'hashSet', txReading: true },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 4867136102,
+     min: 2178540328,
+     max: 2688595774,
+     mean: 2433568051,
+     median: 2433568051 } }
+CLOSEDDDDDD
+tx_readed 0 tx_found 0 bin_search 6 node_checked 11033 hash_collector 4846
+tx_readed 0 tx_found 0 bin_search 6 node_checked 11033 hash_collector 4846
+timer name: hashSet,n=1,0f test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'hashSet,n=1,0f',
+  executions: 2,
+  params: { threads: 1, method: 'hashSet', txReading: false },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 8461612881,
+     min: 3923175385,
+     max: 4538437496,
+     mean: 4230806440.5,
+     median: 4230806440.5 } }
+CLOSEDDDDDD
+tx_readed 96682 tx_found 978 bin_search 6 node_checked 3755 hash_collector 964
+tx_readed 96682 tx_found 978 bin_search 6 node_checked 3755 hash_collector 964
+timer name: set,n=1,0 test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'set,n=1,0',
+  executions: 2,
+  params: { threads: 1, method: 'set', txReading: true },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 4023737556,
+     min: 1841907270,
+     max: 2181830286,
+     mean: 2011868778,
+     median: 2011868778 } }
+CLOSEDDDDDD
+tx_readed 0 tx_found 0 bin_search 6 node_checked 11033 hash_collector 4846
+tx_readed 0 tx_found 0 bin_search 6 node_checked 11033 hash_collector 4846
+timer name: set,n=1,0f test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'set,n=1,0f',
+  executions: 2,
+  params: { threads: 1, method: 'set', txReading: false },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 7628824961,
+     min: 3732470953,
+     max: 3896354008,
+     mean: 3814412480.5,
+     median: 3814412480.5 } }
+CLOSEDDDDDD
+tx_readed 96682 tx_found 978 bin_search 6 node_checked 7917 hash_collector 0
+tx_readed 96682 tx_found 978 bin_search 6 node_checked 7917 hash_collector 0
+timer name: lastPath,n=1,0 test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'lastPath,n=1,0',
+  executions: 2,
+  params: { threads: 1, method: 'lastPath', txReading: true },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 4073239076,
+     min: 1829629047,
+     max: 2243610029,
+     mean: 2036619538,
+     median: 2036619538 } }
+CLOSEDDDDDD
+tx_readed 0 tx_found 0 bin_search 6 node_checked 23433 hash_collector 3885
+tx_readed 0 tx_found 0 bin_search 6 node_checked 23433 hash_collector 3885
+timer name: lastPath,n=1,0f test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'lastPath,n=1,0f',
+  executions: 2,
+  params: { threads: 1, method: 'lastPath', txReading: false },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 9143726926,
+     min: 4452887298,
+     max: 4690839628,
+     mean: 4571863463,
+     median: 4571863463 } }
+CLOSEDDDDDD
+tx_readed 96675 tx_found 977 bin_search 6 node_checked 4198 hash_collector 952
+tx_readed 96675 tx_found 977 bin_search 6 node_checked 4198 hash_collector 952
+timer name: hashSet,n=2,0 test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'hashSet,n=2,0',
+  executions: 2,
+  params: { threads: 2, method: 'hashSet', txReading: true },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 3150033362,
+     min: 1414570604,
+     max: 1735462758,
+     mean: 1575016681,
+     median: 1575016681 } }
+CLOSEDDDDDD
+tx_readed 0 tx_found 0 bin_search 6 node_checked 11457 hash_collector 4834
+tx_readed 0 tx_found 0 bin_search 6 node_checked 11457 hash_collector 4834
+timer name: hashSet,n=2,0f test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'hashSet,n=2,0f',
+  executions: 2,
+  params: { threads: 2, method: 'hashSet', txReading: false },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 4074991493,
+     min: 1939710505,
+     max: 2135280988,
+     mean: 2037495746.5,
+     median: 2037495746.5 } }
+CLOSEDDDDDD
+tx_readed 96675 tx_found 977 bin_search 6 node_checked 4198 hash_collector 952
+tx_readed 96675 tx_found 977 bin_search 6 node_checked 4198 hash_collector 952
+timer name: set,n=2,0 test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'set,n=2,0',
+  executions: 2,
+  params: { threads: 2, method: 'set', txReading: true },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 2933728951,
+     min: 1304988809,
+     max: 1628740142,
+     mean: 1466864475.5,
+     median: 1466864475.5 } }
+CLOSEDDDDDD
+tx_readed 0 tx_found 0 bin_search 6 node_checked 11457 hash_collector 4834
+tx_readed 0 tx_found 0 bin_search 6 node_checked 11457 hash_collector 4834
+timer name: set,n=2,0f test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'set,n=2,0f',
+  executions: 2,
+  params: { threads: 2, method: 'set', txReading: false },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 3826798141,
+     min: 1802946979,
+     max: 2023851162,
+     mean: 1913399070.5,
+     median: 1913399070.5 } }
+CLOSEDDDDDD
+tx_readed 96675 tx_found 977 bin_search 6 node_checked 7909 hash_collector 0
+tx_readed 96675 tx_found 977 bin_search 6 node_checked 7909 hash_collector 0
+timer name: lastPath,n=2,0 test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'lastPath,n=2,0',
+  executions: 2,
+  params: { threads: 2, method: 'lastPath', txReading: true },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 3235265361,
+     min: 1438828385,
+     max: 1796436976,
+     mean: 1617632680.5,
+     median: 1617632680.5 } }
+CLOSEDDDDDD
+tx_readed 0 tx_found 0 bin_search 6 node_checked 23417 hash_collector 3887
+tx_readed 0 tx_found 0 bin_search 6 node_checked 23417 hash_collector 3887
+timer name: lastPath,n=2,0f test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'lastPath,n=2,0f',
+  executions: 2,
+  params: { threads: 2, method: 'lastPath', txReading: false },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 5170629009,
+     min: 2460789878,
+     max: 2709839131,
+     mean: 2585314504.5,
+     median: 2585314504.5 } }
+CLOSEDDDDDD
+tx_readed 96649 tx_found 977 bin_search 6 node_checked 4543 hash_collector 941
+tx_readed 96649 tx_found 977 bin_search 6 node_checked 4543 hash_collector 941
+timer name: hashSet,n=4,0 test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'hashSet,n=4,0',
+  executions: 2,
+  params: { threads: 4, method: 'hashSet', txReading: true },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 2128419371,
+     min: 938235678,
+     max: 1190183693,
+     mean: 1064209685.5,
+     median: 1064209685.5 } }
+CLOSEDDDDDD
+tx_readed 0 tx_found 0 bin_search 6 node_checked 11799 hash_collector 4821
+tx_readed 0 tx_found 0 bin_search 6 node_checked 11799 hash_collector 4821
+timer name: hashSet,n=4,0f test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'hashSet,n=4,0f',
+  executions: 2,
+  params: { threads: 4, method: 'hashSet', txReading: false },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 2708529832,
+     min: 1220772071,
+     max: 1487757761,
+     mean: 1354264916,
+     median: 1354264916 } }
+CLOSEDDDDDD
+tx_readed 96649 tx_found 977 bin_search 6 node_checked 4543 hash_collector 941
+tx_readed 96649 tx_found 977 bin_search 6 node_checked 4543 hash_collector 941
+timer name: set,n=4,0 test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'set,n=4,0',
+  executions: 2,
+  params: { threads: 4, method: 'set', txReading: true },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 2000422554,
+     min: 885114691,
+     max: 1115307863,
+     mean: 1000211277,
+     median: 1000211277 } }
+CLOSEDDDDDD
+tx_readed 0 tx_found 0 bin_search 6 node_checked 11799 hash_collector 4821
+tx_readed 0 tx_found 0 bin_search 6 node_checked 11799 hash_collector 4821
+timer name: set,n=4,0f test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'set,n=4,0f',
+  executions: 2,
+  params: { threads: 4, method: 'set', txReading: false },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 2465933006,
+     min: 1122497448,
+     max: 1343435558,
+     mean: 1232966503,
+     median: 1232966503 } }
+CLOSEDDDDDD
+tx_readed 96649 tx_found 977 bin_search 6 node_checked 7917 hash_collector 0
+tx_readed 96649 tx_found 977 bin_search 6 node_checked 7917 hash_collector 0
+timer name: lastPath,n=4,0 test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'lastPath,n=4,0',
+  executions: 2,
+  params: { threads: 4, method: 'lastPath', txReading: true },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 2370655842,
+     min: 1015714172,
+     max: 1354941670,
+     mean: 1185327921,
+     median: 1185327921 } }
+CLOSEDDDDDD
+tx_readed 0 tx_found 0 bin_search 6 node_checked 23417 hash_collector 3885
+tx_readed 0 tx_found 0 bin_search 6 node_checked 23417 hash_collector 3885
+timer name: lastPath,n=4,0f test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'lastPath,n=4,0f',
+  executions: 2,
+  params: { threads: 4, method: 'lastPath', txReading: false },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 3305222704,
+     min: 1595879637,
+     max: 1709343067,
+     mean: 1652611352,
+     median: 1652611352 } }
+CLOSEDDDDDD
+tx_readed 96624 tx_found 977 bin_search 6 node_checked 5399 hash_collector 919
+tx_readed 96624 tx_found 977 bin_search 6 node_checked 5399 hash_collector 919
+timer name: hashSet,n=8,0 test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'hashSet,n=8,0',
+  executions: 2,
+  params: { threads: 8, method: 'hashSet', txReading: true },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 1845724135,
+     min: 841813713,
+     max: 1003910422,
+     mean: 922862067.5,
+     median: 922862067.5 } }
+CLOSEDDDDDD
+tx_readed 0 tx_found 0 bin_search 6 node_checked 12655 hash_collector 4795
+tx_readed 0 tx_found 0 bin_search 6 node_checked 12655 hash_collector 4795
+timer name: hashSet,n=8,0f test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'hashSet,n=8,0f',
+  executions: 2,
+  params: { threads: 8, method: 'hashSet', txReading: false },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 2388293098,
+     min: 1152733183,
+     max: 1235559915,
+     mean: 1194146549,
+     median: 1194146549 } }
+CLOSEDDDDDD
+tx_readed 96624 tx_found 977 bin_search 6 node_checked 5399 hash_collector 919
+tx_readed 96624 tx_found 977 bin_search 6 node_checked 5399 hash_collector 919
+timer name: set,n=8,0 test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'set,n=8,0',
+  executions: 2,
+  params: { threads: 8, method: 'set', txReading: true },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 1819951432,
+     min: 817608365,
+     max: 1002343067,
+     mean: 909975716,
+     median: 909975716 } }
+CLOSEDDDDDD
+tx_readed 0 tx_found 0 bin_search 6 node_checked 12655 hash_collector 4795
+tx_readed 0 tx_found 0 bin_search 6 node_checked 12655 hash_collector 4795
+timer name: set,n=8,0f test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'set,n=8,0f',
+  executions: 2,
+  params: { threads: 8, method: 'set', txReading: false },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 2261336216,
+     min: 1064665139,
+     max: 1196671077,
+     mean: 1130668108,
+     median: 1130668108 } }
+CLOSEDDDDDD
+tx_readed 96624 tx_found 977 bin_search 6 node_checked 7941 hash_collector 0
+tx_readed 96624 tx_found 977 bin_search 6 node_checked 7941 hash_collector 0
+timer name: lastPath,n=8,0 test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'lastPath,n=8,0',
+  executions: 2,
+  params: { threads: 8, method: 'lastPath', txReading: true },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 1925732812,
+     min: 836872608,
+     max: 1088860204,
+     mean: 962866406,
+     median: 962866406 } }
+CLOSEDDDDDD
+tx_readed 0 tx_found 0 bin_search 6 node_checked 23409 hash_collector 3885
+tx_readed 0 tx_found 0 bin_search 6 node_checked 23409 hash_collector 3885
+timer name: lastPath,n=8,0f test case msg: change each 5 block, cycle 50 (iterations: 2  searched in range: 10000 blocks)
+added new result: { timerName: 'lastPath,n=8,0f',
+  executions: 2,
+  params: { threads: 8, method: 'lastPath', txReading: false },
+  testCase: 
+   { adr: '0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256',
+     idx: 0,
+     startBlock: 2901000,
+     endBlock: 2911000,
+     msg: 'change each 5 block, cycle 50' },
+  results: 
+   { duration: 2575220248,
+     min: 1234195611,
+     max: 1341024637,
+     mean: 1287610124,
+     median: 1287610124 } }
+CLOSEDDDDDD

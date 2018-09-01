@@ -46,6 +46,7 @@ function StateDB(databasePath) {
 StateDB.prototype.free = function () {
     var self = this;
     self.db.close();
+    console.log('CLOSEDDDDDD')
 };
 
 /**
@@ -390,7 +391,7 @@ StateDB.prototype._sfind = function (rootHash, key, depth, hashCollector, cb) {
     else {
         node_checked++;
 
-        hashCollector.addHash(rootHash); // add to map
+        hashCollector.addHash(rootHash,depth); // add to map
 
         self.getNode(rootHash, function (err, node) {
             if (node === null) {

@@ -156,3 +156,4 @@ module.exports.newAssertCb = newAssertCb;
 module.exports.newTimeCb = newTimeCb;
 // module.exports.getRangeTests = getRangeTests;
 module.exports.getRangeTests = dtg.cases;
+module.exports.getRangeTests2 = dtg.cases2;

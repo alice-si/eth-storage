@@ -380,7 +380,7 @@ StateDB.prototype._sfind = function (rootHash, key, depth, hashCollector, cb) {
     }
     else {
 
-        hashCollector.addHash(rootHash); // add to map
+        hashCollector.addHash(rootHash,depth); // add to map
 
         self.getNode(rootHash, function (err, node) {
             if (node === null) {

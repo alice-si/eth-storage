@@ -4,7 +4,7 @@ var fs = require('fs');
 var StateDB = require('../../ethStorageLoggingVersion.js');
 var StateDBWeb3 = require('../../getRangeWeb3.js');
 var Settings = require('../settings.js');
-var dtg = require('./dataToGenerate');
+var dtg = require('./dataToGenerate.js');
 
 const t = require('exectimer');
 const Tick = t.Tick;
@@ -12,9 +12,9 @@ const Tick = t.Tick;
 // var stateDB = new StateDB(Settings.dbPath);
 
 var inputFileName = 'results/helpResults.json';
-var outputFileName = 'results/allForCycleContractsNumberOfExecutions1.json';
+var outputFileName = 'results/allCycleContractsNumberOfExecutions10.json';
 
-var numberOfExecutions = 1;
+var numberOfExecutions = 10; //10;
 var stateDB;
 
 
@@ -81,6 +81,10 @@ async function runExample(timerName, cb) {
     }
 }
 
+async function sleep(msec) {
+    return new Promise(resolve => setTimeout(resolve, msec));
+}
+
 var runTestCaseGetRangeMulti = async function (timerName, testCase, threads, method, txReading) {
 
     stateDB = new StateDB(Settings.dbPath);
@@ -94,6 +98,7 @@ var runTestCaseGetRangeMulti = async function (timerName, testCase, threads, met
 
     stateDB.free();
     stateDB = null;
+    await sleep(500); // WTF
 };
 
 var runTestCaseWeb3API = async function (timerName,threads, testCase) {
@@ -130,6 +135,8 @@ async function benchmark(tests, name) {
         // await runTestCaseGetRangeMulti('hashSet1,n=1,'+j, testCase, 2, 'hashSet', true);
         // await runTestCaseGetRangeMulti('hashSet2,n=1,'+j, testCase, 2, 'hashSet', true);
         // await runTestCaseGetRangeMulti('hashSet3,n=1,'+j, testCase, 2, 'hashSet', true);
+
+
         await runTestCaseGetRangeMulti('hashSet,n=1,'+j, testCase, 1, 'hashSet', true);
         await runTestCaseGetRangeMulti('hashSet,n=1,'+j+"f", testCase, 1, 'hashSet', false);
         await runTestCaseGetRangeMulti('set,n=1,'+j, testCase, 1, 'set', true);

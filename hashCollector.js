@@ -31,11 +31,29 @@ function HashCollector(method = undefined) {
             self.expectedWorldStack = [];
             self.expectedStorageDepth = [];
             self.expectedStorageStack = [];
+            self.expectedDepth = [];
+            self.expectedStack = [];
+            self.myAssert();
             break;
         case 'none':
             break;
     }
 }
+
+function assert(b){
+    if (!b) throw new Error('error');
+}
+
+HashCollector.prototype.myAssert = function () {
+    var self = this;
+    if (this.method === 'lastPath'){
+        assert(self.expectedWorldDepth.length === self.expectedWorldStack.length);
+        assert(self.expectedStorageDepth.length === self.expectedStorageStack.length);
+        assert(self.expectedDepth.length === self.expectedStack.length);
+        assert(self.visitedDepth.length === self.visitedStack.length);
+        // console.log('assert end');
+    }
+};
 
 /**
  * informs hash collector about new block checking
@@ -56,6 +74,7 @@ HashCollector.prototype.newBlock = function () {
             self.visitedStack = [];
             self.expectedDepth = self.expectedWorldDepth;
             self.expectedStack = self.expectedWorldStack;
+            self.myAssert();
             break;
         case 'none':
             break;
@@ -106,13 +125,14 @@ HashCollector.prototype.addHash = function (rootHash, depth) {
             self.helpMap.add(rootHash.toString('hex')); // add to map
             break;
         case 'lastPath':
-            if (depth > self.expectedDepth[0]) { // new end
+            if (self.expectedDepth.length > 0 && depth > self.expectedDepth[0]) { // new end
                 var index = binarySearch(self.expectedDepth, depth);
                 self.expectedDepth = self.expectedDepth.splice(index, self.expectedDepth.length - 1);
                 self.expectedStack = self.expectedStack.splice(index, self.expectedStack.length - 1);
             }
             self.visitedDepth.push(depth);
             self.visitedStack.push(rootHash);
+            self.myAssert();
             break;
         case 'none':
             break;
@@ -133,10 +153,33 @@ HashCollector.prototype.checkHash = function (rootHash) {
         case 'hashSet':
             return self.prevMap.contains(rootHash.toString('hex'));
         case 'lastPath':
+
+            self.myAssert();
+
+
+            // if (!(self.expectedDepth.length === 0 || self.expectedStack.length === 0))
+            //     console.log(
+            //         'rthash',rootHash.toString('hex'),
+            //         'expect',self.expectedDepth,'->',self.expectedStack[0],
+            //         'bool',rootHash.equals(self.expectedStack[0]));
+
+
+
             if (self.expectedDepth.length === 0 || self.expectedStack.length === 0) return false;
             else if (rootHash.equals(self.expectedStack[0])) {
-                self.expectedDepth = self.visitedDepth.concat(self.expectedDepth);
-                self.expectedStack = self.visitedStack.concat(self.expectedStack);
+                if (self.tree = 'world'){
+                    self.expectedWorldDepth = self.visitedDepth.concat(self.expectedDepth);
+                    self.expectedWorldStack = self.visitedStack.concat(self.expectedStack);
+                }
+                else if (self.tree = 'storage'){
+                    self.expectedStorageDepth = self.visitedDepth.concat(self.expectedDepth);
+                    self.expectedStorageStack = self.visitedStack.concat(self.expectedStack);
+                }
+                else {
+                    console.log("last path error: not world nor storage state")
+                }
+
+                self.myAssert();
                 return true;
             }
             else return false;
@@ -164,6 +207,7 @@ HashCollector.prototype.goStorage = function () {
             self.visitedStack = [];
             self.expectedDepth = self.expectedStorageDepth;
             self.expectedStack = self.expectedStorageStack;
+            self.myAssert();
             break;
         case 'none':
             break;
@@ -187,6 +231,7 @@ HashCollector.prototype.foundNew = function () {
         case 'lastPath':
             self.expectedStorageDepth = self.visitedDepth;
             self.expectedStorageStack = self.visitedStack;
+            self.myAssert();
             break;
         case 'none':
             break;
