@@ -30,9 +30,9 @@ LastPath is repaired now.
 When using tx reading lastPath genereates no income
 `tx_readed 96624 tx_found 977 bin_search 6 node_checked 7941 hash_collector 0`
 Lastpath genereates less short ways<br/>
-hashSet: `tx_readed 0 tx_found 0 bin_search 6 node_checked 12655 hash_collector 4795`
-set: `tx_readed 0 tx_found 0 bin_search 6 node_checked 12655 hash_collector 4795`
-lastPath:`tx_readed 0 tx_found 0 bin_search 6 node_checked 23409 hash_collector 3885`
+hashSet: `tx_readed 0 tx_found 0 bin_search 6 node_checked 12655 hash_collector 4795`<br/>
+set: `tx_readed 0 tx_found 0 bin_search 6 node_checked 12655 hash_collector 4795`<br/>
+lastPath:`tx_readed 0 tx_found 0 bin_search 6 node_checked 23409 hash_collector 3885`<br/>
 LastPath is slowest on this cycling contract example.
 HashCollector type doesn`t make huge diffrence.
 
