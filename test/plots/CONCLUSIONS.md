@@ -41,6 +41,6 @@ This is result of testing contracts with cycling storage state.
 ### conclusion:
 Hash set is the fastest.
 Transaction readings always increases speed.
-More threads transaction readings gives more up.
+More threads hash collector gives less speed up.
 When using transaction reading lastPath gives almost no income.
 
