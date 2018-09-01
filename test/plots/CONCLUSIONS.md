@@ -22,7 +22,7 @@ set: `tx_readed 0 tx_found 0 bin_search 0 node_checked 11393 hash_collector 4728
 lastPath: `tx_readed 0 tx_found 0 bin_search 0 node_checked 49760 hash_collector 24`  <br/>
 
 
-# lastPath is repaired now
+##### lastPath is repaired now
 
 ## oneCycleContractsNumberOfExecutions2.json & oneCycleContracts2executionsLogs.txt
 ### conclusion:
@@ -37,3 +37,10 @@ LastPath is slowest on this cycling contract example.
 HashCollector type doesn`t make huge diffrence.
 
 ## allCycleContractsNumberOfExecutions10.json & allCycleContracts10executionsLogs.txt
+This is result of testing contracts with cycling storage state.
+### conclusion:
+Hash set is the fastest.
+Transaction readings always increases speed.
+More threads transaction readings gives more up.
+When using transaction reading lastPath gives almost no income.
+

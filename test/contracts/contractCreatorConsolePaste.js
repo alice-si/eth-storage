@@ -133,4 +133,18 @@ timeOutIt(ch4,1000,10*15*1000); //10 blocks
 timeOutIt(ch5,500,20*15*1000); //20 blocks
 timeOutIt(ch6,500,20*15*1000); //20 blocks
 
+//------------------------------------------------------------------
+
+var options = {
+    fromBlock: 2901000,
+    toBlock: 2902000,
+    address: "0x686bb1f3714b953661397956a2f37c8676b00e7e",
+};
+var filter = web3.eth.filter(options);
+
+filter.get(function(error, result){
+    if (!error)
+        console.log(JSON.stringify(result, null, 2));
+});
+
 
