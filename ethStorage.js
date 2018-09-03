@@ -1,8 +1,9 @@
 var HashCollector = require('./hashCollector.js')
 var rlp = require('rlp');
-var levelup = require('levelup');
-var leveldown = require('leveldown');
+// var levelup = require('levelup');
+// var leveldown = require('leveldown');
 const ethUtil = require('ethereumjs-util');
+var level = require('level-rocksdb');
 
 var databaseVerisionKey = new Buffer("DatabaseVersion"); // databaseVerisionKey tracks the current database version.
 var headHeaderKey = new Buffer("LastHeader"); // headHeaderKey tracks the latest know header's hash.
@@ -32,7 +33,8 @@ module.exports = StateDB;
  */
 function StateDB(databasePath) {
     if (databasePath !== undefined) {
-        this.db = levelup(leveldown(databasePath));
+        this.db = level(databasePath);
+        // this.db = levelup(leveldown(databasePath));
     }
 }
 
