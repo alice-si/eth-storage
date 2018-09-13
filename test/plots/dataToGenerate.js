@@ -85,6 +85,14 @@ module.exports.cases = getRangeTests;
 
 var test6vars = [
 
+    // {
+    //     adr: "0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256",
+    //     idx: 0,
+    //     startBlock: 2901333,
+    //     endBlock: 2901334,
+    //     msg: 'one block'
+    // },
+
     {
         adr: "0x5bc5c31531e1e7a84df5a8e83da1c75bdb16a256",
         idx: 0,

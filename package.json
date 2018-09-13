@@ -23,9 +23,12 @@
     "merkle-patricia-tree": "^2.3.1",
     "mocha": "^5.2.0",
     "morgan": "~1.9.0",
+    "multilevel": "^7.2.3",
+    "net": "^1.0.2",
     "prompt-sync": "^4.1.6",
     "pug": "2.0.0-beta11",
     "readline-sync": "^1.4.9",
+    "rocksdb": "^3.0.1",
     "solc": "^0.4.24",
     "vis": "^4.21.0",
     "web3": "^0.20.1"

@@ -1,6 +1,6 @@
-// var dbPath = 'C:/Users/ja1/Alice/dirforfullrinkeby/geth/chaindata';  // database path
+var dbPath = 'C:/Users/ja1/Alice/dirforfullrinkeby/geth/chaindata';  // database path
 // var dbPath = 'C:\\Users\\ja1\\AppData\\Local\\Parity\\Ethereum\\chains\\ethereum\\db\\906a34e69aec8c0d\\overlayrecent\\db';  // database path
-var dbPath = '/home/ubuntu/.local/share/io.parity.ethereum/chains/ethereum/db/906a34e69aec8c0d/archive/db';  // database path
+// var dbPath = '/home/ubuntu/.local/share/io.parity.ethereum/chains/ethereum/db/906a34e69aec8c0d/archive/db';  // database path
 
 var dtg = require('./plots/dataToGenerate');
 
@@ -56,6 +56,6 @@ var getRangeTests = [
 
 module.exports.newAssertCb = newAssertCb;
 module.exports.newTimeCb = newTimeCb;
-module.exports.getRangeTests = getRangeTests;
-// module.exports.getRangeTests = dtg.cases;
+// module.exports.getRangeTests = getRangeTests;
+module.exports.getRangeTests = dtg.cases;
 module.exports.getRangeTests2 = dtg.cases2;

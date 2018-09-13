@@ -1,4 +1,4 @@
-var StateDB = require('../../ethStorageLoggingVersion.js');
+var StateDB = require('../../ethStorage/highLevel.js');
 var Settings = require('./../settings.js');
 
 const t = require('exectimer');

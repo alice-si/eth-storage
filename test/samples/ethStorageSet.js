@@ -1,4 +1,4 @@
-var StateDB = require('../../ethStorage.js');
+var StateDB = require('../../ethStorage/highLevel.js');
 var Settings = require('../settings.js');
 
 var stateDB = new StateDB(Settings.dbPath);

@@ -1,7 +1,7 @@
 var prompt = require('prompt-sync')();
 var fs = require('fs');
 
-var StateDB = require('../../ethStorageLoggingVersion.js');
+var StateDB = require('../../ethStorage/highLevel.js');
 var StateDBWeb3 = require('../../getRangeWeb3.js');
 var Settings = require('../settings.js');
 var dtg = require('./dataToGenerate.js');
