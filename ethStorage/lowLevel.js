@@ -55,6 +55,19 @@ StateDB.prototype.bufferToInt = function (val) {
 };
 
 /**
+ * converts buffer to string
+ * @method bufferToString
+ * @param val
+ * @returns string
+ */
+StateDB.prototype.bufferToString = function (val) {
+    if (val instanceof Buffer) {
+        return val.toString('hex');
+    }
+    return val
+};
+
+/**
  * converts to 64 bits buffer
  * @method blockNumberByHash
  * @param val
