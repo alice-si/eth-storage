@@ -172,7 +172,7 @@ StateDB.prototype.blockNumberByHash = function (blockHash, cb) {
  */
 StateDB.prototype.blockHash = function (blockNumber, cb) {
     var self = this;
-    blockNumber = self.bufferHex(blockNumber);
+    blockNumber = self.buffer64(blockNumber);
     query = Buffer.concat([PREFIX.headerPrefix, blockNumber, PREFIX.headerHashSuffix]);
     self.db.get(query, {valueEncoding: "binary", keyEncoding: "binary"}, function (err, val) {
         cb(err, val);
