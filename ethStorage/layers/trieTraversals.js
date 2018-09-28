@@ -1,14 +1,24 @@
 var StateDB = require('./lowLevel.js');
+var FORMATTER = require('../format/formatter');
 
+/**
+ * Module is the 2nd layer,
+ * gives getters for more complex data from database:
+ * recurrent finding node in DB,
+ * finding next block with transactions to given contract
+ * @module trieTraversals
+ * @type {StateDB}
+ */
 module.exports = StateDB;
 
 /**
- * finds value in tree, gets expected path
+ * finds value in merkle patricia tree,
+ * gets expected path and hash collector
  * @method walkTree
  * @param {String|Buffer} rootHash
  * @param {String|Buffer} key
- * @param depth
- * @param hashCollector
+ * @param {int} depth
+ * @param {HashCollector} hashCollector
  * @param {Function} cb the callback
  * arguments
  *  - err - any errors encontered
@@ -18,12 +28,12 @@ module.exports = StateDB;
 StateDB.prototype.walkTree = function (rootHash, key, depth, hashCollector, cb) {
     var self = this;
     if (hashCollector.checkHash(rootHash)) {
-        if (self.stats) self.hash_collector++;
+        self.statsCollector.hashCollector();
 
         cb(null, null, hashCollector); // value didn`t change, retun new stack
     }
     else {
-        if (self.stats) self.node_checked++;
+        self.statsCollector.nodeChecked();
 
         hashCollector.addHash(rootHash, depth); // add to map
 
@@ -56,58 +66,24 @@ StateDB.prototype.walkTree = function (rootHash, key, depth, hashCollector, cb) 
     }
 };
 
-/**
- * finds first block where contract is live (or block not found)
- * @param adress
- * @param startBlockNumber
- * @param endBlockNumber
- * @param cb
- */
-StateDB.prototype.binarySearchCreation = function (adress, startBlockNumber, endBlockNumber, cb) {
-    var self = this;
-
-    var startIndex = startBlockNumber,
-        stopIndex = endBlockNumber,
-        middle = Math.floor((stopIndex + startIndex) / 2);
-
-    if (stopIndex - startIndex <= 0) {
-        if (self.stats) self.bin_search++;
-
-        cb(null, stopIndex);
-    }
-    else {
-
-        self.getRange(adress, 0, middle, middle + 1,
-            function (err, val) {
-                if (val[0].val === 'contract not found') {
-                    startIndex = middle + 1;
-                }
-                else {
-                    stopIndex = middle;
-                }
-                self.binarySearchCreation(adress, startIndex, stopIndex, cb);
-            },
-            'none', false);
-
-    }
-
-};
-
 
 /**
- * finds next potential block with change of contract
- * @param adress
- * @param startBlockNumber
- * @param endBlockNumber
- * @param cb
- * @param txReading
+ * finds next potential block with change of contract,
+ * reads transactions lists
+ * and returns next block with transaction to given contract
+ * if txReading is false it retruns startBlockNumber + 1
+ * @param {string|Buffer} address
+ * @param {number|Buffer} startBlockNumber
+ * @param {number|Buffer} endBlockNumber
+ * @param {boolean} txReading
+ * @param {function} cb
  */
 StateDB.prototype.findNextBlock =
-    function (adress, startBlockNumber, endBlockNumber, txReading, cb) {
+    function (address, startBlockNumber, endBlockNumber, txReading, cb) {
         var self = this;
-        adress = self.bufferHex(adress);
-        startBlockNumber = self.bufferToInt(startBlockNumber);
-        endBlockNumber = self.bufferToInt(endBlockNumber);
+        address = FORMATTER.bufferHex(address);
+        startBlockNumber = FORMATTER.bufferToInt(startBlockNumber);
+        endBlockNumber = FORMATTER.bufferToInt(endBlockNumber);
 
         if (txReading === false) {
             cb(null, startBlockNumber + 1);
@@ -121,22 +97,19 @@ StateDB.prototype.findNextBlock =
                     return;
                 }
                 var i;
-                if (self.stats) self.tx_lists_readed++;
-
+                self.statsCollector.txListRead();
                 for (i = 0; i < body.transactionList.length; i++) {
-                    if (self.stats) self.tx_readed++;
-
+                    self.statsCollector.txRead();
                     var to = body.transactionList[i][3].toString('hex');
-                    if (to === adress.toString('hex')) {
-                        if (self.stats) self.tx_found++;
-
+                    if (to === address.toString('hex')) {
+                        self.statsCollector.txFound();
                         self.contractCreated = true;
                         cb(null, startBlockNumber);
                         break;
                     }
                 }
                 if (i === body.transactionList.length) {
-                    self.findNextBlock(adress, startBlockNumber + 1, endBlockNumber, txReading, cb)
+                    self.findNextBlock(address, startBlockNumber + 1, endBlockNumber, txReading, cb)
                 }
 
             })

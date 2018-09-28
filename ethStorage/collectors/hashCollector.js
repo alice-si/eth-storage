@@ -1,4 +1,9 @@
 var HashSet = require('hashset');
+
+/**
+ * Implementation of HashCollector
+ * @type {HashCollector}
+ */
 module.exports = HashCollector;
 
 /**
@@ -6,7 +11,7 @@ module.exports = HashCollector;
  * remembers hashes, and enables quick checking if hash where already met.
  * It is wrapper for different hash collecting implementations.
  * @class StateDB
- * @param method hash collecting implementation:
+ * @param {String} method hash collecting implementation:
  * -set
  * -hashSet
  * -lastPath
@@ -109,8 +114,8 @@ function binarySearch(items, value) {
 /**
  * adds new hash
  * @method newBlock
- * @param rootHash
- * @param depth depth in tree
+ * @param {Buffer} rootHash
+ * @param {int} depth depth in tree
  */
 HashCollector.prototype.addHash = function (rootHash, depth) {
     var self = this;
@@ -142,7 +147,7 @@ HashCollector.prototype.addHash = function (rootHash, depth) {
 /**
  * checks if hash remembered
  * @method checkHash
- * @param rootHash
+ * @param {Buffer} rootHash
  */
 HashCollector.prototype.checkHash = function (rootHash) {
     var self = this;

@@ -1,3 +1,8 @@
+/**
+ * @module testQueries
+ * Exports arrays with queries for getRange function
+ */
+
 var getRangeTests = [
 
     // {
@@ -81,7 +86,6 @@ var getRangeTests = [
 
 ];
 
-module.exports.cases = getRangeTests;
 
 var test6vars = [
 
@@ -222,4 +226,18 @@ var test6vars = [
 
 ];
 
+var aliceQuery = [
+
+    {
+        adr: "0xBd897c8885b40d014Fb7941B3043B21adcC9ca1C",
+        idx: 0,
+        startBlock: 4724262,
+        endBlock: 4725262,
+        msg: 'Alice contract'
+    },
+
+];
+
+module.exports.cases = getRangeTests;
 module.exports.cases2 = test6vars;
+module.exports.aliceContract = aliceQuery;

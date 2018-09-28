@@ -1,6 +1,12 @@
-var assert = require('assert');
-var Settings = require('./settings.js');
-var StateDB = require('../stateHashSet.js');
+// var assert = require('assert');
+var Settings = require('../settings.js');
+var StateDB = require('../../ethStorage/layers/highLevel.js');
+var mocha = require('mocha')
+var describe = mocha.describe;
+var it = mocha.it
+var assert = require('chai').assert
+var expect = require('chai').expect;
+
 
 var stateDB = new StateDB(Settings.dbPath);
 

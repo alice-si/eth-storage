@@ -2,7 +2,7 @@ var dbPath = 'C:/Users/ja1/Alice/dirforfullrinkeby/geth/chaindata';  // database
 // var dbPath = 'C:\\Users\\ja1\\AppData\\Local\\Parity\\Ethereum\\chains\\ethereum\\db\\906a34e69aec8c0d\\overlayrecent\\db';  // database path
 // var dbPath = '/home/ubuntu/.local/share/io.parity.ethereum/chains/ethereum/db/906a34e69aec8c0d/archive/db';  // database path
 
-var dtg = require('./plots/dataToGenerate');
+var dtg = require('./testQueries');
 
 module.exports.dbPath = dbPath;
 module.exports.myAssertEqual = myAssertEqual;
@@ -39,20 +39,6 @@ function newTimeCb(testCase) {
         // console.log('val tail',val.slice(val.length - 10,val.length))
     }
 }
-
-// stateDB = new StateDB();
-
-var getRangeTests = [
-
-    {
-        adr: "0xBd897c8885b40d014Fb7941B3043B21adcC9ca1C",
-        idx: 0,
-        startBlock: 4724262,
-        endBlock: 4725262,
-        msg: 'Alice contract'
-    },
-
-];
 
 module.exports.newAssertCb = newAssertCb;
 module.exports.newTimeCb = newTimeCb;

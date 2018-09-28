@@ -1,5 +1,11 @@
 var StateDB = require('./querySplitter.js');
 
+/**
+ * Module is the highest layer,
+ * gives wrappers for querying with different hash collecting methods
+ * @module dataExtractors
+ * @type {StateDB}
+ */
 module.exports = StateDB;
 
 StateDB.prototype.simple = function (adress, index, startBlockNumber, endBlockNumber, cb, n = 2, txReading = true) {

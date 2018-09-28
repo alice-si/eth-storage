@@ -1,10 +1,10 @@
 var prompt = require('prompt-sync')();
 var fs = require('fs');
 
-var StateDB = require('../../ethStorage/highLevel.js');
-var StateDBWeb3 = require('../../getRangeWeb3.js');
+var StateDB = require('../../ethStorage/layers/highLevel.js');
+var StateDBWeb3 = require('../../web3/getRangeWeb3.js');
 var Settings = require('../settings.js');
-var dtg = require('./dataToGenerate.js');
+var dtg = require('../testQueries.js');
 
 const t = require('exectimer');
 const Tick = t.Tick;
