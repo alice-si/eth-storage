@@ -31,7 +31,6 @@ StateDB.prototype.binarySearchCreation = function (address, startBlockNumber, en
         cb(null, stopIndex);
     }
     else {
-        console.log(stopIndex - startIndex);
 
         self.getRange(address, 0, middle, middle + 1,
             function (err, val) {
