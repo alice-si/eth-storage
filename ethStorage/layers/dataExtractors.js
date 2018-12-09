@@ -99,6 +99,8 @@ StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber
             }
             else {
 
+		    console.log('console bofre sha3 dataExtractors.js: _getRange, adress:', adress, ' and FORMATTER.sha3 ', FORMATTER.sha3)
+
                 self.walkTree(stateRoot, FORMATTER.sha3(adress), 0, hashCollector.newBlock(), function (err, node, hashCollector) {
                     if (node === null) { // account didn`t changed
                         self.checkValue(
@@ -106,6 +108,7 @@ StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber
                             startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
                     }
                     else {
+		    console.log('console bofre sha3 dataExtractors.js: _getRange, index:', index, ' and FORMATTER.sha3 ', FORMATTER.sha3)
                         self.walkTree(node[2], FORMATTER.sha3(index), 0, hashCollector.goStorage(), function (err, val, hashCollector) {
                             if (val === null) {
                                 self.checkValue(err, 'uninitialised', adress, null, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
