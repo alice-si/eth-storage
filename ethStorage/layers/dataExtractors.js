@@ -67,28 +67,28 @@ StateDB.prototype.binarySearchCreation = function (address, startBlockNumber, en
  */
 StateDB.prototype.checkValue =
     function (err, msg, adress, val, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb) {
-    var self = this;
+        var self = this;
 
-    if (msg === 'found' &&
-        (array.length === 0 || val.toString('hex') !== FORMATTER.bufferHex(array[array.length - 1].val).toString('hex'))) {
-        array.push({block: startBlockNumber, val: val});
-    }
-    else if (array.length === 0 || (err !== null && array[array.length - 1].val !== msg)) {
-        array.push({block: startBlockNumber, val: msg});
-    }
+        if (msg === 'found' &&
+            (array.length === 0 || val.toString('hex') !== FORMATTER.bufferHex(array[array.length - 1].val).toString('hex'))) {
+            array.push({block: startBlockNumber, val: val});
+        }
+        else if (array.length === 0 || (err !== null && array[array.length - 1].val !== msg)) {
+            array.push({block: startBlockNumber, val: msg});
+        }
 
-    if (err !== null && msg === 'contract not found') {
-        self.binarySearchCreation(adress, startBlockNumber + 1, endBlockNumber, function (err, next) {
-            self._getRange(adress, next, endBlockNumber, index, array, hashCollector, txReading, cb);
-        })
-    }
-    else {
-        self.findNextBlock(adress, startBlockNumber + 1, endBlockNumber, txReading, function (err, next) {
-            self._getRange(adress, next, endBlockNumber, index, array, hashCollector, txReading, cb);
-        })
-    }
+        if (err !== null && msg === 'contract not found') {
+            self.binarySearchCreation(adress, startBlockNumber + 1, endBlockNumber, function (err, next) {
+                self._getRange(adress, next, endBlockNumber, index, array, hashCollector, txReading, cb);
+            })
+        }
+        else {
+            self.findNextBlock(adress, startBlockNumber + 1, endBlockNumber, txReading, function (err, next) {
+                self._getRange(adress, next, endBlockNumber, index, array, hashCollector, txReading, cb);
+            })
+        }
 
-};
+    };
 
 StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb) {
     var self = this;
@@ -99,8 +99,6 @@ StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber
             }
             else {
 
-		    console.log('console bofre sha3 dataExtractors.js: _getRange, adress:', adress, ' and FORMATTER.sha3 ', FORMATTER.sha3)
-
                 self.walkTree(stateRoot, FORMATTER.sha3(adress), 0, hashCollector.newBlock(), function (err, node, hashCollector) {
                     if (node === null) { // account didn`t changed
                         self.checkValue(
@@ -108,7 +106,7 @@ StateDB.prototype._getRange = function (adress, startBlockNumber, endBlockNumber
                             startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
                     }
                     else {
-		    console.log('console bofre sha3 dataExtractors.js: _getRange, index:', index, ' and FORMATTER.sha3 ', FORMATTER.sha3)
+
                         self.walkTree(node[2], FORMATTER.sha3(index), 0, hashCollector.goStorage(), function (err, val, hashCollector) {
                             if (val === null) {
                                 self.checkValue(err, 'uninitialised', adress, null, startBlockNumber, endBlockNumber, index, array, hashCollector, txReading, cb);
