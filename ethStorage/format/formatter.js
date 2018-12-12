@@ -90,7 +90,7 @@ Formatter.buffer256 = function (val) {
  * @param {Number} [bits=256] the SHA-3 width
  * @return {Buffer}
  */
-Formatter.sha3 = ethUtil.sha256;
+Formatter.sha3 = ethUtil.keccak;
 
 /**
  * returns hash for value at index at structure
