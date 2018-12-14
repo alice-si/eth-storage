@@ -12,7 +12,6 @@
     "express": "~4.16.0",
     "hashset": "0.0.6",
     "level": "^4.0.0",
-    "level-rocksdb": "^3.0.1",
     "leveldown": "^4.0.1",
     "levelup": "^3.1.1",
     "multilevel": "^7.2.3",
