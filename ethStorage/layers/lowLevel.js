@@ -21,11 +21,11 @@ module.exports = StateDB;
  * @param {String} databasePath
  * @param {boolean} stats, turn on statistics and logging
  */
-async function StateDB(databasePath,stats=false) {
+function StateDB(databasePath,stats=false) {
     var self = this;
     try {
         if (databasePath !== undefined) {
-            await self.connect(databasePath)
+            self.connect(databasePath)
         }
         self.statsCollector = new StatsCollector(stats);
     }
@@ -39,9 +39,9 @@ async function StateDB(databasePath,stats=false) {
  * @method connect
  * @param {String} databasePath
  */
-StateDB.prototype.connect = async function (databasePath) {
+StateDB.prototype.connect = function (databasePath) {
     var self = this;
-    self.db = await levelup(leveldown(databasePath));
+    self.db = levelup(leveldown(databasePath));
 };
 
 /**
