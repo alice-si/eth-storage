@@ -24,13 +24,19 @@ StateDB.prototype.lastPath = function (adress, index, startBlockNumber, endBlock
     self.getRangeMulti(adress, index, startBlockNumber, endBlockNumber, cb, n, 'lastPath', txReading);
 };
 
-StateDB.prototype.promiseGetRange = function (adress, index, startBlockNumber, endBlockNumber, method='hashSet', n = 2, txReading = true) {
+StateDB.prototype.promiseGetRange = function (adress, index, startBlockNumber, endBlockNumber, method = 'hashSet', n = 2, txReading = true) {
     var self = this;
-    return new Promise((resolve,reject)=>{
-        var cb = (err,events) => {
+    return new Promise((resolve, reject) => {
+        var cb = (err, events) => {
             if (err) return reject(err)
             else return resolve(events)
         }
-        self.getRangeMulti(adress,index,startBlockNumber,endBlockNumber,cb,n,method,txReading)
+        self.getRangeMulti(adress, index, startBlockNumber, endBlockNumber, cb, n, method, txReading)
     })
 };
+
+StateDB.prototype.promiseEnd = (resolve, reject) => (err, val) => {
+    if (err) return reject(err);
+    else return resolve(val)
+}
+
