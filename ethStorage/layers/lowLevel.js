@@ -126,25 +126,6 @@ StateDB.prototype.blockHeader = function (blockNumber, cb) {
         self._blockHeader(blockNumber, val, cb);
     });
 };
-
-StateDB.prototype._blockBody = function (blockNumber, blockHash, cb) {
-    var self = this;
-    var headerQuery = Buffer.concat([PREFIX.blockBodyPrefix, blockNumber, blockHash]);
-    self.db.get(headerQuery, {valueEncoding: "binary", keyEncoding: "binary"}, function (err, val) {
-        if (err != null) {
-            cb(err, val);
-            return;
-        }
-
-        var decoded = FORMATTER.rlpDecode(val);
-        var body = {
-            transactionList: decoded[0],
-            ommersList: decoded[1]
-        };
-        cb(err, body);
-    });
-};
-
 /**
  * gets body of block by its number
  * @method blockBody
@@ -262,5 +243,50 @@ StateDB.prototype.getNode = function (hash, cb) {
                 cb(null, node)
             }
         }
+    })
+};
+
+StateDB.prototype._blockBody = function (blockNumber, blockHash, cb) {
+    var self = this;
+    var headerQuery = Buffer.concat([PREFIX.blockBodyPrefix, blockNumber, blockHash]);
+    self.db.get(headerQuery, {valueEncoding: "binary", keyEncoding: "binary"}, function (err, val) {
+        if (err != null) {
+            cb(err, val);
+            return;
+        }
+
+        var decoded = FORMATTER.rlpDecode(val);
+        var body = {
+            transactionList: decoded[0],
+            ommersList: decoded[1]
+        };
+        cb(err, body);
+    });
+};
+
+/**
+ * gets hash of latest block
+ * @method latestHeaderHash
+ * @param {Function} cb the callback
+ */
+StateDB.prototype.latestHeaderHash = function (cb) {
+    var self = this;
+    query = Buffer.concat([PREFIX.headBlockKey]);
+    self.db.get(query, {valueEncoding: "binary", keyEncoding: "binary"}, function (err, val) {
+        cb(err, val);
+    })
+};
+
+/**
+ * gets number of latest block
+ * @method blockHashByNumber
+ * @param {Function} cb the callback
+ */
+StateDB.prototype.latestHeaderNumber = function (cb) {
+    var self = this;
+    self.latestHeaderHash((err,hash) => {
+        self.blockHeaderByHash(hash,(err,header) => {
+            cb(err,FORMATTER.bufferToInt(header.number))
+        })
     })
 };
