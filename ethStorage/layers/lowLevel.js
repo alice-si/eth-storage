@@ -23,10 +23,15 @@ module.exports = StateDB;
  */
 function StateDB(databasePath,stats=false) {
     var self = this;
-    if (databasePath !== undefined) {
-        self.connect(databasePath)
+    try {
+        if (databasePath !== undefined) {
+            self.connect(databasePath)
+        }
+        self.statsCollector = new StatsCollector(stats);
     }
-    self.statsCollector = new StatsCollector(stats);
+    catch (err) {
+        console.log("ERROR in ethStorage, connecting to blockchain")
+    }
 }
 
 /**
