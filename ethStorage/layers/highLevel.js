@@ -1,3 +1,4 @@
+var Promise = require('bluebird')
 var StateDB = require('./querySplitter.js');
 
 /**
@@ -21,4 +22,15 @@ StateDB.prototype.hashSet = function (adress, index, startBlockNumber, endBlockN
 StateDB.prototype.lastPath = function (adress, index, startBlockNumber, endBlockNumber, cb, n = 2, txReading = true) {
     var self = this;
     self.getRangeMulti(adress, index, startBlockNumber, endBlockNumber, cb, n, 'lastPath', txReading);
+};
+
+StateDB.prototype.promiseGetRange = function (adress, index, startBlockNumber, endBlockNumber, method='hashSet', n = 2, txReading = true) {
+    var self = this;
+    return new Promise((resolve,reject)=>{
+        var cb = (err,events) => {
+            if (err) return reject(err)
+            else return resolve(events)
+        }
+        self.getRangeMulti(adress,index,startBlockNumber,endBlockNumber,cb,n,method,txReading)
+    })
 };

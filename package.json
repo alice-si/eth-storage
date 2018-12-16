@@ -6,6 +6,7 @@
     "test": "mocha"
   },
   "dependencies": {
+    "bluebird": "^3.5.3",
     "debug": "~2.6.9",
     "ethereumjs-util": "^6.0.0",
     "exectimer": "^2.2.0",
