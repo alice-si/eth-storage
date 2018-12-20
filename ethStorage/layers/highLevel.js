@@ -1,5 +1,6 @@
 var Promise = require('bluebird')
 var StateDB = require('./querySplitter.js');
+var FORMATTER = require('../format/formatter');
 
 /**
  * Module is the highest layer,
