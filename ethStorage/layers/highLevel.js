@@ -51,3 +51,46 @@ StateDB.prototype.promiseLastFullBlock = function () {
     })
 }
 
+/**
+ * gets variable states in block range of blocks with numbers
+ * greater equal startBlockNumber and less than endBlockNumber,
+ * resulted array contains only first block and blocks where value changed
+ * @method getRange
+ * @param {String|Buffer} address
+ * @param {Number|Buffer} index
+ * @param {Number|Buffer} startBlockNumber
+ * @param {Number|Buffer} endBlockNumber
+ * @param {Function} cb the callback
+ * @param {string} method = undefined, specifies method of hash collecting ("set","hashSet","lastPath","none")
+ * @param {boolean} txReading = true, if false block doesn`t require transaction sent to contract address
+ */
+StateDB.prototype.getRangeWeb3 = async function (web3, address, index, startBlockNumber, endBlockNumber) {
+    var self = this;
+    address = await FORMATTER.bufferHex(address);
+    startBlockNumber = await FORMATTER.buffer64(startBlockNumber);
+    endBlockNumber = await FORMATTER.buffer64(endBlockNumber);
+    index = await FORMATTER.buffer256(index);
+    startBlockNumber = await FORMATTER.bufferToInt(startBlockNumber);
+    endBlockNumber = await FORMATTER.bufferToInt(endBlockNumber);
+    index = await FORMATTER.bufferToInt(index)
+    address = await FORMATTER.bufferToString(address);
+
+    var array = []
+
+    for (;startBlockNumber < endBlockNumber;startBlockNumber++) {
+        await array.push({block: startBlockNumber, val: await parseInt(await web3.eth.getStorageAt(address,index,startBlockNumber))});
+    }
+
+    var removeDuplicates = async function (array) {
+        var result = [array[0]];
+        for (var i = 1; i < array.length; i++) {
+            if (result[result.length - 1]['val'].toString() !== array[i]['val'].toString()) {
+                await result.push(array[i])
+            }
+        }
+        return result;
+    };
+
+    return await removeDuplicates(array)
+};
+
