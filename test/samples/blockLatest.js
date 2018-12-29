@@ -8,7 +8,7 @@ var stateDB = new StateDB(Settings.dbPath,true);
 // stateDB.latestHeaderNumber(console.log)
 
 async function last() {
-    var result = await stateDB.promiseLastFullBlock()
+    var result = await stateDB.promiseLatestFullBlock()
     console.log('result ',result)
 }
 

@@ -41,7 +41,7 @@ StateDB.prototype.promiseEnd = (resolve, reject) => (err, val) => {
     else return resolve(val)
 }
 
-StateDB.prototype.promiseLastFullBlock = function () {
+StateDB.prototype.promiseLatestFullBlock = function () {
     var self = this;
     return new Promise((resolve, reject) => {
         var cb = (err, events) => {
